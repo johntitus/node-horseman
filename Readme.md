@@ -16,7 +16,7 @@ http://nodejs.org/
 
 http://phantomjs.org/download.html 
 
-3) NPM intall Horeseman:
+3) NPM install Horeseman:
 
 `npm install node-horseman`
 
@@ -55,6 +55,8 @@ The available options are:
 * `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
 * `webSecurity`: enables web security and forbids cross-domain XHR, default `true`.
+
+### Navigation
 
 #### .open(url)
 Load the page at `url`.
@@ -126,17 +128,78 @@ var cookies = horseman
 console.log( cookies.length ); // 2
 ```
 
+#### .userAgent(userAgent)
+Set the `userAgent` used by PhantomJS. You have to set the userAgent before calling `.goto()`.
+
+#### .authentication(user, password)
+Set the `user` and `password` for accessing a web page using basic authentication. Be sure to set it before calling `.goto(url)`.
+
+```js
+new Horseman()
+  .authentication('myUserName','myPassword')
+  .goto('http://www.mysecuresite.com');
+```
+#### .viewport(width, height)
+Set the `width` and `height` of the viewport, useful for screenshotting. Weirdly, you have to set the viewport before calling `.goto()`.
+
+
+### Evaluation
+
+Evaluation elements return information from the page, and end the Horseman API chain.
+
 #### .title(cb)
 Get the title of the current page, the signature of the callback is `cb(title)`.
 
-#### .visible(selector,cb)
-Determines if a selector is visible, or not, on the page. The signature of the callback is `cb(boolean)`.
+#### .visible(selector)
+Determines if a selector is visible, or not, on the page. Returns a boolean.
 
-#### .exists(selector,cb)
-Determines if the selector exists, or not, on the page. The signature of the callback is `cb(boolean)`.
+#### .exists(selector)
+Determines if the selector exists, or not, on the page. Returns a boolean.
+
+#### .count(selector)
+Counts the number of `selector` on the page. Returns a number.
+
+#### .html([selector])
+Gets the html inside of an element. If no `selector` is provided, it returns the html of the entire page.
+
+#### .text(selector)
+Gets the text inside of an element.
+
+#### .value(selector)
+Gets the value of an element.
+
+#### .attribute(selector, attribute)
+Gets an attribute of an element.
+
+#### .cssProperty(selector, property)
+Gets a CSS property of an element.
+
+#### .width(selector)
+Gets the width of an element.
+
+#### .height(selector)
+Gets the height of an element.
+
+#### .screenshot(path)
+Saves a screenshot of the current page to the specified `path`. Useful for debugging.
+
+####.evaluate(fn, [arg1, arg2,...])
+Invokes fn on the page with args. On completion it returns a value. Useful for extracting information from the page.
+
+### Manipulation
+These functions change the page, and can be changed consecutively.
+
+#### .manipulate(fn, [arg1, arg2,...])
+Invokes fn on the page with args. Does not return a value. Useful for changing something on the page.
 
 #### .click(selector)
 Clicks the `selector` element once.
+
+#### .select(selector, value)
+Sets the value of a `select` element to `value`.
+
+#### .clear(selector)
+Sets the value of an element to `""`.
 
 #### .type(selector, text [,options])
 Enters the `text` provided into the `selector` element. Options is an object containing `eventType` (keypress, keyup, keydown. Default is keypress) and `modifiers`, which is a string in the formation of `ctrl+shift+alt`.
@@ -150,6 +213,9 @@ Inject a javascript file onto the page.
 #### .evaluate(fn, [arg1, arg2,...])
 Invokes `fn` on the page with `args`. On completion it returns a value back up the chain. Useful for extracting information from the page.
 
+### Waiting
+These functions for the browser to wait for an event to occur. If the event does not occur before the timeout period (configurable via the options), a timeout event will fire.
+
 #### .wait(ms)
 Wait for `ms` milliseconds e.g. `.wait(5000)`
 
@@ -162,23 +228,8 @@ Wait until the element `selector` is present e.g. `.wait('#pay-button')`
 #### .waitFor(fn, value)
 Wait until the `fn` evaluated on the page returns `value`. 
 
-#### .screenshot(path)
-Saves a screenshot of the current page to the specified `path`. Useful for debugging.
 
-#### .userAgent(userAgent)
-Set the `userAgent` used by PhantomJS. You have to set the userAgent before calling `.goto()`.
-
-#### .authentication(user, password)
-Set the `user` and `password` for accessing a web page using basic authentication. Be sure to set it before calling `.goto(url)`.
-
-```js
-new Horseman()
-  .authentication('myUserName','myPassword')
-  .goto('http://www.mysecuresite.com');
-```
-
-#### .viewport(width, height)
-Set the `width` and `height` of the viewport, useful for screenshotting. Weirdly, you have to set the viewport before calling `.goto()`.
+### Events
 
 #### .on(event, callback)
 Respond to page events with the callback. Supported events are:
