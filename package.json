@@ -1,0 +1,30 @@
+{
+  "name": "node-horseman",
+  "version": "0.9.0",
+  "description": "Run PhantomJS from Node",
+  "main": "lib/index",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "clone": "~0.1.18",
+    "deasync": "~0.0.7",
+    "debug": "~2.1.0",
+    "defaults": "~1.0.0",
+    "phantom": "~0.6.6"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.1",
+    "should": "~2.1.1"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "keywords": [
+    "phantomjs",
+    "horseman",
+    "headless"
+  ],
+  "author": "John Titus <john.titus@gmail.com>",
+  "license": "MIT"
+}
