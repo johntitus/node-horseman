@@ -3,11 +3,20 @@ Horseman
 
 Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
 
-It is similar to, and in fact is forked from, [Nightmare](https://github.com/segmentio/nightmare). The primary difference is a simpler way to control the flow of your program and the ability to use CSS3 selectors, thanks to the built-in injection of jQuery.
+Horseman is similar to, and is forked from, [Nightmare](https://github.com/segmentio/nightmare). The primary difference is a simpler way to control the flow of your program.
+
+Additionally, Horseman automatically loads [jQuery](http://jquery.com/) onto each page, which means you can use it inside your `evaluate` and `manipulate` functions automatically.
 
 ## Installation
+1) Install Node, if you haven't already:
 
-You'll need to install [PhantomJS](http://phantomjs.org/) first. Then,
+http://nodejs.org/
+
+2) Install PhantomJS:
+
+http://phantomjs.org/download.html 
+
+3) NPM intall Horeseman:
 
 `npm install node-horseman`
 
@@ -18,6 +27,7 @@ Search on Google:
 ```js
 var Horseman = require('node-horseman');
 var horseman = new Horseman();
+
 var numLinks = horseman
   .open('http://www.google.com')
   .type('input[name="q"]', 'github')
@@ -30,13 +40,13 @@ console.log("Number of links: " + numLinks);
 horseman.close();
 ```
 
-
 ## API
 
 #### new Horseman(options)
 Create a new instance that can navigate around the web.
 
 The available options are:
+* `clientScripts` an array of local javascript files to load onto each page.
 * `timeout`: how long to wait for page loads, default `5000ms`.
 * `interval`: how frequently to poll for page load state, default `50ms`.
 * `port`: port to mount the phantomjs instance to, default `12301`.
@@ -60,6 +70,61 @@ Refresh the current page.
 
 #### .url(cb)
 Get the url of the current page, the signature of the callback is `cb(url)`.
+
+#### .cookies([object|array of objects])
+Without any options, this function will return all the cookies inside the browser.
+
+```js
+var cookies = horseman
+  .open('http://httpbin.org/cookies')
+  .cookies();
+
+console.log( cookies ); // []
+```
+
+You can pass in a cookie object to add to the cookie jar.
+
+```js
+var cookies = horseman
+  .cookies({
+    name : "test",
+    value : "cookie",
+    domain: 'google.org'
+  })
+  .open('http://httpbin.org/cookies')
+  .cookies();
+
+console.log( cookies ); 
+/*
+[ { domain: '.httpbin.org',
+    httponly: false,
+    name: 'test',
+    path: '/',
+    secure: false,
+    value: 'cookie' } ]
+*/
+```
+
+You can pass in an array of cookie objects to reset all the cookies in the cookie jar (or pass an empty array to remove all cookies).
+
+```js
+var cookies = horseman
+  .cookies([
+  {
+    name : "test2",
+    value : "cookie2",
+    domain: 'httpbin.org'
+  },
+  {
+    name : "test3",
+    value : "cookie3",
+    domain: 'httpbin.org'
+  }])
+  .open('http://httpbin.org/cookies')
+  .cookies();
+
+console.log( cookies.length ); // 2
+```
 
 #### .title(cb)
 Get the title of the current page, the signature of the callback is `cb(title)`.
