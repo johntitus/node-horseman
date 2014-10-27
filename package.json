@@ -2,6 +2,10 @@
   "name": "node-horseman",
   "version": "0.9.0",
   "description": "Run PhantomJS from Node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johntitus/node-horseman.git"
+  },
   "main": "lib/index",
   "directories": {
     "test": "test"
