@@ -5,6 +5,12 @@ Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
 
 It is similar to, and in fact is forked from, [Nightmare](https://github.com/segmentio/nightmare). The primary difference is a simpler way to control the flow of your program and the ability to use CSS3 selectors, thanks to the built-in injection of jQuery.
 
+## Installation
+
+You'll need to install [PhantomJS](http://phantomjs.org/) first. Then,
+
+`npm install node-horseman`
+
 ## Examples
 
 Search on Google:
@@ -27,7 +33,7 @@ horseman.close();
 
 ## API
 
-#### new Nightmare(options)
+#### new Horseman(options)
 Create a new instance that can navigate around the web.
 
 The available options are:
@@ -36,15 +42,11 @@ The available options are:
 * `port`: port to mount the phantomjs instance to, default `12301`.
 * `weak`: set dnode weak option to `false` to fix cpp compilation for windows users, default `true`.
 * `loadImages`: load all inlined images, default `true`.
-* `ignoreSslErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
+* `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
 * `webSecurity`: enables web security and forbids cross-domain XHR, default `true`.
-* `proxy`: specify the proxy server to use `address:port`, default not set.
-* `proxyType`: specify the proxy server type `[http|socks5|none]`, default not set.
-* `proxyAuth`: specify the auth information for the proxy `user:pass`, default not set.
-* `cookiesFile`: specify the file to store the persistent cookies, default not set.
 
-#### .goto(url)
+#### .open(url)
 Load the page at `url`.
 
 #### .back()
@@ -53,7 +55,7 @@ Go back to the previous page.
 #### .forward()
 Go forward to the next page.
 
-#### .refresh()
+#### .reload()
 Refresh the current page.
 
 #### .url(cb)
@@ -71,46 +73,43 @@ Determines if the selector exists, or not, on the page. The signature of the cal
 #### .click(selector)
 Clicks the `selector` element once.
 
-#### .type(selector, text)
-Enters the `text` provided into the `selector` element.
+#### .type(selector, text [,options])
+Enters the `text` provided into the `selector` element. Options is an object containing `eventType` (keypress, keyup, keydown. Default is keypress) and `modifiers`, which is a string in the formation of `ctrl+shift+alt`.
 
 #### .upload(selector, path)
 Specify the `path` to upload into a file input `selector` element.
 
-#### .inject(type, file)
-Inject a local `file` onto the current page. The file `type` must be either 'js' or 'css'.
+#### .injectJs(file)
+Inject a javascript file onto the page.
 
-#### .evaluate(fn, cb, [arg1, arg2,...])
-Invokes `fn` on the page with `args`. On completion it passes the return value of `fn` as to `cb(res)`. Useful for extracting information from the page.
-
-#### .wait()
-Wait until a page finishes loading, typically after a `.click()`.
+#### .evaluate(fn, [arg1, arg2,...])
+Invokes `fn` on the page with `args`. On completion it returns a value back up the chain. Useful for extracting information from the page.
 
 #### .wait(ms)
 Wait for `ms` milliseconds e.g. `.wait(5000)`
 
-#### .wait(selector)
+#### .waitForNextPage()
+Wait until a page finishes loading, typically after a `.click()`.
+
+#### .waitForSelector(selector)
 Wait until the element `selector` is present e.g. `.wait('#pay-button')`
 
-#### .wait(fn, value, [delay])
-Wait until the `fn` evaluated on the page returns `value`. Optionally, refresh the page every `delay` milliseconds, and only check after each refresh.
+#### .waitFor(fn, value)
+Wait until the `fn` evaluated on the page returns `value`. 
 
 #### .screenshot(path)
 Saves a screenshot of the current page to the specified `path`. Useful for debugging.
 
-#### .useragent(useragent)
-Set the `useragent` used by PhantomJS. You have to set the useragent before calling `.goto()`.
+#### .userAgent(userAgent)
+Set the `userAgent` used by PhantomJS. You have to set the userAgent before calling `.goto()`.
 
 #### .authentication(user, password)
 Set the `user` and `password` for accessing a web page using basic authentication. Be sure to set it before calling `.goto(url)`.
 
 ```js
-new Nightmare()
+new Horseman()
   .authentication('myUserName','myPassword')
-  .goto('http://httpbin.org/basic-auth/myUserName/myPassword')  
-  .run(function( err, nightmare){
-    console.log("done");
-  });
+  .goto('http://www.mysecuresite.com');
 ```
 
 #### .viewport(width, height)
@@ -130,63 +129,24 @@ Respond to page events with the callback. Supported events are:
 * `confirm` - callback(msg)
 * `prompt` - callback(msg, defaultValue)
 * `error` - callback(msg, trace)
+* `timeout` - callback(msg) - Fired when a wait timeout period elapses.
 
 For a more in depth description, see [the full callbacks list for phantomjs](https://github.com/ariya/phantomjs/wiki/API-Reference-WebPage#callbacks-list).
 
-#### .use(plugin)
-Useful for using repeated code blocks, see the example with Swiftly login and task creation in the docs above.
 
-#### .run(cb)
-Executes the queue of functions, and calls your `cb` when the script hits an error or completes the queue. The callback signature is `cb(err, nightmare)`.
 
-## Plugins
-
-Here's a list of plugins, pull request to add your own to the list :)
-
-* [nightmare-swiftly](https://github.com/segmentio/nightmare-swiftly)
-
-## Usage
-#### Installation
-Nightmare is a Node.js module, so you'll need to [have Node.js installed](http://nodejs.org/). You'll also need to have phantomjs itself installed:
-
-```bash
-$ sudo brew update && brew install phantomjs
-$ npm install --save nightmare
-```
-Alternatively, you can download Phantom JS from http://phantomjs.org
-
-#### Execution
-Nightmare is a node module that can be used in a Node.js script or module. Here's a simple script to open a web page:
-```js
-var Nightmare = require('nightmare');
-var nightmare = new Nightmare();
-nightmare
-  .goto('http://kayak.com')
-  .run(function(err, nightmare){
-    console.log('Done.');
-  });
-```
-If you save this as `kayak.js`, you can run it on the command line like this: `node kayak.js`.
 
 #### Debug
-To run the same file with debugging output, run it like this `DEBUG=nightmare node kayak.js`.
+To run the same file with debugging output, run it like this `DEBUG=horseman node myfile.js`.
 
 This will print out some additional information about what's going on:
 
 ```bash
-nightmare queueing action "goto" +0ms
-  nightmare run +3ms
-  nightmare .setup() creating phantom instance on port 12301 +1ms
-  nightmare .setup() phantom instance created +145ms
-  nightmare .setup() phantom page created +4ms
-  nightmare .goto() url: http://kayak.com +2ms
-  nightmare .goto() page loaded: success +1s
-  nightmare .teardownInstance() tearing down and bumping port to 12302 +501ms
-Done.
+
 ```
 
 #### Tests
-Automated tests for nightmare itself are run using [Mocha](http://visionmedia.github.io/mocha/) and [Should](https://github.com/shouldjs/should.js), both of which will be installed via `npm install`. To run nightmare's tests, just do `make test`.
+Automated tests for Horseman itself are run using [Mocha](http://visionmedia.github.io/mocha/) and [Should](https://github.com/shouldjs/should.js), both of which will be installed via `npm install`. To run Horseman's tests, just do `npm test`.
 
 When the tests are done, you'll see something like this:
 
@@ -211,11 +171,10 @@ WWWWWW||WWWWWW
        (__|__|(__|__|
 ```
 
-Copyright (c) 2014 Segment.io Inc. <friends@segment.com>
+Copyright (c) John Titus <john.titus@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
