@@ -16,7 +16,7 @@ http://nodejs.org/
 
 http://phantomjs.org/download.html 
 
-3) NPM install Horeseman:
+3) NPM install Horseman:
 
 `npm install node-horseman`
 
@@ -47,9 +47,9 @@ Create a new instance that can navigate around the web.
 
 The available options are:
 * `clientScripts` an array of local javascript files to load onto each page.
-* `timeout`: how long to wait for page loads, default `5000ms`.
-* `interval`: how frequently to poll for page load state, default `50ms`.
-* `port`: port to mount the phantomjs instance to, default `12301`.
+* `timeout`: how long to wait for page loads or wait periods, default `5000` ms.
+* `interval`: how frequently to poll for page load state, default `50` ms.
+* `port`: port to mount the phantomjs instance to, default `12401`.
 * `weak`: set dnode weak option to `false` to fix cpp compilation for windows users, default `true`.
 * `loadImages`: load all inlined images, default `true`.
 * `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
@@ -70,8 +70,7 @@ Go forward to the next page.
 #### .reload()
 Refresh the current page.
 
-#### .url(cb)
-Get the url of the current page, the signature of the callback is `cb(url)`.
+
 
 #### .cookies([object|array of objects])
 Without any options, this function will return all the cookies inside the browser.
@@ -129,26 +128,29 @@ console.log( cookies.length ); // 2
 ```
 
 #### .userAgent(userAgent)
-Set the `userAgent` used by PhantomJS. You have to set the userAgent before calling `.goto()`.
+Set the `userAgent` used by PhantomJS. You have to set the userAgent before calling `.open()`.
 
 #### .authentication(user, password)
-Set the `user` and `password` for accessing a web page using basic authentication. Be sure to set it before calling `.goto(url)`.
+Set the `user` and `password` for accessing a web page using basic authentication. Be sure to set it before calling `.open(url)`.
 
 ```js
 new Horseman()
   .authentication('myUserName','myPassword')
-  .goto('http://www.mysecuresite.com');
+  .open('http://www.mysecuresite.com');
 ```
 #### .viewport(width, height)
-Set the `width` and `height` of the viewport, useful for screenshotting. Weirdly, you have to set the viewport before calling `.goto()`.
+Set the `width` and `height` of the viewport, useful for screenshotting. You have to set the viewport before calling `.open()`.
 
 
 ### Evaluation
 
 Evaluation elements return information from the page, and end the Horseman API chain.
 
-#### .title(cb)
-Get the title of the current page, the signature of the callback is `cb(title)`.
+#### .title()
+Get the title of the current page.
+
+#### .url()
+Get the url of the current page.
 
 #### .visible(selector)
 Determines if a selector is visible, or not, on the page. Returns a boolean.
@@ -165,8 +167,8 @@ Gets the html inside of an element. If no `selector` is provided, it returns the
 #### .text(selector)
 Gets the text inside of an element.
 
-#### .value(selector)
-Gets the value of an element.
+#### .value(selector, [val])
+Get, or set, the value of an element.
 
 #### .attribute(selector, attribute)
 Gets an attribute of an element.
@@ -249,6 +251,13 @@ Respond to page events with the callback. Supported events are:
 
 For a more in depth description, see [the full callbacks list for phantomjs](https://github.com/ariya/phantomjs/wiki/API-Reference-WebPage#callbacks-list).
 
+```js
+horseman
+  .on('consoleMessage', function( msg ){
+    console.log(msg);
+  })
+```
+}
 
 
 
