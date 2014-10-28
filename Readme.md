@@ -204,6 +204,7 @@ var size = horseman
   }, ".thumbimage");
 
 console.log( size );
+horseman.close();
 ```
 
 ### Manipulation
@@ -213,15 +214,21 @@ These functions change the page, and can be chained consecutively.
 Works the same as .evaluate(), but doesn't return a value, so it can be used without interrupting the Horseman API chain.
 
 ```js
-var selector = ".thumbimage";
 var count = horseman
   .open("http://en.wikipedia.org/wiki/Headless_Horseman")
+  .count( selector ); //.count() ends the API chain
+
+console.log( count ); // -> 2
+
+count = horseman
   .manipulate( function( selector){
-    $(selector).remove();
-  })
+    $(selector).each( function(){
+      $(this).remove();
+    })
+  }, selector)
   .count( selector );
 
-console.log( count ); // 0
+console.log( count );// -> 0
 ```
 
 #### .click(selector)
@@ -242,8 +249,6 @@ Specify the `path` to upload into a file input `selector` element.
 #### .injectJs(file)
 Inject a javascript file onto the page.
 
-#### .evaluate(fn, [arg1, arg2,...])
-Invokes `fn` on the page with `args`. On completion it returns a value back up the chain. Useful for extracting information from the page.
 
 ### Waiting
 These functions for the browser to wait for an event to occur. If the event does not occur before the timeout period (configurable via the options), a timeout event will fire.
@@ -264,7 +269,9 @@ Wait until the `fn` evaluated on the page returns `value`.
 ### Events
 
 #### .on(event, callback)
-Respond to page events with the callback. Supported events are:
+Respond to page events with the callback. Be sure to set these before calling `.open()`. 
+
+Supported events are:
 * `initialized` - callback()
 * `loadStarted` - callback()
 * `loadFinished` - callback(status)
@@ -306,9 +313,8 @@ Automated tests for Horseman itself are run using [Mocha](http://visionmedia.git
 When the tests are done, you'll see something like this:
 
 ```bash
-make test
-  ․․․․․․․․․․․․․․․․․
-  28 passing (46s)
+npm test
+  51 passing (29s)
 ```
 
 ## License (MIT)
