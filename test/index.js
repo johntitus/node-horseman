@@ -1,24 +1,24 @@
-var Creeper = require('../lib');
+var Horseman = require('../lib');
 var fs = require("fs");
 
-describe('Creeper', function(){
+describe('Horseman', function(){
   	this.timeout(20000);
 
 	it('should be constructable', function(){
-		var creeper = new Creeper();
-		creeper.should.be.ok;
-		creeper.close();
+		var horseman = new Horseman();
+		horseman.should.be.ok;
+		horseman.close();
 	});
 
 	describe('Navigation', function(){
-		var creeper = new Creeper();
+		var horseman = new Horseman();
 
 		after( function(){
-			creeper.close();
+			horseman.close();
 		});
 
 		it('should set the user agent', function(){
-			creeper
+			horseman
 				.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
 				.open("http://www.google.com")
 				.evaluate(function(){
@@ -27,7 +27,7 @@ describe('Creeper', function(){
 				.should.equal("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
 		})
 	    it('should open a page', function() {
-	    	creeper
+	    	horseman
 	    		.userAgent("Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.7 Safari/534.34")
 	    		.open('http://www.google.com/')
 				.url()
@@ -35,7 +35,7 @@ describe('Creeper', function(){
 	    });
 
 	    it('should click a link', function() {
-	    	creeper		    	
+	    	horseman		    	
 				.click("a:contains('Advertising')")
 				.waitForNextPage()
 				.url()
@@ -43,21 +43,21 @@ describe('Creeper', function(){
 	    });
 
 	    it('should go backwards', function() {
-	    	creeper		    	
+	    	horseman		    	
 				.back()
 				.url()
 				.should.equal("http://www.google.com/");
 	    });
 
 	    it('should go forwards', function() {
-	    	creeper		    	
+	    	horseman		    	
 				.forward()
 				.url()
 				.should.equal("http://www.google.com/intl/en/ads/");
 	    });
 
 	    it('should use basic authentication', function() {
-	    	creeper
+	    	horseman
 				.authentication('my','auth')
 				.open('http://httpbin.org/basic-auth/my/auth')
 				.evaluate( function(){
@@ -68,7 +68,7 @@ describe('Creeper', function(){
 
 	    it('should set the viewport', function() {
 	    	var size = { width : 400, height: 1000 };
-	    	var vp = creeper
+	    	var vp = horseman
 				.viewport(size.width, size.height)
 				.open('http://www.google.com')
 				.viewport();
@@ -82,7 +82,7 @@ describe('Creeper', function(){
 				value : "cookie",
 				domain: 'httpbin.org'
     		};
-	    	var body = creeper
+	    	var body = horseman
 	    		.cookies(cookie)
 	    		.open("http://httpbin.org/cookies")
 				.text("pre");
@@ -92,7 +92,7 @@ describe('Creeper', function(){
 	    });
 
 	    it('should clear out all cookies', function() {
-	    	var body = creeper
+	    	var body = horseman
 	    		.cookies([])
 	    		.open("http://httpbin.org/cookies")
 				.text("pre");
@@ -115,7 +115,7 @@ describe('Creeper', function(){
 	    		}
 	    	];
 
-	    	var body = creeper
+	    	var body = horseman
 	    		.cookies(cookies)
 	    		.open("http://httpbin.org/cookies")
 				.text("pre");
@@ -127,14 +127,14 @@ describe('Creeper', function(){
 	});
 
 	describe("Evaluation", function(){
-		var creeper = new Creeper();
+		var horseman = new Horseman();
 
 		after( function(){
-			creeper.close();
+			horseman.close();
 		});
 
 	    it('should get the title', function() {
-	      creeper
+	      horseman
 	      	.open("http://www.google.com")
 	      	.title()
 	      	.should.equal("Google");
@@ -142,80 +142,80 @@ describe('Creeper', function(){
 	    });
 
 	    it('should verify an element exists', function() {
-	      creeper
+	      horseman
 	      	.open("http://www.google.com")
 	      	.exists("input")
 	      	.should.be.true;
 	    });
 
 	    it('should verify an element does not exists', function() {
-	 		creeper
+	 		horseman
 	    	  	.exists("article")
 	      		.should.be.false;
 	    });
 
 	    it('should count the number of selectors', function() {
-	 		creeper
+	 		horseman
 	    	  	.count("a")
 	      		.should.be.above(0);
 	    });
 
 	    it('should get the html of an element', function() {
-	 		creeper
+	 		horseman
 	 			.open("http://www.reddit.com")
 	 			.html("#header")
 	      		.indexOf("reddit").should.be.above(0);
 	    });
 
 	    it('should get the text of an element', function() {
-	 		creeper
+	 		horseman
 	 			.text("#header-img")
 	      		.should.equal("reddit.com");
 	    });
 
 	    it('should get the value of an element', function() {
-	    	creeper
+	    	horseman
 	      		.value("input[name='q']")
 				.should.equal("");
 	    });
 
 	    it('should get an attribute of an element', function() {
-	 		creeper
+	 		horseman
 	 			.open("http://www.reddit.com")
 	 			.attribute("a#header-img", "href")
 	      		.should.equal("/");
 	    });
 
 	    it('should get a css property of an element', function() {
-	 		creeper
+	 		horseman
 	 			.cssProperty("a#header-img", "margin-bottom")
 	      		.should.equal("3px");
 	    });
 
 	    it('should get the width of an element', function() {
-	 		creeper
+	 		horseman
 	 			.width("a#header-img")
 	      		.should.be.above(0);
 	    });
 
 	    it('should get the height of an element', function() {
-	 		creeper
+	 		horseman
 	 			.width("a#header-img")
 	      		.should.be.above(0);
 	    });
 
 	    it('should determine if an element is visible', function() {
-	 		creeper
+	 		horseman
 	 			.visible("a#header-img")
 	      		.should.be.true;
 
-	      	creeper
+	      	horseman
 	 			.visible(".login-popup")
 	      		.should.be.false;
 	    });
 
 	    it('should evaluate javascript', function() {
-	      	creeper
+	      	horseman
 		      	.open("http://www.google.com")
 		      	.evaluate( function(){
 		      		return document.title;
@@ -225,7 +225,7 @@ describe('Creeper', function(){
 
 	    it('should evaluate javascript with optional parameters', function() {
 	    	var str = "yo";
-			creeper
+			horseman
 				.evaluate( function(param){
 					return param;
 				}, str )
@@ -234,16 +234,16 @@ describe('Creeper', function(){
 	});
 
 	describe("Manipulation", function(){
-		var creeper = new Creeper();
+		var horseman = new Horseman();
 
 		after( function(){
-			creeper.close();
+			horseman.close();
 			if ( fs.existsSync("out.png") )
 				fs.unlinkSync("out.png");
 		});
 
 	    it('should execute javascript without breaking the chain', function() {
-	      	creeper
+	      	horseman
 		      	.open("http://www.google.com")
 		      	.manipulate( function(){
 		      		document.title = "blah";
@@ -255,7 +255,7 @@ describe('Creeper', function(){
 	    });	    
 
 	    it('should inject javascript', function() {	    	
-	     	creeper
+	     	horseman
 		      	.injectJs("test/files/testjs.js")
 		      	.evaluate( function(){
 		      		return ___obj.myname;
@@ -264,7 +264,7 @@ describe('Creeper', function(){
 	    });	   
 
 	    it('should type and click', function() {
-	      	creeper
+	      	horseman
 	      		.open("http://www.yahoo.com")
 	      		.type('input[title="Search"]', 'github')
 	      		.value('input[title="Search"]')
@@ -272,14 +272,14 @@ describe('Creeper', function(){
 	    });
 
 	    it('should clear a field', function() {
-	      	creeper
+	      	horseman
 	      		.clear('input[title="Search"]')
 	      		.value('input[title="Search"]')
 	      		.should.equal("");
 	    });
 
 	    it('should select a value', function() {
-	      	creeper
+	      	horseman
 	      		.open("http://www.w3.org/WAI/UA/TS/html401/cp0102/0102-ONCHANGE-SELECT.html")
 				.select("#select1","1")
 				.value("#select1")
@@ -287,12 +287,12 @@ describe('Creeper', function(){
 	    });
 
 	    it('should take a screenshot', function() {
-		    creeper.screenshot("out.png");
+		    horseman.screenshot("out.png");
 		    fs.existsSync("out.png").should.be.true;
 		});
 
 		it('should upload a file', function(){
-			creeper
+			horseman
 		        .open("http://validator.w3.org/#validate_by_upload")
 		        .upload("#uploaded_file","test/files/testjs.js")
 		        .value("#uploaded_file")
@@ -301,7 +301,7 @@ describe('Creeper', function(){
 	    });
 
 	    it('should verify a file exists before upload', function(){
-	    	var err = creeper
+	    	var err = horseman
 		        .open("http://validator.w3.org/#validate_by_upload")
 		        .upload("#uploaded_file","nope.jpg");
 
@@ -309,7 +309,7 @@ describe('Creeper', function(){
 	    });
 
 	    it('should fire a keypress when typing', function() {
-	    	creeper
+	    	horseman
 	    		.open("http://www.yahoo.com")
 	    		.manipulate(function(){
 	    			$("input[title='Search']")
@@ -329,14 +329,14 @@ describe('Creeper', function(){
 
 	describe("Waiting", function(){
 
-		var creeper = new Creeper();
+		var horseman = new Horseman();
 
 		after( function(){
-			creeper.close();
+			horseman.close();
 		});
 
 		it('should wait for the page to change', function(){
-			creeper
+			horseman
 				.open("http://www.google.com")
 				.click("a:contains('Advertising')")
 				.waitForNextPage()
@@ -349,7 +349,7 @@ describe('Creeper', function(){
 				return ($("a:contains('About')").length > 0);
 			};
 
-	    	creeper
+	    	horseman
 	        	.open('http://www.google.com/')
 	        	.waitFor(forALink,true)
 	        	.url()
@@ -358,14 +358,14 @@ describe('Creeper', function(){
 
 	    it('should wait a set amount of time', function(){
 	    	var start = new Date();
-	    	creeper.wait(1000);
+	    	horseman.wait(1000);
 	    	var end = new Date();
 	    	var diff = end - start;
 	    	diff.should.be.greaterThan(999); //may be a ms or so off.
 	    });
 
 	    it('should wait until a selector is seen', function(){
-	    	creeper
+	    	horseman
 	    		.open("http://www.google.com")
 	    		.waitForSelector("input")
 	    		.count("input")
@@ -373,13 +373,13 @@ describe('Creeper', function(){
 	    });
 
 	    it('should call onTimeout if timeout period elapses when waiting for next page', function(){
-	    	var timeoutCreeper = new Creeper({
+	    	var timeoutHorseman = new Horseman({
 	    		timeout : 10
 	    	});
 
 	    	var timeoutFired = false;
 
-			timeoutCreeper
+			timeoutHorseman
 				.on("timeout", function(){
 					timeoutFired = true
 				})
@@ -392,13 +392,13 @@ describe('Creeper', function(){
 		});
 
 		it('should call onTimeout if timeout period elapses when waiting for selector', function(){
-	    	var timeoutCreeper = new Creeper({
+	    	var timeoutHorseman = new Horseman({
 	    		timeout : 10
 	    	});
 
 	    	var timeoutFired = false;
 
-			timeoutCreeper
+			timeoutHorseman
 				.on("timeout", function(){
 					timeoutFired = true
 				})
@@ -410,13 +410,13 @@ describe('Creeper', function(){
 		});
 
 		it('should call onTimeout if timeout period elapses when waiting for fn == value', function(){
-	    	var timeoutCreeper = new Creeper({
+	    	var timeoutHorseman = new Horseman({
 	    		timeout : 10
 	    	});
 
 	    	var timeoutFired = false;
 
-			timeoutCreeper
+			timeoutHorseman
 				.on("timeout", function(){
 					timeoutFired = true
 				})
@@ -438,93 +438,93 @@ describe('Creeper', function(){
     	
 	    it('should fire an event on initialized', function() {
 			var fired = false;
-			var creeper = new Creeper();
-			creeper
+			var horseman = new Horseman();
+			horseman
 				.on("initialized", function(){
 				  fired = true;
 				})
 				.open("http://www.yahoo.com");
 
 			fired.should.be.true;
-			creeper.close();
+			horseman.close();
 	    });
 	    
 	    it('should fire an event on load started', function() {
 	      	var fired = false;
-	      	var creeper = new Creeper();
-			creeper
+	      	var horseman = new Horseman();
+			horseman
 				.on("loadStarted", function(){          
 				  fired = true;
 				})
 				.open("http://www.yahoo.com");
 	      	fired.should.be.true;
-	      	creeper.close();
+	      	horseman.close();
 	    });
 
 	    it('should fire an event on load finished', function() {
 	      	var fired = false;
-	      	var creeper = new Creeper();
-			creeper
+	      	var horseman = new Horseman();
+			horseman
 				.on("loadFinished", function(){          
 				  fired = true;
 				})
 				.open("http://www.yahoo.com");
 	      	fired.should.be.true;
-	      	creeper.close();
+	      	horseman.close();
 	    });
 
 	    it('should fire an event when a resource is requested', function() {
 	      	var fired = false;
-	      	var creeper = new Creeper();
-			creeper
+	      	var horseman = new Horseman();
+			horseman
 				.on("resourceRequested", function(){          
 				  fired = true;
 				})
 				.open("http://www.yahoo.com");
 	      	fired.should.be.true;
-	      	creeper.close();
+	      	horseman.close();
 	    });
 
 	    it('should fire an event when a resource is received', function() {
 	      	var fired = false;
-	      	var creeper = new Creeper();
-			creeper
+	      	var horseman = new Horseman();
+			horseman
 				.on("resourceReceived", function(){          
 				  fired = true;
 				})
 				.open("http://www.yahoo.com");
 	      	fired.should.be.true;
-	      	creeper.close();
+	      	horseman.close();
 	    });
 
 	    it('should fire an event when navigation requested', function() {
 	      	var fired = false;
-	      	var creeper = new Creeper();
-			creeper
+	      	var horseman = new Horseman();
+			horseman
 				.on("navigationRequested", function( url ){          
 				  fired = (url==="https://www.yahoo.com/");
 				})
 				.open("http://www.yahoo.com");
 	      	fired.should.be.true;
-	      	creeper.close();
+	      	horseman.close();
 	    });
 
 	    it('should fire an event when the url changes', function() {
 	      	var fired = false;
-	      	var creeper = new Creeper();
-			creeper
+	      	var horseman = new Horseman();
+			horseman
 				.on("urlChanged", function( url ){          
 				  fired = true;
 				})
 				.open("http://www.google.com/");
 	      	fired.should.be.true;
-	      	creeper.close();
+	      	horseman.close();
 	    });
 
 	    it('should fire an event when a console message is seen', function() {
 	      	var fired = false;
-	      	var creeper = new Creeper();
-			creeper
+	      	var horseman = new Horseman();
+			horseman
 				.on("consoleMessage", function(){          
 				  fired = true;
 				})
@@ -533,13 +533,13 @@ describe('Creeper', function(){
 					console.log("message");
 				});
 	      	fired.should.be.true;
-	      	creeper.close();
+	      	horseman.close();
 	    });
 
 	    it('should fire an event when an alert is seen', function() {
 	      	var fired = false;
-	      	var creeper = new Creeper();
-			creeper
+	      	var horseman = new Horseman();
+			horseman
 				.on("alert", function(){          
 				  fired = true;
 				})
@@ -548,13 +548,13 @@ describe('Creeper', function(){
 					alert("onno");
 				});
 	      	fired.should.be.true;
-	      	creeper.close();
+	      	horseman.close();
 	    });
 
 	    it('should fire an event when a prompt is seen', function() {
 	      	var fired = false;
-	      	var creeper = new Creeper();
-			creeper
+	      	var horseman = new Horseman();
+			horseman
 				.on("prompt", function(){          
 				  fired = true;
 				})
@@ -563,7 +563,7 @@ describe('Creeper', function(){
 					prompt("onno");
 				});
 	      	fired.should.be.true;
-	      	creeper.close();
+	      	horseman.close();
 	    });
 
 	});
