@@ -31,7 +31,7 @@ var horseman = new Horseman();
 var numLinks = horseman
   .open('http://www.google.com')
   .type('input[name="q"]', 'github')
-  .click('button[aria-label="Google Search"]')
+  .click("button:contains('Google Search')")
   .waitForNextPage()
   .count("li.g");
 
@@ -188,11 +188,41 @@ Saves a screenshot of the current page to the specified `path`. Useful for debug
 ####.evaluate(fn, [arg1, arg2,...])
 Invokes fn on the page with args. On completion it returns a value. Useful for extracting information from the page.
 
+```js
+var size = horseman
+  .open("http://en.wikipedia.org/wiki/Headless_Horseman")
+  .evaluate( function(selector){
+    // This code is executed inside the browser.
+    // It's sandboxed from Node, and has no access to anything
+    // in Node scope, unless you pass it in, like we did with "selector".
+    //
+    // You do have access to jQuery, via $, automatically.
+    return {
+      height : $( selector ).height(),
+      width : $( selector ).width()
+    }
+  }, ".thumbimage");
+
+console.log( size );
+```
+
 ### Manipulation
-These functions change the page, and can be changed consecutively.
+These functions change the page, and can be chained consecutively.
 
 #### .manipulate(fn, [arg1, arg2,...])
-Invokes fn on the page with args. Does not return a value. Useful for changing something on the page.
+Works the same as .evaluate(), but doesn't return a value, so it can be used without interrupting the Horseman API chain.
+
+```js
+var selector = ".thumbimage";
+var count = horseman
+  .open("http://en.wikipedia.org/wiki/Headless_Horseman")
+  .manipulate( function( selector){
+    $(selector).remove();
+  })
+  .count( selector );
+
+console.log( count ); // 0
+```
 
 #### .click(selector)
 Clicks the `selector` element once.
