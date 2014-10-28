@@ -20,7 +20,7 @@ http://phantomjs.org/download.html
 
 `npm install node-horseman`
 
-## Examples
+## Example
 
 Search on Google:
 
@@ -39,6 +39,7 @@ console.log("Number of links: " + numLinks);
 
 horseman.close();
 ```
+For longer examples, check out the Examples folder.
 
 ## API
 
