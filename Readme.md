@@ -1,9 +1,9 @@
 Horseman
 =========
 
-Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
+Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node. It has a chainable API, similar to [jQuery](http://jquery.com/).
 
-Horseman is similar to, and is forked from, [Nightmare](https://github.com/segmentio/nightmare). The primary difference is a simpler way to control the flow of your program.
+Horseman is similar to, and is forked from, [Nightmare](https://github.com/segmentio/nightmare). The primary difference is that controlling the flow of your program is simpler.
 
 Additionally, Horseman automatically loads [jQuery](http://jquery.com/) onto each page, which means you can use it inside your `evaluate` and `manipulate` functions automatically.
 
@@ -55,6 +55,12 @@ The available options are:
 * `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
 * `webSecurity`: enables web security and forbids cross-domain XHR, default `true`.
+
+### Cleanup
+Be sure to `.close()` each Horseman instance when you're done with it!.
+
+####.close()
+Closes the Horseman instance by shutting down PhantomJS.
 
 ### Navigation
 
@@ -294,9 +300,6 @@ horseman
     console.log(msg);
   })
 ```
-}
-
-
 
 #### Debug
 To run the same file with debugging output, run it like this `DEBUG=horseman node myfile.js`.
@@ -304,7 +307,11 @@ To run the same file with debugging output, run it like this `DEBUG=horseman nod
 This will print out some additional information about what's going on:
 
 ```bash
-
+horseman .setup() creating phantom instance on port 12406 +0ms
+horseman load finished, injecting jquery and client scripts +401ms
+horseman injected jQuery +0ms
+horseman .open: http://www.google.com +66ms
+horseman .type() horseman into input[name='q'] +51ms
 ```
 
 #### Tests
