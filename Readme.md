@@ -5,7 +5,7 @@ Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node. It has a cha
 
 Horseman is similar to, and is forked from, [Nightmare](https://github.com/segmentio/nightmare). The primary difference is that controlling the flow of your program is simpler.
 
-Additionally, Horseman automatically loads [jQuery](http://jquery.com/) onto each page, which means you can use it inside your `evaluate` and `manipulate` functions automatically.
+Additionally, Horseman loads [jQuery](http://jquery.com/) onto each page by default, which means you can use it inside your `evaluate` and `manipulate` functions automatically.
 
 ## Installation
 1) Install Node, if you haven't already:
@@ -56,6 +56,7 @@ The available options are:
 * `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
 * `webSecurity`: enables web security and forbids cross-domain XHR, default `true`.
+* `injectJquery`: whether or not jQuery is automatically loaded into each page. Default is `true`. If jQuery is already present on the page, it is not injected.
 
 ### Cleanup
 Be sure to `.close()` each Horseman instance when you're done with it!.

@@ -1,17 +1,14 @@
 var Horseman = require('../lib');
 var fs = require("fs");
 
-describe('Horseman', function(){
-  	this.timeout(20000);
-
-	it('should be constructable', function(){
-		var horseman = new Horseman();
-		horseman.should.be.ok;
-		horseman.close();
-	});
-
-	describe('Navigation', function(){
-		var horseman = new Horseman();
+function navigation( bool ){
+	
+	var title = 'Navigation ' + ( (bool) ? 'with' : 'without' ) + ' jQuery';
+	
+	describe( title, function(){
+		var horseman = new Horseman({
+			injectJquery : bool
+		});
 
 		after( function(){
 			horseman.close();
@@ -20,40 +17,40 @@ describe('Horseman', function(){
 		it('should set the user agent', function(){
 			horseman
 				.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
-				.open("http://www.google.com")
+				.open("http://www.w3schools.com/html/html_examples.asp")
 				.evaluate(function(){
 					return navigator.userAgent;
 				})
 				.should.equal("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
-		})
+		});
+
 	    it('should open a page', function() {
 	    	horseman
-	    		.userAgent("Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.7 Safari/534.34")
-	    		.open('http://www.google.com/')
+	    		.open('http://www.w3schools.com/html/html_examples.asp')
 				.url()
-				.should.equal("http://www.google.com/");
+				.should.equal("http://www.w3schools.com/html/html_examples.asp");
 	    });
 
 	    it('should click a link', function() {
 	    	horseman		    	
-				.click("a:contains('Advertising')")
+				.click("a[href='default.asp']")
 				.waitForNextPage()
 				.url()
-				.should.equal("http://www.google.com/intl/en/ads/");
+				.should.equal("http://www.w3schools.com/html/default.asp");
 	    });
 
 	    it('should go backwards', function() {
 	    	horseman		    	
 				.back()
 				.url()
-				.should.equal("http://www.google.com/");
+				.should.equal("http://www.w3schools.com/html/html_examples.asp");
 	    });
 
 	    it('should go forwards', function() {
 	    	horseman		    	
 				.forward()
 				.url()
-				.should.equal("http://www.google.com/intl/en/ads/");
+				.should.equal("http://www.w3schools.com/html/default.asp");
 	    });
 
 	    it('should use basic authentication', function() {
@@ -125,9 +122,15 @@ describe('Horseman', function(){
 			result.cookies[ cookies[1].name ].should.equal( cookies[1].value );
 	    });
 	});
+}
 
-	describe("Evaluation", function(){
-		var horseman = new Horseman();
+function evaluation( bool ){
+	var title = 'Evaluation ' + ( (bool) ? 'with' : 'without' ) + ' jQuery';
+	
+	describe( title, function(){
+		var horseman = new Horseman({
+			injectJquery : bool
+		});
 
 		after( function(){
 			horseman.close();
@@ -232,8 +235,12 @@ describe('Horseman', function(){
 				.should.equal( str );
 	    });
 	});
+}
 
-	describe("Manipulation", function(){
+function manipulation( bool ){
+	var title = 'Manipulation ' + ( (bool) ? 'with' : 'without' ) + ' jQuery';
+	
+	describe( title, function(){
 		var horseman = new Horseman();
 
 		after( function(){
@@ -265,16 +272,16 @@ describe('Horseman', function(){
 
 	    it('should type and click', function() {
 	      	horseman
-	      		.open("http://www.yahoo.com")
-	      		.type('input[title="Search"]', 'github')
-	      		.value('input[title="Search"]')
+	      		.open("http://httpbin.org/forms/post")
+	      		.type('input[name="custname"]', 'github')
+	      		.value('input[name="custname"]')
 	      		.should.equal('github');
 	    });
 
 	    it('should clear a field', function() {
 	      	horseman
-	      		.clear('input[title="Search"]')
-	      		.value('input[title="Search"]')
+	      		.clear('input[name="custname"]')
+	      		.value('input[name="custname"]')
 	      		.should.equal("");
 	    });
 
@@ -310,21 +317,83 @@ describe('Horseman', function(){
 
 	    it('should fire a keypress when typing', function() {
 	    	horseman
-	    		.open("http://www.yahoo.com")
+	    		.open("http://httpbin.org/forms/post")
 	    		.manipulate(function(){
-	    			$("input[title='Search']")
-	    				.data("keypresses",0)
-	    				.keypress( function(){
-	    					var curr = $("input[title='Search']").data("keypresses");
-	    					$("input[title='Search']").data("keypresses", ++curr);
-	    				});
+	    			window.keypresses = 0;
+	    			var elem = document.querySelector( "input[name='custname']" );
+	    			elem.onkeypress = function(){
+	    				window.keypresses++;
+	    			}
 	    		})	      		
-	      		.type("input[title='Search']", "github")
+	      		.type("input[name='custname']", "github")
 	      		.evaluate(function(){
-	      			return $("input[title='Search']").data("keypresses");
+	      			return window.keypresses;
 	      		})
 	      		.should.equal(6);
 	    });
+	});
+}
+
+
+describe('Horseman', function(){
+  	this.timeout(20000);
+
+	it('should be constructable', function(){
+		var horseman = new Horseman();
+		horseman.should.be.ok;
+		horseman.close();
+	});
+
+	navigation( true );
+	navigation( false );
+
+	evaluation( true );
+	evaluation( false );
+
+	manipulation( true );
+	manipulation( false );
+
+	describe("Inject jQuery", function(){
+		it('should inject jQuery', function(){
+			var horseman = new Horseman();
+
+			horseman
+				.open("http://www.google.com")
+				.evaluate(function(){
+					return typeof jQuery;
+				})
+				.should.equal("function");
+			horseman.close();
+		});
+
+		it('should not inject jQuery', function(){
+			var horseman = new Horseman({
+				injectJquery : false
+			});
+
+			horseman
+				.open("http://www.google.com")
+				.evaluate(function(){
+					return typeof jQuery;
+				})
+				.should.equal("undefined");
+			horseman.close();
+		});
+
+		it('should not stomp on existing jQuery', function(){
+			var horseman = new Horseman({
+				injectJquery : true
+			});
+			//Horseman injects 2.1.1
+			horseman
+				.open("http://www.digg.com")
+				.evaluate(function(){
+					return jQuery.fn.jquery;
+				})
+				.should.not.equal("2.1.1");
+			horseman.close();
+		});
+
 	});
 
 	describe("Waiting", function(){
@@ -431,9 +500,9 @@ describe('Horseman', function(){
 	});
 
 	/**
-   * events
-   */
-
+   	* events
+   	*/
+   	
   	describe('Events', function(){    
     	
 	    it('should fire an event on initialized', function() {
@@ -566,6 +635,5 @@ describe('Horseman', function(){
 	      	horseman.close();
 	    });
 
-	});
-
+	});	
 });
