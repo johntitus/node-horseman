@@ -196,6 +196,20 @@ Gets the height of an element.
 #### .screenshot(path)
 Saves a screenshot of the current page to the specified `path`. Useful for debugging.
 
+#### .crop(selector | boundingRectangle, path)
+Takes a screenshot of a portion of the page. You can pass in either a CSS selector or a boundingRectangle `{ top : 50, left: 200, width: 90, height: 200 }`.
+
+```js
+
+var horseman = new Horseman();
+
+horseman  
+  .open("http://www.yahoo.com")
+  .crop(".logo-container", "yahoologo.png");
+
+horseman.close();
+```
+
 ####.evaluate(fn, [arg1, arg2,...])
 Invokes fn on the page with args. On completion it returns a value. Useful for extracting information from the page.
 
