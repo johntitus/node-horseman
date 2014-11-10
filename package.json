@@ -1,6 +1,6 @@
 {
   "name": "node-horseman",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "Run PhantomJS from Node",
   "repository": {
     "type": "git",
@@ -27,7 +27,8 @@
   "keywords": [
     "phantomjs",
     "horseman",
-    "headless"
+    "headless",
+    "browser"
   ],
   "author": "John Titus <john.titus@gmail.com>",
   "license": "MIT"
