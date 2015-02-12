@@ -3,7 +3,7 @@ Horseman
 
 Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node. It has a chainable API, similar to [jQuery](http://jquery.com/).
 
-Horseman is similar to, and is forked from, [Nightmare](https://github.com/segmentio/nightmare). The primary difference is that controlling the flow of your program is simpler.
+While there are other Node modules to run Phantom, Horseman is different because it has an easy to use control flow.  
 
 Additionally, Horseman loads [jQuery](http://jquery.com/) onto each page by default, which means you can use it inside your `evaluate` and `manipulate` functions automatically.
 
@@ -15,6 +15,8 @@ http://nodejs.org/
 2) Install PhantomJS:
 
 http://phantomjs.org/download.html 
+
+Either the 1.x or 2.x versions are fine, but be aware that PhantomJS has a bug in the 2.x line that prevents file uploads.
 
 3) NPM install Horseman:
 
@@ -340,7 +342,9 @@ When the tests are done, you'll see something like this:
 
 ```bash
 npm test
-  51 passing (29s)
+  85 passing (37s)
+  2 pending
+
 ```
 
 ## License (MIT)

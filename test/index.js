@@ -1,5 +1,11 @@
 var Horseman = require('../lib');
-var fs = require("fs");
+var fs = require('fs');
+var path = require('path');
+var express = require('express');
+
+var app, server, serverUrl;
+
+
 
 function navigation( bool ){
 	
@@ -17,7 +23,7 @@ function navigation( bool ){
 		it('should set the user agent', function(){
 			horseman
 				.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
-				.open("http://www.w3schools.com/html/html_examples.asp")
+				.open( serverUrl )
 				.evaluate(function(){
 					return navigator.userAgent;
 				})
@@ -26,31 +32,31 @@ function navigation( bool ){
 
 	    it('should open a page', function() {
 	    	horseman
-	    		.open('http://www.w3schools.com/html/html_examples.asp')
-				.url()
-				.should.equal("http://www.w3schools.com/html/html_examples.asp");
+	    		.open( serverUrl )
+	    		.url()
+				.should.equal( serverUrl );
 	    });
-
+	    
 	    it('should click a link', function() {
 	    	horseman		    	
-				.click("a[href='default.asp']")
+				.click("a[href='next.html']")
 				.waitForNextPage()
 				.url()
-				.should.equal("http://www.w3schools.com/html/default.asp");
+				.should.equal(serverUrl + "next.html");
 	    });
-
+	    
 	    it('should go backwards', function() {
 	    	horseman		    	
 				.back()
 				.url()
-				.should.equal("http://www.w3schools.com/html/html_examples.asp");
+				.should.equal(serverUrl);
 	    });
 
 	    it('should go forwards', function() {
 	    	horseman		    	
 				.forward()
 				.url()
-				.should.equal("http://www.w3schools.com/html/default.asp");
+				.should.equal(serverUrl + "next.html");
 	    });
 
 	    it('should use basic authentication', function() {
@@ -121,6 +127,7 @@ function navigation( bool ){
 			result.cookies[ cookies[0].name ].should.equal( cookies[0].value );
 			result.cookies[ cookies[1].name ].should.equal( cookies[1].value );
 	    });
+
 	});
 }
 
@@ -138,15 +145,14 @@ function evaluation( bool ){
 
 	    it('should get the title', function() {
 	      horseman
-	      	.open("http://www.google.com")
+	      	.open(serverUrl)
 	      	.title()
-	      	.should.equal("Google");
+	      	.should.equal('Testing Page');
 
 	    });
 
 	    it('should verify an element exists', function() {
 	      horseman
-	      	.open("http://www.google.com")
 	      	.exists("input")
 	      	.should.be.true;
 	    });
@@ -165,51 +171,49 @@ function evaluation( bool ){
 
 	    it('should get the html of an element', function() {
 	 		horseman
-	 			.open("http://www.reddit.com")
-	 			.html("#header")
-	      		.indexOf("reddit").should.be.above(0);
+	 			.html("#text")
+	      		.indexOf("code").should.be.above(0);
 	    });
 
 	    it('should get the text of an element', function() {
 	 		horseman
-	 			.text("#header-img")
-	      		.should.equal("reddit.com");
+	 			.text("#text").trim()
+	      		.should.equal("This is my code.");
 	    });
 
 	    it('should get the value of an element', function() {
 	    	horseman
-	      		.value("input[name='q']")
+	      		.value("input[name='input1']")
 				.should.equal("");
 	    });
 
 	    it('should get an attribute of an element', function() {
 	 		horseman
-	 			.open("http://www.reddit.com")
-	 			.attribute("a#header-img", "href")
-	      		.should.equal("/");
+	 			.attribute("a", "href")
+	      		.should.equal("next.html");
 	    });
 
 	    it('should get a css property of an element', function() {
 	 		horseman
-	 			.cssProperty("a#header-img", "margin-bottom")
+	 			.cssProperty("a", "margin-bottom")
 	      		.should.equal("3px");
 	    });
 
 	    it('should get the width of an element', function() {
 	 		horseman
-	 			.width("a#header-img")
+	 			.width("a")
 	      		.should.be.above(0);
 	    });
 
 	    it('should get the height of an element', function() {
 	 		horseman
-	 			.width("a#header-img")
+	 			.width("a")
 	      		.should.be.above(0);
 	    });
 
 	    it('should determine if an element is visible', function() {
 	 		horseman
-	 			.visible("a#header-img")
+	 			.visible("a")
 	      		.should.be.true;
 
 	      	horseman
@@ -219,11 +223,10 @@ function evaluation( bool ){
 
 	    it('should evaluate javascript', function() {
 	      	horseman
-		      	.open("http://www.google.com")
 		      	.evaluate( function(){
 		      		return document.title;
 		      	})
-		      	.should.equal("Google");
+		      	.should.equal("Testing Page");
 	    });
 
 	    it('should evaluate javascript with optional parameters', function() {
@@ -245,13 +248,14 @@ function manipulation( bool ){
 
 		after( function(){
 			horseman.close();
-			if ( fs.existsSync("out.png") )
+			if ( fs.existsSync("out.png") ){
 				fs.unlinkSync("out.png");
+			}			
 		});
 
 	    it('should execute javascript without breaking the chain', function() {
 	      	horseman
-		      	.open("http://www.google.com")
+		      	.open( serverUrl )
 		      	.manipulate( function(){
 		      		document.title = "blah";
 		      	})
@@ -272,23 +276,21 @@ function manipulation( bool ){
 
 	    it('should type and click', function() {
 	      	horseman
-	      		.open("http://httpbin.org/forms/post")
-	      		.type('input[name="custname"]', 'github')
-	      		.value('input[name="custname"]')
+	      		.type('input[name="input1"]', 'github')
+	      		.value('input[name="input1"]')
 	      		.should.equal('github');
 	    });
 
 	    it('should clear a field', function() {
 	      	horseman
-	      		.clear('input[name="custname"]')
-	      		.value('input[name="custname"]')
+	      		.clear('input[name="input1"]')
+	      		.value('input[name="input1"]')
 	      		.should.equal("");
 	    });
 
 	    it('should select a value', function() {
 	      	horseman
-	      		.open("http://www.w3.org/WAI/UA/TS/html401/cp0102/0102-ONCHANGE-SELECT.html")
-				.select("#select1","1")
+	      		.select("#select1","1")
 				.value("#select1")
 	      		.should.equal("1");
 	    });
@@ -298,13 +300,13 @@ function manipulation( bool ){
 		    fs.existsSync("out.png").should.be.true;
 		});
 
-		it('should upload a file', function(){
+	    //File upload is broken in Phantomjs 2.0
+	    //https://github.com/ariya/phantomjs/issues/12506
+		it.skip('should upload a file', function(){
 			horseman
-		        .open("http://validator.w3.org/#validate_by_upload")
-		        .upload("#uploaded_file","test/files/testjs.js")
-		        .value("#uploaded_file")
-		        .should.equal("C:\\fakepath\\testjs.js");
-		        
+		        .upload("#upload","test/files/testjs.js")
+		        .value("#upload")
+		        .should.equal("C:\\fakepath\\testjs.js");		        
 	    });
 
 	    it('should verify a file exists before upload', function(){
@@ -338,21 +340,39 @@ function manipulation( bool ){
 describe('Horseman', function(){
   	this.timeout(20000);
 
+  	before( function( done ){
+		app = express();
+		var port = process.env.port || 4567;
+		app.use(express.static(path.join(__dirname,'files')));
+		server = app.listen(port, function() {
+	      serverUrl = 'http://localhost:' + port + '/';
+	      //console.log('test server listening on port %s', port);
+	      done();
+	    });
+	});
+
+	after( function( done ){
+		server.close( done );
+	});
+
 	it('should be constructable', function(){
 		var horseman = new Horseman();
 		horseman.should.be.ok;
 		horseman.close();
 	});
 
-	navigation( true );
-	navigation( false );
 
+	navigation( true );
+	
+	navigation( false );
+	
 	evaluation( true );
+	
 	evaluation( false );
 
 	manipulation( true );
 	manipulation( false );
-
+	
 	describe("Inject jQuery", function(){
 		it('should inject jQuery', function(){
 			var horseman = new Horseman();
@@ -406,11 +426,11 @@ describe('Horseman', function(){
 
 		it('should wait for the page to change', function(){
 			horseman
-				.open("http://www.google.com")
-				.click("a:contains('Advertising')")
+				.open( serverUrl )
+				.click("a")
 				.waitForNextPage()
 				.url()
-				.should.equal("http://www.google.com/intl/en/ads/");
+				.should.equal( serverUrl + "next.html" );
 		});
 
 		it('should wait until a condition on the page is true', function() {
@@ -435,7 +455,7 @@ describe('Horseman', function(){
 
 	    it('should wait until a selector is seen', function(){
 	    	horseman
-	    		.open("http://www.google.com")
+	    		.open( serverUrl )
 	    		.waitForSelector("input")
 	    		.count("input")
 	    		.should.be.above( 0 );
@@ -512,7 +532,7 @@ describe('Horseman', function(){
 				.on("initialized", function(){
 				  fired = true;
 				})
-				.open("http://www.yahoo.com");
+				.open( serverUrl );
 
 			fired.should.be.true;
 			horseman.close();
@@ -525,7 +545,7 @@ describe('Horseman', function(){
 				.on("loadStarted", function(){          
 				  fired = true;
 				})
-				.open("http://www.yahoo.com");
+				.open( serverUrl );
 	      	fired.should.be.true;
 	      	horseman.close();
 	    });
@@ -537,7 +557,7 @@ describe('Horseman', function(){
 				.on("loadFinished", function(){          
 				  fired = true;
 				})
-				.open("http://www.yahoo.com");
+				.open( serverUrl );
 	      	fired.should.be.true;
 	      	horseman.close();
 	    });
@@ -549,7 +569,7 @@ describe('Horseman', function(){
 				.on("resourceRequested", function(){          
 				  fired = true;
 				})
-				.open("http://www.yahoo.com");
+				.open( serverUrl );
 	      	fired.should.be.true;
 	      	horseman.close();
 	    });
@@ -561,7 +581,7 @@ describe('Horseman', function(){
 				.on("resourceReceived", function(){          
 				  fired = true;
 				})
-				.open("http://www.yahoo.com");
+				.open( serverUrl );
 	      	fired.should.be.true;
 	      	horseman.close();
 	    });
@@ -585,7 +605,7 @@ describe('Horseman', function(){
 				.on("urlChanged", function( url ){          
 				  fired = true;
 				})
-				.open("http://www.google.com/");
+				.open( serverUrl );
 	      	fired.should.be.true;
 	      	horseman.close();
 	    });
@@ -597,7 +617,7 @@ describe('Horseman', function(){
 				.on("consoleMessage", function(){          
 				  fired = true;
 				})
-				.open("http://www.google.com/")
+				.open( serverUrl )
 				.evaluate( function(){
 					console.log("message");
 				});
@@ -612,7 +632,7 @@ describe('Horseman', function(){
 				.on("alert", function(){          
 				  fired = true;
 				})
-				.open("http://www.google.com/")
+				.open( serverUrl )
 				.evaluate( function(){
 					alert("onno");
 				});
@@ -627,7 +647,7 @@ describe('Horseman', function(){
 				.on("prompt", function(){          
 				  fired = true;
 				})
-				.open("http://www.google.com/")
+				.open( serverUrl )
 				.evaluate( function(){
 					prompt("onno");
 				});
@@ -635,5 +655,6 @@ describe('Horseman', function(){
 	      	horseman.close();
 	    });
 
-	});	
+	});
+
 });
