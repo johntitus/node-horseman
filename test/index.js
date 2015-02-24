@@ -266,6 +266,12 @@ function manipulation( bool ){
 			horseman.close();
 			if ( fs.existsSync("out.png") ){
 				fs.unlinkSync("out.png");
+			}
+			if ( fs.existsSync("small.png") ){
+				fs.unlinkSync("small.png");
+			}
+			if ( fs.existsSync("big.png") ){
+				fs.unlinkSync("big.png");
 			}			
 		});
 
@@ -320,6 +326,23 @@ function manipulation( bool ){
 		    var asPng = horseman.screenshotBase64("PNG");
 		    var type = typeof asPng;
 		    type.should.equal('string');
+		});
+
+		it('should let you zoom', function() {
+		    horseman
+		    	.viewport(800,400)
+		    	.open( serverUrl )
+		    	.screenshot('small.png')
+		    	.viewport(1600,800)
+		    	.zoom(2)
+		    	.open( serverUrl )
+		    	.screenshot('big.png');
+
+		    var smallSize = fs.statSync('small.png').size,
+		    	bigSize = fs.statSync('big.png').size;
+
+		    bigSize.should.be.greaterThan( smallSize );
+
 		});
 
 	    //File upload is broken in Phantomjs 2.0
