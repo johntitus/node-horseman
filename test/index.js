@@ -28,6 +28,24 @@ function navigation( bool ){
 				.should.equal("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
 		});
 
+		it('should set headers', function(){
+			var headers = {
+				'X-Horseman-Header' : 'test header'
+			};
+
+			var response = JSON.parse( 
+					horseman
+					.headers( headers )
+					.open( 'http://httpbin.org/headers' )
+					.evaluate(function(){
+						return document.body.children[0].innerHTML;
+					})
+				);
+			response.should.have.property( 'headers' );
+			response.headers.should.have.property( 'X-Horseman-Header' );
+			response.headers[ 'X-Horseman-Header' ].should.equal( 'test header' );
+		});
+
 	    it('should open a page', function() {
 	    	horseman
 	    		.open( serverUrl )

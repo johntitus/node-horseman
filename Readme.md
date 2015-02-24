@@ -143,6 +143,9 @@ console.log( cookies.length ); // 2
 #### .userAgent(userAgent)
 Set the `userAgent` used by PhantomJS. You have to set the userAgent before calling `.open()`.
 
+#### .headers(headers)
+Set the `headers` used when requesting a page. The headers are a javascript object.  You have to set the headers before calling `.open()`.
+
 #### .authentication(user, password)
 Set the `user` and `password` for accessing a web page using basic authentication. Be sure to set it before calling `.open(url)`.
 
