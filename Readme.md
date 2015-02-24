@@ -198,6 +198,9 @@ Gets the height of an element.
 #### .screenshot(path)
 Saves a screenshot of the current page to the specified `path`. Useful for debugging.
 
+#### .screenshotBase64(type)
+Returns a base64 encoded string representing the screenshot. Type must be one of 'PNG', 'GIF', or 'JPEG'.
+
 #### .crop(selector | boundingRectangle, path)
 Takes a screenshot of a portion of the page. You can pass in either a CSS selector or a boundingRectangle `{ top : 50, left: 200, width: 90, height: 200 }`.
 

@@ -5,8 +5,6 @@ var express = require('express');
 
 var app, server, serverUrl;
 
-
-
 function navigation( bool ){
 	
 	var title = 'Navigation ' + ( (bool) ? 'with' : 'without' ) + ' jQuery';
@@ -298,6 +296,12 @@ function manipulation( bool ){
 	    it('should take a screenshot', function() {
 		    horseman.screenshot("out.png");
 		    fs.existsSync("out.png").should.be.true;
+		});
+
+		it('should take a screenshotBase64', function() {
+		    var asPng = horseman.screenshotBase64("PNG");
+		    var type = typeof asPng;
+		    type.should.equal('string');
 		});
 
 	    //File upload is broken in Phantomjs 2.0
