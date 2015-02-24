@@ -157,6 +157,9 @@ new Horseman()
 #### .viewport(width, height)
 Set the `width` and `height` of the viewport, useful for screenshotting. You have to set the viewport before calling `.open()`.
 
+#### .scrollTo(top, left)
+Scroll to a position on the page, relative to the top left corner of the document.
+
 #### .zoom(zoomFactor)
 Set the amount of zoom on a page.  The default zoomFactor is 1. To zoom to 200%, use a zoomFactor of 2.  Combine this with `viewport` to produce high DPI screenshots.
 

@@ -89,10 +89,25 @@ function navigation( bool ){
 	    	var size = { width : 400, height: 1000 };
 	    	var vp = horseman
 				.viewport(size.width, size.height)
-				.open('http://www.google.com')
+				.open( serverUrl )
 				.viewport();
 			vp.height.should.equal(size.height);
 			vp.width.should.equal(size.width);
+	    });
+
+	    it('should let you scroll', function() {
+	    	var coordinates = horseman
+	    		.viewport(320,320)
+	    		.open( 'http://www.google.com' )
+	    		.scrollTo( 50, 40 )
+	    		.evaluate( function(){
+	    			return {
+	    				top : document.body.scrollTop,
+	    				left : document.body.scrollLeft
+	    			}
+	    		});
+	    	coordinates.top.should.equal( 50 );
+	    	coordinates.left.should.equal( 40 );
 	    });
 
 	    it('should add a cookie', function() {
