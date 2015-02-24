@@ -287,7 +287,13 @@ function manipulation( bool ){
 			}
 			if ( fs.existsSync("big.png") ){
 				fs.unlinkSync("big.png");
-			}			
+			}
+			if ( fs.existsSync("default.pdf") ){
+				fs.unlinkSync("default.pdf");
+			}
+			if ( fs.existsSync("euro.pdf") ){
+				fs.unlinkSync("euro.pdf");
+			}
 		});
 
 	    it('should execute javascript without breaking the chain', function() {
@@ -358,6 +364,24 @@ function manipulation( bool ){
 
 		    bigSize.should.be.greaterThan( smallSize );
 
+		});
+
+		it('should let you export as a pdf', function() {
+			horseman
+			    .open( 'http://www.google.com' )
+				.pdf('default.pdf')
+				.pdf('euro.pdf', {
+					format : 'A4',
+					orientation : 'portrait',
+					margin : 0
+				});
+
+			// A4 size is slightly larger than US Letter size,
+			// which is the default pdf paper size.
+			var defaultSize = fs.statSync('default.pdf').size,
+		    	euroSize = fs.statSync('euro.pdf').size;
+
+		    euroSize.should.be.greaterThan( defaultSize );
 		});
 
 	    //File upload is broken in Phantomjs 2.0

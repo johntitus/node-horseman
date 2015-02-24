@@ -217,6 +217,31 @@ Saves a screenshot of the current page to the specified `path`. Useful for debug
 #### .screenshotBase64(type)
 Returns a base64 encoded string representing the screenshot. Type must be one of 'PNG', 'GIF', or 'JPEG'.
 
+#### .pdf(path, [paperSize])
+Renders the page as a PDF. The default paperSize is [US Letter](http://en.wikipedia.org/wiki/Letter_%28paper_size%29).
+
+The `paperSize` object should be in either this format: 
+```js
+{
+  width: '200px',
+  height: '300px',
+  margin: '0px'
+}
+```
+or this format
+```js
+{
+  format: 'A4',
+  orientation: 'portrait',
+  margin: '1cm'
+}
+```
+Supported formats are: `A3`, `A4`, `A5`, `Legal`, `Letter`, `Tabloid`.
+
+Orientation (`portrait`, `landscape`) is optional and defaults to 'portrait'.
+
+Supported dimension units are: 'mm', 'cm', 'in', 'px'. No unit means 'px'.
+
 #### .crop(selector | boundingRectangle, path)
 Takes a screenshot of a portion of the page. You can pass in either a CSS selector or a boundingRectangle `{ top : 50, left: 200, width: 90, height: 200 }`.
 
