@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.2.2 - 2015-02-26
+### Fixed
+- Phantom options, like `loadImages` were not being honored in 1.2.1.
+
 ##1.2.1 - 2015-02-26
 ### Changed
 - Swapped out `phantom` for `node-phantom-simple` to fix some performance issues (see issue #6).  This a major change internally, but does not change the API and all tests are passing.
