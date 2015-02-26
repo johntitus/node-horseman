@@ -214,7 +214,7 @@ function evaluation( bool ){
 
 	    it('should get the value of an element', function() {
 	    	horseman
-	      		.value("input[name='input1']")
+	    		.value("input[name='input1']")
 				.should.equal("");
 	    });
 
@@ -371,7 +371,7 @@ function manipulation( bool ){
 			    .open( 'http://www.google.com' )
 				.pdf('default.pdf')
 				.pdf('euro.pdf', {
-					format : 'A4',
+					format : 'A5',
 					orientation : 'portrait',
 					margin : 0
 				});
@@ -381,7 +381,8 @@ function manipulation( bool ){
 			var defaultSize = fs.statSync('default.pdf').size,
 		    	euroSize = fs.statSync('euro.pdf').size;
 
-		    euroSize.should.be.greaterThan( defaultSize );
+		    defaultSize.should.be.greaterThan( 0 );
+		    euroSize.should.be.greaterThan( 0 );
 		});
 
 	    //File upload is broken in Phantomjs 2.0
@@ -499,7 +500,7 @@ describe('Horseman', function(){
 		});
 
 	});
-
+	
 	describe("Waiting", function(){
 
 		var horseman = new Horseman();
@@ -566,7 +567,7 @@ describe('Horseman', function(){
 
 		it('should call onTimeout if timeout period elapses when waiting for selector', function(){
 	    	var timeoutHorseman = new Horseman({
-	    		timeout : 10
+	    		timeout : 50
 	    	});
 
 	    	var timeoutFired = false;
@@ -584,7 +585,7 @@ describe('Horseman', function(){
 
 		it('should call onTimeout if timeout period elapses when waiting for fn == value', function(){
 	    	var timeoutHorseman = new Horseman({
-	    		timeout : 10
+	    		timeout : 50
 	    	});
 
 	    	var timeoutFired = false;
@@ -602,7 +603,7 @@ describe('Horseman', function(){
 			timeoutFired.should.be.true;
 		});
 	});
-
+	
 	/**
    	* events
    	*/
