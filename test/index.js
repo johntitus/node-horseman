@@ -2,6 +2,9 @@ var Horseman = require('../lib');
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
+//var eventEmitter = require('events').EventEmitter.
+
+process.setMaxListeners(0);
 
 var app, server, serverUrl;
 
@@ -742,4 +745,49 @@ describe('Horseman', function(){
 
 	});
 
+	/**
+   	* tabs
+   	*/
+   	
+  	describe('Tabs', function(){
+  		var horseman = new Horseman();
+
+		after( function(){
+			horseman.close();
+		});
+
+		it('should let you open a new tab', function(){
+			horseman
+				.open( serverUrl )
+				.openTab( serverUrl + "next.html")
+				.tabCount()
+				.should.equal( 2 );
+		});
+
+		it('should fire an event when a tab is created', function(){
+			var fired = false;
+			horseman
+				.on('tabCreated', function(){
+					fired = true;
+				})
+				.open( serverUrl )				
+				.openTab( serverUrl + "next.html");
+
+			fired.should.be.true;
+		});
+
+		it('should let you get a tab count', function(){
+			horseman
+				.tabCount()
+				.should.equal( 3 );
+		});
+
+		it('should let switch tabs', function(){
+			horseman
+				.switchToTab(0)
+				.url()
+				.should.equal( serverUrl )
+		});
+
+  	});
 });

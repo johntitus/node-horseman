@@ -1,9 +1,12 @@
 Horseman
 =========
 
-Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node. It has a chainable API, similar to [jQuery](http://jquery.com/).
+Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
 
-While there are other Node modules to run Phantom, Horseman is different because it has an easy to use control flow.  
+Horseman has:
+  * a simple, chainable API, like jQuery,
+  * an easy-to-use control flow (see the examples),
+  * support for multiple tabs open at the same time.
 
 Additionally, Horseman loads [jQuery](http://jquery.com/) onto each page by default, which means you can use it inside your `evaluate` and `manipulate` functions automatically.
 
@@ -170,6 +173,22 @@ horseman
   .open('http://www.horsemanjs.org')
   .screenshot('big.png')
 ```
+
+### Tabs
+
+Horseman lets you open multiple tabs, just like you probably do in a real browser.  Also, any anchors elements with a target will open in a new tab.
+
+Whenever a new tab is opened, either programatically or because of an action on the page (like `window.open`), a `tabCreated` event will fire.
+
+#### .tabCount()
+Get the number of open tabs.
+
+#### .switchToTab( tabNumber ){
+Switch to the desired `tabNumber`. The first tab is number 0.
+
+#### .openTab( [url] ){
+Opens a new tab. Optionally, pass in a `url` and the new tab will automatically go that url.
+
 
 ### Evaluation
 
@@ -346,6 +365,7 @@ Supported events are:
 * `initialized` - callback()
 * `loadStarted` - callback()
 * `loadFinished` - callback(status)
+* `tabCreated` - callback()
 * `urlChanged` - callback(targetUrl)
 * `navigationRequested` - callback(url, type, willNavigate, main)
 * `resourceRequested` - callback(requestData, networkRequest)

@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.3.0 - 2015-02-26
+### Added
+- tabCount function.
+- switchToTab function.
+- openTab function.
+- tabCreated event.
+
 ##1.2.2 - 2015-02-26
 ### Fixed
 - Phantom options, like `loadImages` were not being honored in 1.2.1.
