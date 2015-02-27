@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.3.1 - 2015-02-27
+### Fixed
+- Copyright years in LICENSE (thanks @fay-jai)
+- .waitForSelector() text in Readme.me (issue #7. thanks @bchr02)
+
 ##1.3.0 - 2015-02-26
 ### Added
 - tabCount function.
