@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.3.2 - 2015-02-27
+### Fixed
+- Removed `weak` option from Readme.md (issue #10).
+- Fixed horseman.close() bug. (issue #11)
+
 ##1.3.1 - 2015-02-27
 ### Fixed
 - Copyright years in LICENSE (thanks @fay-jai)
