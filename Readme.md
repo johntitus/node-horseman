@@ -57,6 +57,7 @@ The available options are:
 * `interval`: how frequently to poll for page load state, default `50` ms.
 * `port`: port to mount the phantomjs instance to, default `12401`.
 * `loadImages`: load all inlined images, default `true`.
+* `cookiesFile`: A file where to store/use cookies.
 * `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
 * `webSecurity`: enables web security and forbids cross-domain XHR, default `true`.

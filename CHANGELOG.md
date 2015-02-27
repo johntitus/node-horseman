@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.3.3 - 2015-02-27
+### Added
+- Exposes `cookiesFile` option. (Issue #8).
+
 ##1.3.2 - 2015-02-27
 ### Fixed
 - Removed `weak` option from Readme.md (issue #10).
