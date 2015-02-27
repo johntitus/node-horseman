@@ -56,7 +56,6 @@ The available options are:
 * `timeout`: how long to wait for page loads or wait periods, default `5000` ms.
 * `interval`: how frequently to poll for page load state, default `50` ms.
 * `port`: port to mount the phantomjs instance to, default `12401`.
-* `weak`: set dnode weak option to `false` to fix cpp compilation for windows users, default `true`.
 * `loadImages`: load all inlined images, default `true`.
 * `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
