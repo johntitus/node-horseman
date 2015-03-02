@@ -21,6 +21,8 @@ http://phantomjs.org/download.html
 
 Either the 1.x or 2.x versions are fine, but be aware that PhantomJS has a bug in the 2.x line that prevents file uploads.
 
+*Note*: Make sure PhantomJS is available in your system PATH.
+
 3) NPM install Horseman:
 
 `npm install node-horseman`
