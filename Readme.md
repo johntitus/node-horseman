@@ -46,6 +46,8 @@ console.log("Number of links: " + numLinks);
 
 horseman.close();
 ```
+Save the file as `google.js`. Then, `node google.js`.
+
 For longer examples, check out the Examples folder.
 
 ## API
