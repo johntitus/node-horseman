@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.3.5 - 2015-03-02
+### Fixed
+- Updated documentation to address issues #12 and #14.
+
 ##1.3.4 - 2015-02-27
 ### Fixed
 - Forgot to merge cookiesFile branch :(
