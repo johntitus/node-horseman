@@ -15,16 +15,12 @@
     "deasync": "0.0.10",
     "debug": "^2.1.1",
     "defaults": "~1.0.0",
-    "should": "^2.1.1",
-    "express": "^4.11.2",
-    "body-parser": "^1.11.0",
     "node-phantom-simple": "^1.2.0"
   },
   "devDependencies": {
     "mocha": "~1.17.1",
     "should": "~2.1.1",
-    "express": "^4.10.4",
-    "body-parser": "^1.9.3"
+    "express": "^4.10.4"
   },
   "scripts": {
     "test": "make test"
