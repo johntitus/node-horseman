@@ -162,6 +162,19 @@ function navigation( bool ){
 			result.cookies[ cookies[1].name ].should.equal( cookies[1].value );
 	    });
 
+	    it('should post to a page', function(){
+			var data = 'universe=expanding&answer=42'
+
+			var response = JSON.parse( 
+				horseman
+					.post( 'http://httpbin.org/post', data )
+					.text("pre")
+			);
+			response.should.have.property( 'form' );
+			response.form[ 'answer' ].should.equal( '42' );
+			response.form[ 'universe' ].should.equal( 'expanding' );
+		});
+
 	});
 }
 

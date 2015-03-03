@@ -81,6 +81,9 @@ Closes the Horseman instance by shutting down PhantomJS.
 #### .open(url)
 Load the page at `url`.
 
+#### .post(url, postData)
+POST `postData` to the page at `url`.
+
 #### .back()
 Go back to the previous page.
 
