@@ -93,7 +93,14 @@ Go forward to the next page.
 #### .reload()
 Refresh the current page.
 
+#### .status()
+Returns the HTTP status code of the last opened page.
 
+```js
+var status = horseman
+  .open('http://www.reddit.com')
+  .status(); // returns 200
+```
 
 #### .cookies([object|array of objects])
 Without any options, this function will return all the cookies inside the browser.

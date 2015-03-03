@@ -175,6 +175,15 @@ function navigation( bool ){
 			response.form[ 'universe' ].should.equal( 'expanding' );
 		});
 
+		it('should get the status code', function(){
+			
+			var status = horseman
+				.open( serverUrl )
+				.status();
+
+			status.should.be.within( 200,399 ); //these are ok
+		});
+
 	});
 }
 
