@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.3.6 - 2015-03-03
+### Added
+- status function.
+- post function.
+
 ##1.3.5 - 2015-03-02
 ### Fixed
 - Updated documentation to address issues #12 and #14.
