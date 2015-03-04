@@ -443,6 +443,46 @@ function manipulation( bool ){
 	      		})
 	      		.should.equal(6);
 	    });
+
+	    it('should send mouse events', function() {
+	    	var horse = new Horseman();
+	      	var events = horse
+	      		.open('https://dvcs.w3.org/hg/d4e/raw-file/tip/mouse-event-test.html')
+	      		.mouseEvent('mousedown', 500,160)
+	      		.mouseEvent('mouseup', 501,160)
+	      		.mouseEvent('click', 502,160)
+	      		.mouseEvent('doubleclick', 502,160)
+	      		.mouseEvent('mousemove', 503,160)
+	      		.evaluate( function(){
+					return {
+						'j' : $("table#output tr").length,
+						'mousedown' : $("table#output tr:contains('mousedown')").length,
+						'mouseup' : $("table#output tr:contains('mouseup')").length,
+						'click' : $("table#output tr:contains('click')").length,
+						'doubleclick' : $("table#output tr:contains('dblclick')").length,
+						'mousemove' : $("table#output tr:contains('mousemove')").length
+					}
+				});
+			//console.log( events );
+			events['mousedown'].should.be.greaterThan(0);
+			events['mouseup'].should.be.greaterThan(0);
+			events['click'].should.be.greaterThan(0);
+			events['doubleclick'].should.be.greaterThan(0);
+			events['mousemove'].should.be.greaterThan(0);
+			horse.close();
+	    });
+
+		it('should send keyboard events', function() {
+	    	var horse = new Horseman();
+	      	var data = horse
+	      		.open('http://unixpapa.com/js/testkey.html')
+				.keyboardEvent('keypress',16777221)
+				.evaluate( function(){
+					return $("textarea[name='t']").val();
+				});
+			data.indexOf("keyCode=13").should.be.greaterThan(-1);
+			horse.close();
+		});
 	});
 }
 

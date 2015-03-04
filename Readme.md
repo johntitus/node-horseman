@@ -354,6 +354,19 @@ Specify the `path` to upload into a file input `selector` element.
 #### .injectJs(file)
 Inject a javascript file onto the page.
 
+#### .mouseEvent( type, [, x, y, button] )
+Send a mouse event to the page. Each event is sent to the page as if it comes from real user interaction. `type` must be one of "mouseup", "mousedown", "mousemove", "doubleclick", or "click", which is the default.  `x` and `y` are optional and specify the location on the page to send the mouse event. `button` is also optional, and defaults to "left".
+
+#### .keyboardEvent( type, key [, modifier ] )
+Send a keyboard event to the page. Each event is sent to the page as if it comes from real user interaction. `type` must be one of "keyup", "keydown", or "keypress", which is the default. `key` should be a numerical value from [this page](https://github.com/ariya/phantomjs/commit/cab2635e66d74b7e665c44400b8b20a8f225153a). For instance, to send an "enter" key press, use `.keyboardEvent("keypress",16777221)`. 
+
+`modifier` is optional, and comes from this list:
+  * 0x02000000: A Shift key on the keyboard is pressed
+  * 0x04000000: A Ctrl key on the keyboard is pressed
+  * 0x08000000: An Alt key on the keyboard is pressed
+  * 0x10000000: A Meta key on the keyboard is pressed
+  * 0x20000000: A keypad button is pressed
+To a shift+p event, you would use `.keyboardEvent("keypress","p",0x02000000)`.
 
 ### Waiting
 These functions for the browser to wait for an event to occur. If the event does not occur before the timeout period (configurable via the options), a timeout event will fire.
