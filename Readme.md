@@ -21,7 +21,7 @@ http://phantomjs.org/download.html
 
 Either the 1.x or 2.x versions are fine, but be aware that PhantomJS has a bug in the 2.x line that prevents file uploads.
 
-*Note*: Make sure PhantomJS is available in your system PATH.
+*Note*: Make sure PhantomJS is available in your system PATH, or use the `phantomPath` option.
 
 3) NPM install Horseman:
 
@@ -69,6 +69,7 @@ The available options are:
 * `proxy`: specify the proxy server to use `address:port`, default not set.
 * `proxyType`: specify the proxy server type `[http|socks5|none]`, default not set.
 * `proxyAuth`: specify the auth information for the proxy `user:pass`, default not set.
+* `phantomPath`: If PhantomJS is not installed in your path, you can use this option to specify the executable's location.
 
 ### Cleanup
 Be sure to `.close()` each Horseman instance when you're done with it!.
