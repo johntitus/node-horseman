@@ -366,7 +366,8 @@ Send a keyboard event to the page. Each event is sent to the page as if it comes
   * 0x08000000: An Alt key on the keyboard is pressed
   * 0x10000000: A Meta key on the keyboard is pressed
   * 0x20000000: A keypad button is pressed
-To a shift+p event, you would use `.keyboardEvent("keypress","p",0x02000000)`.
+
+To send a shift+p event, you would use `.keyboardEvent("keypress","p",0x02000000)`.
 
 ### Waiting
 These functions for the browser to wait for an event to occur. If the event does not occur before the timeout period (configurable via the options), a timeout event will fire.

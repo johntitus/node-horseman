@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.4.1 - 2015-03-04
+### Fixed
+- Readme issue
+
 ##1.4.0 - 2015-03-04
 ### Added
 - keyboardEvent function
