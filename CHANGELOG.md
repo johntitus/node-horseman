@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.4.0 - 2015-03-04
+### Added
+- keyboardEvent function
+- mouseEvent function
+- exposed `phantomPath` instantiation option
+
 ##1.3.6 - 2015-03-03
 ### Added
 - status function.
