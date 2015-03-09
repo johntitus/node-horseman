@@ -2,6 +2,7 @@ var Horseman = require('../lib');
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
+var should = require('should');
 //var eventEmitter = require('events').EventEmitter.
 
 process.setMaxListeners(0);
@@ -668,6 +669,29 @@ describe('Horseman', function(){
 			timeoutFired.should.be.true;
 		});
 	});
+
+    /**
+     * Iframes
+     */
+    describe("Iframes", function() {
+
+        var horseman = new Horseman();
+
+        after(function () {
+            horseman.close();
+        });
+
+        it('should switch to #iframe1 and find h1 text', function() {
+
+            horseman
+                .open( serverUrl + "frames.html" )
+                .switchToChildFrame('frame1')
+                .waitForSelector("h1")
+                .html("h1")
+                .should.equal( "This is frame 1." )
+
+        });
+    });
 	
 	/**
    	* events
