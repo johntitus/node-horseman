@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.5.1 - 2015-03-04
+### Fixed
+- Readme issue
+
 ##1.5.0 - 2015-03-10
 ### Added
 - switchToChildFrame() (issue #18, thanks @easyrider)
