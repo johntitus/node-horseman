@@ -97,6 +97,9 @@ Refresh the current page.
 #### .status()
 Returns the HTTP status code of the last opened page.
 
+#### .switchToChildFrame( selector )
+Switches focus to the child frame specified by the `selector`.
+
 ```js
 var status = horseman
   .open('http://www.reddit.com')

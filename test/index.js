@@ -2,8 +2,6 @@ var Horseman = require('../lib');
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
-var should = require('should');
-//var eventEmitter = require('events').EventEmitter.
 
 process.setMaxListeners(0);
 
@@ -673,7 +671,7 @@ describe('Horseman', function(){
     /**
      * Iframes
      */
-    describe("Iframes", function() {
+    describe("Frames", function() {
 
         var horseman = new Horseman();
 
@@ -681,7 +679,7 @@ describe('Horseman', function(){
             horseman.close();
         });
 
-        it('should switch to #iframe1 and find h1 text', function() {
+        it('should let you switch to a child frame', function() {
 
             horseman
                 .open( serverUrl + "frames.html" )
