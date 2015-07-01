@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.5.2 - 2015-03-04
+### Fixed
+- Fix #30 - crop() now chainable. Thanks @jackstrain.
+
 ##1.5.1 - 2015-03-04
 ### Fixed
 - Readme issue
