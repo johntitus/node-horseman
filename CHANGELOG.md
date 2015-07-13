@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.5.3 - 2015-03-04
+### Fixed
+- Fix #27 & 33 - .cookies() wasn't returning a list of cookies for the current page. Now fixed.
+
 ##1.5.2 - 2015-03-04
 ### Fixed
 - Fix #30 - crop() now chainable. Thanks @jackstrain.
