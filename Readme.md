@@ -8,7 +8,8 @@ Horseman has:
   * an easy-to-use control flow (see the examples),
   * support for multiple tabs open at the same time.
 
-Additionally, Horseman loads [jQuery](http://jquery.com/) onto each page by default, which means you can use it inside your `evaluate` and `manipulate` functions automatically.
+Additionally, Horseman loads [jQuery](http://jquery.com/) onto each page by default (unless it's already loaded), which means you can use it inside your `evaluate` and `manipulate` functions automatically. Take into account that if the jQuery version used by the website is old some methods might not work. Ex: `.select(selector, value)`.
+
 
 ## Installation
 1) Install Node, if you haven't already:
