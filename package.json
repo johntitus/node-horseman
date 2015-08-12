@@ -1,6 +1,6 @@
 {
   "name": "node-horseman",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "Run PhantomJS from Node",
   "repository": {
     "type": "git",
@@ -15,12 +15,12 @@
     "deasync": "0.0.10",
     "debug": "^2.1.1",
     "defaults": "~1.0.0",
-    "node-phantom-simple": "^1.2.0"
+    "node-phantom-simple": "^2.0.2"
   },
   "devDependencies": {
-    "mocha": "~1.17.1",
-    "should": "~2.1.1",
-    "express": "^4.10.4"
+    "express": "^4.10.4",
+    "mocha": "^2.2.5",
+    "should": "~2.1.1"
   },
   "scripts": {
     "test": "make test"

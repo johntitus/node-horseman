@@ -98,6 +98,7 @@ function navigation( bool ){
 	    });
 
 	    it('should let you scroll', function() {
+	    	
 	    	var coordinates = horseman
 	    		.viewport(320,320)
 	    		.open( 'http://www.google.com' )
@@ -108,20 +109,22 @@ function navigation( bool ){
 	    				left : document.body.scrollLeft
 	    			}
 	    		});
+	    		
 	    	coordinates.top.should.equal( 50 );
 	    	coordinates.left.should.equal( 40 );
 	    });
 
 	    it('should add a cookie', function() {
+	    	
 	    	var cookie = {
     			name : "test",
 				value : "cookie",
 				domain: 'httpbin.org'
     		};
-	    	var body = horseman
-	    		.cookies(cookie)
+    		
+    		var body = horseman.cookies(cookie)
 	    		.open("http://httpbin.org/cookies")
-				.text("pre");
+	    		.text("pre");
 			
 			var result = JSON.parse(body);
 			result.cookies[ cookie.name ].should.equal( cookie.value );
