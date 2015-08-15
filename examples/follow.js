@@ -15,7 +15,7 @@ var horseman = new Horseman();
 users.forEach( function( user ){
 	var data = horseman
 		.open('http://mobile.twitter.com/' + user)
-		.text('div.profile td.stat.stat-last div.statnum');
+		.text('.UserProfileHeader-stat--followers .UserProfileHeader-statCount');
 	console.log( user + ': ' + data );
 });
 
