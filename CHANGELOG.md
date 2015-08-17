@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##1.5.6 - 2015-08-17
+### Fixed
+- #39. Upgraded to node-phantom-simple 2.0.3.
+
 ##1.5.5 - 2015-08-12
 ### Changed
 - Upgraded to node-phantom-simple 2.0.2. Close #37.
