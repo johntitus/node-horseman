@@ -11,8 +11,8 @@
     "test": "test"
   },
   "dependencies": {
+    "bluebird": "^2.9.34",
     "clone": "^0.1.19",
-    "deasync": "0.0.10",
     "debug": "^2.1.1",
     "defaults": "~1.0.0",
     "node-phantom-simple": "^2.0.3"

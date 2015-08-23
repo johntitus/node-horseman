@@ -3,8 +3,6 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 
-process.setMaxListeners(0);
-
 var app, server, serverUrl;
 
 function navigation( bool ){
@@ -12,81 +10,134 @@ function navigation( bool ){
 	var title = 'Navigation ' + ( (bool) ? 'with' : 'without' ) + ' jQuery';
 	
 	describe( title, function(){
-		var horseman = new Horseman({
-			injectJquery : bool
+		var horseman;
+
+		beforeEach( function(){
+			horseman = new Horseman({
+				injectJquery : bool
+			});
 		});
 
-		after( function(){
+		afterEach( function(){
 			horseman.close();
 		});
 
-		it('should set the user agent', function(){
+		it('should set the user agent', function(done){
 			horseman
 				.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
-				.open( serverUrl )
-				.evaluate(function(){
-					return navigator.userAgent;
+				.then( function(){
+					return horseman.open( serverUrl );
 				})
-				.should.equal("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
+				.then( function(){
+					return horseman.evaluate(function(){
+						return navigator.userAgent;
+					});
+				})
+				.then( function( result ){
+					result.should.equal("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
+				})
+				.finally(done);
 		});
 
-		it('should set headers', function(){
+		it('should set headers', function(done){
 			var headers = {
 				'X-Horseman-Header' : 'test header'
 			};
 
-			var response = JSON.parse( 
-					horseman
-					.headers( headers )
-					.open( 'http://httpbin.org/headers' )
-					.evaluate(function(){
+			horseman
+				.headers( headers )
+				.then(function(){
+					return horseman.open( 'http://httpbin.org/headers' )
+				})
+				.then( function(){
+					return horseman.evaluate(function(){
 						return document.body.children[0].innerHTML;
-					})
-				);
-			response.should.have.property( 'headers' );
-			response.headers.should.have.property( 'X-Horseman-Header' );
-			response.headers[ 'X-Horseman-Header' ].should.equal( 'test header' );
+					});
+				})
+				.then( function( data ){
+					var response = JSON.parse( data );					
+					response.should.have.property( 'headers' );
+					response.headers.should.have.property( 'X-Horseman-Header' );
+					response.headers[ 'X-Horseman-Header' ].should.equal( 'test header' );
+				})
+				.finally(done);
 		});
-
-	    it('should open a page', function() {
+		
+	    it('should open a page', function(done) {
 	    	horseman
 	    		.open( serverUrl )
-	    		.url()
-				.should.equal( serverUrl );
-	    });
+	    		.then( function(){
+	    			return horseman.url();
+	    		})
+	    		.then( function( data ){
+	    			data.should.equal( serverUrl );
+	    		})
+	    		.finally(done);
+	    });	    
 	    
-	    it('should click a link', function() {
-	    	horseman		    	
-				.click("a[href='next.html']")
-				.waitForNextPage()
-				.url()
-				.should.equal(serverUrl + "next.html");
-	    });
+	    it('should click a link', function(done) {
+	    	horseman
+	    		.open( serverUrl )		    	
+				.then( function(){
+					return horseman.click("a[href='next.html']");
+				})
+				.delay(300)
+				.then( function(){
+					return horseman.url();
+				})
+				.then(function( data ){
+					data.should.equal(serverUrl + "next.html")
+				})
+				.finally(done);
+	    });	    
 	    
-	    it('should go backwards', function() {
-	    	horseman		    	
-				.back()
-				.url()
-				.should.equal(serverUrl);
+	    it('should go backwards and forwards', function(done) {
+	    	horseman
+	    		.open( serverUrl )		    	
+				.then( function(){
+					return horseman.click("a[href='next.html']");
+				})
+				.delay(300)		    	
+				.then( function(){
+					return horseman.back();
+				})
+				.delay(300)
+				.then( function(){
+					return horseman.url();
+				})
+				.then(function( data ){
+					data.should.equal(serverUrl)
+				})
+				.then( function(){
+					return horseman.forward();
+				})
+				.delay(300)
+				.then( function(){
+					return horseman.url();
+				})
+				.then(function( data ){
+					data.should.equal(serverUrl + "next.html")
+				})
+				.finally( done );
 	    });
 
-	    it('should go forwards', function() {
-	    	horseman		    	
-				.forward()
-				.url()
-				.should.equal(serverUrl + "next.html");
-	    });
-
-	    it('should use basic authentication', function() {
+	    it('should use basic authentication', function(done) {
 	    	horseman
 				.authentication('my','auth')
-				.open('http://httpbin.org/basic-auth/my/auth')
-				.evaluate( function(){
-					return document.body.innerHTML.length;
+				.then( function(){
+					return horseman.open('http://httpbin.org/basic-auth/my/auth');
 				})
-				.should.be.above(0);
+				.then( function(){
+					return horseman.evaluate( function(){
+						return document.body.innerHTML.length;
+					})
+				})
+				.then( function( result ){
+					result.should.be.above(0);	
+				})
+				.finally( done );
 	    });
-
+/*
 	    it('should set the viewport', function() {
 	    	var size = { width : 400, height: 1000 };
 	    	var vp = horseman
@@ -185,7 +236,7 @@ function navigation( bool ){
 
 			status.should.be.within( 200,399 ); //these are ok
 		});
-
+	*/
 	});
 }
 
@@ -492,17 +543,22 @@ function manipulation( bool ){
 describe('Horseman', function(){
   	this.timeout(20000);
 
+  	/**
+  	 * Setup an express server for testing purposes.
+  	 */
   	before( function( done ){
 		app = express();
 		var port = process.env.port || 4567;
 		app.use(express.static(path.join(__dirname,'files')));
 		server = app.listen(port, function() {
-	      serverUrl = 'http://localhost:' + port + '/';
-	      //console.log('test server listening on port %s', port);
+	      serverUrl = 'http://localhost:' + port + '/';;
 	      done();
 	    });
 	});
 
+	/**
+	 * Tear down the express server we used for testing.
+	 */
 	after( function( done ){
 		server.close( done );
 	});
@@ -515,6 +571,7 @@ describe('Horseman', function(){
 
 
 	navigation( true );
+	/*
 	
 	navigation( false );
 	
@@ -670,10 +727,13 @@ describe('Horseman', function(){
 			timeoutFired.should.be.true;
 		});
 	});
+*/
 
     /**
      * Iframes
      */
+
+     /*
     describe("Frames", function() {
 
         var horseman = new Horseman();
@@ -693,11 +753,13 @@ describe('Horseman', function(){
 
         });
     });
+*/
 	
 	/**
    	* events
    	*/
    	
+   	/*
   	describe('Events', function(){    
     	
 	    it('should fire an event on initialized', function() {
@@ -831,11 +893,12 @@ describe('Horseman', function(){
 	    });
 
 	});
+*/
 
 	/**
    	* tabs
    	*/
-   	
+  /* 	
   	describe('Tabs', function(){
   		var horseman = new Horseman();
 
@@ -877,4 +940,5 @@ describe('Horseman', function(){
 		});
 
   	});
+*/
 });
