@@ -137,17 +137,24 @@ function navigation( bool ){
 				})
 				.finally( done );
 	    });
-/*
-	    it('should set the viewport', function() {
-	    	var size = { width : 400, height: 1000 };
-	    	var vp = horseman
-				.viewport(size.width, size.height)
-				.open( serverUrl )
-				.viewport();
-			vp.height.should.equal(size.height);
-			vp.width.should.equal(size.width);
-	    });
 
+	    it('should set the viewport', function(done) {
+	    	var size = { width : 400, height: 1000 };
+	    	horseman
+				.viewport(size.width, size.height)
+				.then( function(){
+					return horseman.open( "http://www.google.com" );
+				})
+				.then( function(){
+					return horseman.viewport();
+				})
+				.then( function(vp){
+					vp.height.should.equal(size.height);
+					vp.width.should.equal(size.width);
+				})
+				.finally( done );			
+	    });
+/*
 	    it('should let you scroll', function() {
 	    	
 	    	var coordinates = horseman

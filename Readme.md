@@ -4,11 +4,14 @@ Horseman
 Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
 
 Horseman has:
-  * a simple, chainable API, like jQuery,
+  * a simple, chainable API, based on Promises,
   * an easy-to-use control flow (see the examples),
   * support for multiple tabs open at the same time.
 
 Additionally, Horseman loads [jQuery](http://jquery.com/) onto each page by default, which means you can use it inside your `evaluate` and `manipulate` functions automatically.
+
+## Version 2.0
+This version includes major changes to the API.  While the 1.x line of Horseman is based on forced synchronization of the API, the 2.x line will be based on Promises.  This allows for multiple Horseman to be run concurrently.
 
 ## Installation
 1) Install Node, if you haven't already:
@@ -35,17 +38,31 @@ Search on Google:
 var Horseman = require('node-horseman');
 var horseman = new Horseman();
 
-var numLinks = horseman
+horseman
   .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0")
-  .open('http://www.google.com')
-  .type('input[name="q"]', 'github')
-  .click("button:contains('Google Search')")
-  .waitForNextPage()
-  .count("li.g");
+  .then(function(){
+    return horseman.open('http://www.google.com');
+  })
+  .then( function(){
+    return horseman.type('input[name="q"]', 'github'); //Not working yet
+  })
+  .then( function(){
+    return horseman.click("button:contains('Google Search')");
+  })
+  .then( function(){
+    return horseman.waitForNextPage(); //Not working yet
+  })
+  .then( function(){
+    return horseman.count("li.g");
+  });
+  .then(function( numLinks ){
+    console.log( numLinks );
+  })
+  .then( function(){
+    horseman.close();
+  });
+})
 
-console.log("Number of links: " + numLinks);
-
-horseman.close();
 ```
 Save the file as `google.js`. Then, `node google.js`.
 
