@@ -4,7 +4,6 @@ All notable changes to this project will be documented in this file.
 ##1.5.7 - 2015-08-27
 ### Fixed
 - #41. onConfirm now lets you return true to click ok, return false to click cancel.
-### Changed
 - Upgraded to `node-phantom-simple` 2.0.4.
 
 ##1.5.6 - 2015-08-17
