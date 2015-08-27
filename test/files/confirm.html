@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Confirm check</title>
+    <script>
+        function confirmation() {
+            var answer = confirm('OK or Cancel?');
+            window.ok = null;
+            if (answer === true) {
+                window.ok = true;
+            } else {
+                window.ok = false;
+            }
+        }
+    </script>
+</head>
+<a id="confirm" href="#" onclick="confirmation()" >Confirm?</a>
+</body>
+</html>
