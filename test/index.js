@@ -2,6 +2,7 @@ var Horseman = require('../lib');
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
+var should = require('should');
 
 var app, server, serverUrl;
 
@@ -1096,7 +1097,7 @@ describe('Horseman', function() {
 	/**
 	 * Iframes
 	 */	
-	describe.only("Frames", function() {
+	describe("Frames", function() {
 
 		var horseman;
 

@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.0.0 - 2015-09-10
+### Changed
+- Complete API rewrite to use Promises.
+- Removed dependency on `deasync`.
+- Tab support removed, will add back in the future.
+
 ##1.5.6 - 2015-08-17
 ### Fixed
 - #39. Upgraded to node-phantom-simple 2.0.3.

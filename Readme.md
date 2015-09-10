@@ -4,14 +4,12 @@ Horseman
 Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
 
 Horseman has:
-  * a simple, chainable API, based on Promises,
+  * a simple API based on Promises,
   * an easy-to-use control flow (see the examples),
-  * support for multiple tabs open at the same time.
-
-Additionally, Horseman loads [jQuery](http://jquery.com/) onto each page by default, which means you can use it inside your `evaluate` and `manipulate` functions automatically.
+  * built in jQuery for easier page manipulation.
 
 ## Version 2.0
-This version includes major changes to the API.  While the 1.x line of Horseman is based on forced synchronization of the API, the 2.x line will be based on Promises.  This allows for multiple Horseman to be run concurrently.
+This version includes major changes to the API.  While the 1.x line of Horseman is based on forced synchronization of the API, the 2.x line is based on Promises.  This allows for multiple Horseman to be run concurrently.
 
 ## Installation
 1) Install Node, if you haven't already:
@@ -40,28 +38,27 @@ var horseman = new Horseman();
 
 horseman
   .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0")
-  .then(function(){
+  .then(function() {
     return horseman.open('http://www.google.com');
   })
-  .then( function(){
-    return horseman.type('input[name="q"]', 'github'); //Not working yet
+  .then(function() {
+    return horseman.type('input[name="q"]', 'github');
   })
-  .then( function(){
+  .then(function() {
     return horseman.click("button:contains('Google Search')");
   })
-  .then( function(){
-    return horseman.waitForNextPage(); //Not working yet
+  .then(function() {
+    return horseman.waitForSelector("li.g");
   })
-  .then( function(){
+  .then(function() {
     return horseman.count("li.g");
-  });
-  .then(function( numLinks ){
-    console.log( numLinks );
   })
-  .then( function(){
+  .then(function(numLinks) {
+    console.log(numLinks);
+  })
+  .finally(function() {
     horseman.close();
   });
-})
 
 ```
 Save the file as `google.js`. Then, `node google.js`.
@@ -112,15 +109,6 @@ Go forward to the next page.
 #### .reload()
 Refresh the current page.
 
-#### .status()
-Returns the HTTP status code of the last opened page.
-
-```js
-var status = horseman
-  .open('http://www.reddit.com')
-  .status(); // returns 200
-```
-
 #### .switchToChildFrame( selector )
 Switches focus to the child frame specified by the `selector`.
 
@@ -128,26 +116,37 @@ Switches focus to the child frame specified by the `selector`.
 Without any options, this function will return all the cookies inside the browser.
 
 ```js
-var cookies = horseman
+horseman
   .open('http://httpbin.org/cookies')
-  .cookies();
-
-console.log( cookies ); // []
+  .then(function(){
+    return horseman.cookies();
+  })
+  .then(function(cookies){
+    console.log( cookies ); // []
+    return horseman.close();
+  });
 ```
 
 You can pass in a cookie object to add to the cookie jar.
 
 ```js
-var cookies = horseman
+horseman
   .cookies({
     name : "test",
     value : "cookie",
     domain: 'google.org'
   })
-  .open('http://httpbin.org/cookies')
-  .cookies();
+  .then(function(){
+    return horseman.open('http://httpbin.org/cookies');
+  })
+  .then(function(){
+    return horseman.cookies();
+  })
+  .then(function(cookies){
+    console.log( cookies ); 
+    return horseman.close();
+  });
 
-console.log( cookies ); 
 /*
 [ { domain: '.httpbin.org',
     httponly: false,
@@ -161,7 +160,7 @@ console.log( cookies );
 You can pass in an array of cookie objects to reset all the cookies in the cookie jar (or pass an empty array to remove all cookies).
 
 ```js
-var cookies = horseman
+horseman
   .cookies([
   {
     name : "test2",
@@ -173,10 +172,17 @@ var cookies = horseman
     value : "cookie3",
     domain: 'httpbin.org'
   }])
-  .open('http://httpbin.org/cookies')
-  .cookies();
+  .then(function(){
+    return horseman.open('http://httpbin.org/cookies');
+  })
+  .then(function(){
+    return horseman.cookies();
+  })
+  .then(function(cookies){
+    console.log( cookies.length ); // 2
+    return horseman.close();
+  });
 
-console.log( cookies.length ); // 2
 ```
 
 #### .userAgent(userAgent)
@@ -189,9 +195,14 @@ Set the `headers` used when requesting a page. The headers are a javascript obje
 Set the `user` and `password` for accessing a web page using basic authentication. Be sure to set it before calling `.open(url)`.
 
 ```js
-new Horseman()
+horseman
   .authentication('myUserName','myPassword')
-  .open('http://www.mysecuresite.com');
+  .then(function(){
+    return horseman.open('http://www.mysecuresite.com');
+  })
+  .then(function(){
+    return horesman.close();
+  });
 ```
 #### .viewport(width, height)
 Set the `width` and `height` of the viewport, useful for screenshotting. You have to set the viewport before calling `.open()`.
@@ -205,26 +216,19 @@ Set the amount of zoom on a page.  The default zoomFactor is 1. To zoom to 200%,
 ```js
 horseman
   .viewport(3200,1800)
-  .zoom(2)
-  .open('http://www.horsemanjs.org')
-  .screenshot('big.png')
+  .then(function(){
+    return horseman.zoom(2);
+  })
+  .then(function(){
+    return horseman.open('http://www.horsemanjs.org');
+  })
+  .then(function(){
+    return horseman.screenshot('big.png');
+  })
+  .finally(function(){
+    horseman.close();
+  });
 ```
-
-### Tabs
-
-Horseman lets you open multiple tabs, just like you probably do in a real browser.  Also, any anchors elements with a target will open in a new tab.
-
-Whenever a new tab is opened, either programatically or because of an action on the page (like `window.open`), a `tabCreated` event will fire.
-
-#### .tabCount()
-Get the number of open tabs.
-
-#### .switchToTab( tabNumber ){
-Switch to the desired `tabNumber`. The first tab is number 0.
-
-#### .openTab( [url] ){
-Opens a new tab. Optionally, pass in a `url` and the new tab will automatically go that url.
-
 
 ### Evaluation
 
@@ -297,64 +301,29 @@ Orientation (`portrait`, `landscape`) is optional and defaults to 'portrait'.
 
 Supported dimension units are: 'mm', 'cm', 'in', 'px'. No unit means 'px'.
 
-#### .crop(selector | boundingRectangle, path)
-Takes a screenshot of a portion of the page. You can pass in either a CSS selector or a boundingRectangle `{ top : 50, left: 200, width: 90, height: 200 }`.
-
-```js
-
-var horseman = new Horseman();
-
-horseman  
-  .open("http://www.yahoo.com")
-  .crop(".logo-container", "yahoologo.png");
-
-horseman.close();
-```
-
 ####.evaluate(fn, [arg1, arg2,...])
 Invokes fn on the page with args. On completion it returns a value. Useful for extracting information from the page.
 
 ```js
-var size = horseman
+horseman
   .open("http://en.wikipedia.org/wiki/Headless_Horseman")
-  .evaluate( function(selector){
-    // This code is executed inside the browser.
-    // It's sandboxed from Node, and has no access to anything
-    // in Node scope, unless you pass it in, like we did with "selector".
-    //
-    // You do have access to jQuery, via $, automatically.
-    return {
-      height : $( selector ).height(),
-      width : $( selector ).width()
-    }
-  }, ".thumbimage");
-
-console.log( size );
-horseman.close();
-```
-
-### Manipulation
-These functions change the page, and can be chained consecutively.
-
-#### .manipulate(fn, [arg1, arg2,...])
-Works the same as .evaluate(), but doesn't return a value, so it can be used without interrupting the Horseman API chain.
-
-```js
-var count = horseman
-  .open("http://en.wikipedia.org/wiki/Headless_Horseman")
-  .count( selector ); //.count() ends the API chain
-
-console.log( count ); // -> 2
-
-count = horseman
-  .manipulate( function( selector){
-    $(selector).each( function(){
-      $(this).remove();
-    })
-  }, selector)
-  .count( selector );
-
-console.log( count );// -> 0
+  .then(function(){
+    return horseman.evaluate( function(selector){
+      // This code is executed inside the browser.
+      // It's sandboxed from Node, and has no access to anything
+      // in Node scope, unless you pass it in, like we did with "selector".
+      //
+      // You do have access to jQuery, via $, automatically.
+      return {
+        height : $( selector ).height(),
+        width : $( selector ).width()
+      }
+    }, ".thumbimage");
+  })
+  .then(function(size){
+    console.log(size);
+    return horseman.close();
+  });
 ```
 
 #### .click(selector)
@@ -456,7 +425,7 @@ When the tests are done, you'll see something like this:
 
 ```bash
 npm test
-  85 passing (37s)
+  102 passing (42s)
   2 pending
 
 ```
