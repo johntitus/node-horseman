@@ -132,9 +132,9 @@ You can pass in a cookie object to add to the cookie jar.
 ```js
 horseman
   .cookies({
-    name : "test",
-    value : "cookie",
-    domain: 'google.org'
+    name: "test",
+    value: "cookie",
+    domain: 'httpbin.org'
   })
   .then(function(){
     return horseman.open('http://httpbin.org/cookies');
@@ -196,12 +196,22 @@ Set the `user` and `password` for accessing a web page using basic authenticatio
 
 ```js
 horseman
-  .authentication('myUserName','myPassword')
-  .then(function(){
-    return horseman.open('http://www.mysecuresite.com');
+  .authentication('myUserName', 'myPassword')
+  .then(function() {
+    return horseman.open('http://httpbin.org/basic-auth/myUserName/myPassword');
   })
-  .then(function(){
-    return horesman.close();
+  .then(function() {
+    return horseman.html("pre");
+  })
+  .then(function(body) {
+    console.log(body);
+    /*
+        {
+        "authenticated": true, 
+        "user": "myUserName"
+      }
+    */
+    return horseman.close();
   });
 ```
 #### .viewport(width, height)

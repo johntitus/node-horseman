@@ -1,5 +1,5 @@
-// Find the number of follower for each account.
-var Horseman = require("node-horseman");
+// Find the number of follower for each account. Spawns a new horseman for each user for faster results.
+var Horseman = require('node-horseman');
 
 var users = ['PhantomJS',
 	'ariyahidayat',
@@ -10,13 +10,17 @@ var users = ['PhantomJS',
 	'_jamesmgreene',
 	'Vitalliumm'];
 
-var horseman = new Horseman();
-
 users.forEach( function( user ){
-	var data = horseman
+	var horseman = new Horseman();
+	horseman
 		.open('http://mobile.twitter.com/' + user)
-		.text('.UserProfileHeader-stat--followers .UserProfileHeader-statCount');
-	console.log( user + ': ' + data );
+		.then( function(){
+			return horseman.text('.UserProfileHeader-stat--followers .UserProfileHeader-statCount');
+		})
+		.then(function(text){
+			console.log( user + ': ' + text );			
+		})
+		.finally(function(){
+			return horseman.close();
+		});	
 });
-
-horseman.close();
