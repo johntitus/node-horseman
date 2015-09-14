@@ -1,5 +1,6 @@
 Horseman
 =========
+[![Build Status](https://img.shields.io/travis/johntitus/node-horseman/master.svg?style=flat)](https://travis-ci.org/johntitus/node-horseman)
 
 Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
 
