@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.0.1 - 2015-09-14
+### Upgraded
+- Moved to `node-phantom-simple` 2.0.4.
+
 ##2.0.0 - 2015-09-10
 ### Changed
 - Complete API rewrite to use Promises.

@@ -1,37 +1,37 @@
 {
-	"name": "node-horseman",
-	"version": "2.0.0",
-	"description": "Run PhantomJS from Node",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/johntitus/node-horseman.git"
-	},
-	"main": "lib/index",
-	"directories": {
-		"test": "test"
-	},
-	"dependencies": {
-		"bluebird": "^2.9.34",
-		"clone": "^0.1.19",
-		"debug": "^2.1.1",
-		"defaults": "~1.0.0",
-		"node-phantom-simple": "^2.0.3"
-	},
-	"devDependencies": {
-		"express": "^4.10.4",
-		"mocha": "^2.2.5",
-		"mocha.parallel": "^0.7.1",
-		"should": "~2.1.1"
-	},
-	"scripts": {
-		"test": "mocha -R spec"
-	},
-	"keywords": [
-		"phantomjs",
-		"horseman",
-		"headless",
-		"browser"
-	],
-	"author": "John Titus <john.titus@gmail.com>",
-	"license": "MIT"
+  "name": "node-horseman",
+  "version": "2.0.1",
+  "description": "Run PhantomJS from Node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johntitus/node-horseman.git"
+  },
+  "main": "lib/index",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "clone": "^0.1.19",
+    "debug": "^2.1.1",
+    "defaults": "~1.0.0",
+    "node-phantom-simple": "^2.0.4"
+  },
+  "devDependencies": {
+    "express": "^4.10.4",
+    "mocha": "^2.2.5",
+    "mocha.parallel": "^0.7.1",
+    "should": "~2.1.1"
+  },
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "keywords": [
+    "phantomjs",
+    "horseman",
+    "headless",
+    "browser"
+  ],
+  "author": "John Titus <john.titus@gmail.com>",
+  "license": "MIT"
 }
