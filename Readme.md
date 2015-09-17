@@ -429,14 +429,16 @@ co(function *(){
   yield horseman.open('http://www.google.com');
   var title = yield horseman.title();
   var numLinks = yield horseman.count('a');
-    console.log("Title: " + title); //Google
-    console.log("Num Links: " + numLinks); //35
-    yield horseman.close();
+  console.log("Title: " + title); //Google
+  console.log("Num Links: " + numLinks); //35
+  yield horseman.close();
 }).catch(function(e){
   console.log(e)
 });
+```
 
 If you use yields, you may need to use the harmony flag when you run your file:
+
 ```bash
 node --harmony test.js
 ```
