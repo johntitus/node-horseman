@@ -416,6 +416,31 @@ horseman
   })
 ```
 
+#### Yielding
+You can use yields with Horseman with a library like [co](https://github.com/tj/co).
+
+```js
+var Horseman = require('node-horseman'),
+  co = require('co');
+
+var horseman = new Horseman();
+
+co(function *(){
+  yield horseman.open('http://www.google.com');
+  var title = yield horseman.title();
+  var numLinks = yield horseman.count('a');
+    console.log("Title: " + title); //Google
+    console.log("Num Links: " + numLinks); //35
+    yield horseman.close();
+}).catch(function(e){
+  console.log(e)
+});
+
+If you use yields, you may need to use the harmony flag when you run your file:
+```bash
+node --harmony test.js
+```
+
 #### Debug
 To run the same file with debugging output, run it like this `DEBUG=horseman node myfile.js`.
 
