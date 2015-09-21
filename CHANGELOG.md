@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.0.2 - 2015-09-21
+### Fixed
+- `waitForNextPage` was broken. Fixes #44 (thanks @edge)
+
 ##2.0.1 - 2015-09-14
 ### Upgraded
 - Moved to `node-phantom-simple` 2.0.4.
