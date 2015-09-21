@@ -162,10 +162,7 @@ function navigation(bool) {
 		it('should let you scroll', function(done) {
 
 			horseman
-				.viewport(320, 320)
-				.then(function() {
-					return horseman.open('http://www.google.com');
-				})
+				.open('http://www.google.com')
 				.then(function() {
 					return horseman.scrollTo(50, 40);
 				})
@@ -1187,6 +1184,9 @@ describe('Horseman', function() {
 				})
 				.then(function() {
 					return horseman.open(serverUrl);
+				})
+				.then(function(){
+					return horseman.wait(50); //have to wait for the event to fire.
 				})
 				.then(function() {
 					fired.should.be.true;
