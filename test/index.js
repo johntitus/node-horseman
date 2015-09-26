@@ -1,4 +1,5 @@
 var Horseman = require('../lib');
+var actions = require('../lib/actions');
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
@@ -1323,6 +1324,28 @@ describe('Horseman', function() {
 
 	});
 
+	describe('Chaining', function(){
+
+		var horseman;
+
+		beforeEach(function() {
+			horseman = new Horseman();
+		});
+
+		afterEach(function() {
+			horseman.close();
+		});
+
+		it('should be available when calling actions on horseman', function(){
+			horseman.open(serverUrl)
+				.should.have.properties(Object.keys(actions));
+		});
+
+		it('should be available when calling actions on Promises', function(){
+			horseman.open(serverUrl).url()
+				.should.have.properties(Object.keys(actions));
+		});
+	});
 
 	/**
 	 * tabs
