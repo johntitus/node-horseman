@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.1.0 - 2015-09-27
+### Added
+- API is chainable again, thanks to @awlayton. Addresses #46.
+
 ##2.0.2 - 2015-09-21
 ### Fixed
 - `waitForNextPage` was broken. Fixes #44 (thanks @edge)

@@ -5,7 +5,7 @@ Horseman
 Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
 
 Horseman has:
-  * a simple API based on Promises,
+  * a simple chainable API based on Promises,
   * an easy-to-use control flow (see the examples),
   * built in jQuery for easier page manipulation.
 
@@ -39,21 +39,12 @@ var horseman = new Horseman();
 
 horseman
   .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0")
-  .then(function() {
-    return horseman.open('http://www.google.com');
-  })
-  .then(function() {
-    return horseman.type('input[name="q"]', 'github');
-  })
-  .then(function() {
-    return horseman.click("button:contains('Google Search')");
-  })
-  .then(function() {
-    return horseman.waitForSelector("li.g");
-  })
-  .then(function() {
-    return horseman.count("li.g");
-  })
+  .open('http://www.google.com')
+  .type('input[name="q"]', 'github')
+  .click("button:contains('Google Search')")
+  .keyboardEvent("keypress",16777221)
+  .waitForSelector("div.g")
+  .count("div.g")
   .then(function(numLinks) {
     console.log(numLinks);
   })
@@ -119,9 +110,7 @@ Without any options, this function will return all the cookies inside the browse
 ```js
 horseman
   .open('http://httpbin.org/cookies')
-  .then(function(){
-    return horseman.cookies();
-  })
+  .cookies()
   .then(function(cookies){
     console.log( cookies ); // []
     return horseman.close();
@@ -137,12 +126,8 @@ horseman
     value: "cookie",
     domain: 'httpbin.org'
   })
-  .then(function(){
-    return horseman.open('http://httpbin.org/cookies');
-  })
-  .then(function(){
-    return horseman.cookies();
-  })
+  .open('http://httpbin.org/cookies')
+  .cookies()
   .then(function(cookies){
     console.log( cookies ); 
     return horseman.close();
@@ -173,12 +158,8 @@ horseman
     value : "cookie3",
     domain: 'httpbin.org'
   }])
-  .then(function(){
-    return horseman.open('http://httpbin.org/cookies');
-  })
-  .then(function(){
-    return horseman.cookies();
-  })
+  .open('http://httpbin.org/cookies')
+  .cookies()  
   .then(function(cookies){
     console.log( cookies.length ); // 2
     return horseman.close();
@@ -198,12 +179,8 @@ Set the `user` and `password` for accessing a web page using basic authenticatio
 ```js
 horseman
   .authentication('myUserName', 'myPassword')
-  .then(function() {
-    return horseman.open('http://httpbin.org/basic-auth/myUserName/myPassword');
-  })
-  .then(function() {
-    return horseman.html("pre");
-  })
+  .open('http://httpbin.org/basic-auth/myUserName/myPassword')
+  .html("pre")
   .then(function(body) {
     console.log(body);
     /*
@@ -215,6 +192,7 @@ horseman
     return horseman.close();
   });
 ```
+
 #### .viewport(width, height)
 Set the `width` and `height` of the viewport, useful for screenshotting. You have to set the viewport before calling `.open()`.
 
@@ -227,15 +205,9 @@ Set the amount of zoom on a page.  The default zoomFactor is 1. To zoom to 200%,
 ```js
 horseman
   .viewport(3200,1800)
-  .then(function(){
-    return horseman.zoom(2);
-  })
-  .then(function(){
-    return horseman.open('http://www.horsemanjs.org');
-  })
-  .then(function(){
-    return horseman.screenshot('big.png');
-  })
+  .zoom(2)
+  .open('http://www.horsemanjs.org')
+  .screenshot('big.png')
   .finally(function(){
     horseman.close();
   });
@@ -318,8 +290,7 @@ Invokes fn on the page with args. On completion it returns a value. Useful for e
 ```js
 horseman
   .open("http://en.wikipedia.org/wiki/Headless_Horseman")
-  .then(function(){
-    return horseman.evaluate( function(selector){
+  .evaluate( function(selector){
       // This code is executed inside the browser.
       // It's sandboxed from Node, and has no access to anything
       // in Node scope, unless you pass it in, like we did with "selector".
@@ -329,8 +300,7 @@ horseman
         height : $( selector ).height(),
         width : $( selector ).width()
       }
-    }, ".thumbimage");
-  })
+    }, ".thumbimage")
   .then(function(size){
     console.log(size);
     return horseman.close();

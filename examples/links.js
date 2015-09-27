@@ -1,6 +1,5 @@
 // Grab links from Google.
 var Horseman = require("node-horseman");
-var Promse = require('bluebird');
 
 var horseman = new Horseman();
 
@@ -39,9 +38,7 @@ function scrape(){
 					if (hasNext){
 						return horseman
 							.click("#pnnext")
-							.then(function(){
-								return horseman.wait(1000);
-							})
+							.wait(1000)
 							.then( scrape );
 					} 
 				});
@@ -53,24 +50,11 @@ function scrape(){
 
 horseman
 	.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0")
-	.then(function(){
-		return horseman.open("http://www.google.com");
-	})
-	.then(function(){
-		return horseman.type("input[name='q']","horseman");
-	})
-	.then(function(){
-		return horseman.click("button:contains('Google Search')");
-	})
-	.then(function(){
-		return horseman.keyboardEvent("keypress",16777221);
-	})
-	.then(function(){
-		return horseman.waitForSelector("div.g");
-	})
-	.then(function(){
-		return horseman.screenshot('out.png')
-	})
+	.open("http://www.google.com")
+	.type("input[name='q']","horseman")
+	.click("button:contains('Google Search')")
+	.keyboardEvent("keypress",16777221)
+	.waitForSelector("div.g")
 	.then( scrape )
 	.finally(function(){
 		console.log(links.length)
