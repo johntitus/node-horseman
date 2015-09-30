@@ -259,6 +259,9 @@ Saves a screenshot of the current page to the specified `path`. Useful for debug
 #### .screenshotBase64(type)
 Returns a base64 encoded string representing the screenshot. Type must be one of 'PNG', 'GIF', or 'JPEG'.
 
+#### .crop(area, path)
+Takes a cropped screenshot of the page. `area` can be a string identifying an html element on the screen to crop to, or a getBoundingClientRect object.
+
 #### .pdf(path, [paperSize])
 Renders the page as a PDF. The default paperSize is [US Letter](http://en.wikipedia.org/wiki/Letter_%28paper_size%29).
 

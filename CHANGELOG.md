@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.2.0 - 2015-09-29
+### Added
+- `.crop()`. Closes #51.
+
 ##2.1.0 - 2015-09-27
 ### Added
 - API is chainable again, thanks to @awlayton. Addresses #46.
