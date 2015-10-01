@@ -98,6 +98,9 @@ Go back to the previous page.
 #### .forward()
 Go forward to the next page.
 
+#### .status()
+The HTTP status code returned for the page just opened.
+
 #### .reload()
 Refresh the current page.
 

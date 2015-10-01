@@ -67,6 +67,16 @@ function navigation(bool) {
 				.finally(done);
 		});
 
+		it('should have a HTTP status code', function(done) {
+			horseman
+				.open(serverUrl)
+				.status()
+				.then(function(data) {
+					data.should.equal(200);
+				})
+				.finally(done);
+		});
+
 		it('should click a link', function(done) {
 			horseman
 				.open(serverUrl)
@@ -98,7 +108,7 @@ function navigation(bool) {
 						.then(function(data) {
 							data.should.equal(serverUrl + "next.html")
 						});
-				})				
+				})
 				.finally(done);
 		});
 
@@ -107,7 +117,7 @@ function navigation(bool) {
 				.authentication('my', 'auth')
 				.open('http://httpbin.org/basic-auth/my/auth')
 				.evaluate(function() {
-					return document.body.innerHTML.length;					
+					return document.body.innerHTML.length;
 				})
 				.then(function(result) {
 					result.should.be.above(0);
@@ -221,13 +231,15 @@ function navigation(bool) {
 
 		});
 
-		it.skip('should get the status code', function() {
+		it('should return a status from open', function(done) {
 
-			var status = horseman
+			horseman
 				.open(serverUrl)
-				.status();
-
-			status.should.be.within(200, 399); //these are ok
+				.then(function( status ){
+					status.should.equal('success');
+				})
+				.finally(done);
+			
 		});
 
 	});
@@ -312,7 +324,7 @@ function evaluation(bool) {
 				.finally(done);
 
 		});
-		
+
 		it('should get the value of an element', function(done) {
 			horseman
 				.open(serverUrl)
@@ -327,73 +339,73 @@ function evaluation(bool) {
 			horseman
 				.open(serverUrl)
 				.attribute("a", "href")
-				.then( function( value ){
+				.then(function(value) {
 					value.should.equal("next.html");
 				})
-				.finally( done );
-				
+				.finally(done);
+
 		});
 
 		it('should get a css property of an element', function(done) {
 			horseman
 				.open(serverUrl)
 				.cssProperty("a", "margin-bottom")
-				.then( function( value ){
+				.then(function(value) {
 					value.should.equal("3px");
 				})
-				.finally( done );
+				.finally(done);
 		});
 
 		it('should get the width of an element', function(done) {
 			horseman
 				.open(serverUrl)
 				.width("a")
-				.then( function( value ){
+				.then(function(value) {
 					value.should.be.above(0);
 				})
-				.finally( done );				
+				.finally(done);
 		});
 
 		it('should get the height of an element', function(done) {
 			horseman
 				.open(serverUrl)
 				.height("a")
-				.then( function( value ){
+				.then(function(value) {
 					value.should.be.above(0);
 				})
-				.finally( done );
+				.finally(done);
 		});
 
 		it('should determine if an element is visible', function(done) {
 			horseman
 				.open(serverUrl)
 				.visible("a")
-				.then( function( visible ){
+				.then(function(visible) {
 					visible.should.be.true;
 				})
-				.finally( done );
+				.finally(done);
 		});
 
 		it('should determine if an element is not-visible', function(done) {
 			horseman
 				.open(serverUrl)
 				.visible(".login-popup")
-				.then( function( visible ){
+				.then(function(visible) {
 					visible.should.be.false;
 				})
-				.finally( done );
+				.finally(done);
 		});
 
 		it('should evaluate javascript', function(done) {
 			horseman
 				.open(serverUrl)
 				.evaluate(function() {
-					return document.title;					
+					return document.title;
 				})
-				.then( function( result ){
+				.then(function(result) {
 					result.should.equal("Testing Page");
 				})
-				.finally( done );
+				.finally(done);
 		});
 
 		it('should evaluate javascript with optional parameters', function(done) {
@@ -403,10 +415,10 @@ function evaluation(bool) {
 				.evaluate(function(param) {
 					return param;
 				}, str)
-				.then( function( result ){
+				.then(function(result) {
 					result.should.equal(str);
 				})
-				.finally( done );
+				.finally(done);
 		});
 	});
 }
@@ -415,7 +427,7 @@ function manipulation(bool) {
 	var title = 'Manipulation ' + ((bool) ? 'with' : 'without') + ' jQuery';
 
 	describe(title, function() {
-		
+
 		beforeEach(function() {
 			horseman = new Horseman({
 				injectJquery: bool
@@ -426,7 +438,7 @@ function manipulation(bool) {
 			horseman.close();
 		});
 
-		after(function() {			
+		after(function() {
 			if (fs.existsSync("out.png")) {
 				fs.unlinkSync("out.png");
 			}
@@ -442,7 +454,7 @@ function manipulation(bool) {
 			if (fs.existsSync("euro.pdf")) {
 				fs.unlinkSync("euro.pdf");
 			}
-		});		
+		});
 
 		it('should inject javascript', function(done) {
 			horseman
@@ -451,11 +463,11 @@ function manipulation(bool) {
 				.evaluate(function() {
 					return ___obj.myname;
 				})
-				.then( function( result ){
+				.then(function(result) {
 					result.should.equal("isbob");
 				})
-				.finally( done );
-				
+				.finally(done);
+
 		});
 
 		it('should type and click', function(done) {
@@ -463,11 +475,11 @@ function manipulation(bool) {
 				.open(serverUrl)
 				.type('input[name="input1"]', 'github')
 				.value('input[name="input1"]')
-				.then( function( value ){
+				.then(function(value) {
 					value.should.equal('github');
 				})
-				.finally( done );
-				
+				.finally(done);
+
 		});
 
 		it('should clear a field', function(done) {
@@ -476,10 +488,10 @@ function manipulation(bool) {
 				.type('input[name="input1"]', 'github')
 				.clear('input[name="input1"]')
 				.value('input[name="input1"]')
-				.then( function( value ){
+				.then(function(value) {
 					value.should.equal('');
 				})
-				.finally( done );
+				.finally(done);
 		});
 
 		it('should select a value', function(done) {
@@ -487,32 +499,32 @@ function manipulation(bool) {
 				.open(serverUrl)
 				.select("#select1", "1")
 				.value("#select1")
-				.then( function( value ){
+				.then(function(value) {
 					value.should.equal('1');
 				})
-				.finally( done );
+				.finally(done);
 		});
 
 		it('should take a screenshot', function(done) {
 			horseman
 				.open(serverUrl)
 				.screenshot("out.png")
-				.then( function(){
+				.then(function() {
 					fs.existsSync("out.png").should.be.true;
 				})
-				.finally( done );
+				.finally(done);
 		});
 
 		it('should take a screenshotBase64', function(done) {
 			horseman
 				.open(serverUrl)
 				.screenshotBase64("PNG")
-				.then( function( asPng ){
+				.then(function(asPng) {
 					var type = typeof asPng;
 					type.should.equal('string');
 				})
-				.finally( done );
-			
+				.finally(done);
+
 		});
 
 		it('should let you zoom', function(done) {
@@ -525,13 +537,13 @@ function manipulation(bool) {
 				.zoom(2)
 				.open(serverUrl)
 				.screenshot('big.png')
-				.then( function(){
+				.then(function() {
 					var smallSize = fs.statSync('small.png').size,
-					bigSize = fs.statSync('big.png').size;
+						bigSize = fs.statSync('big.png').size;
 
 					bigSize.should.be.greaterThan(smallSize);
 				})
-				.finally(done);		
+				.finally(done);
 
 		});
 
@@ -544,7 +556,7 @@ function manipulation(bool) {
 					orientation: 'portrait',
 					margin: 0
 				})
-				.then(function(){
+				.then(function() {
 					// A4 size is slightly larger than US Letter size,
 					// which is the default pdf paper size.
 					var defaultSize = fs.statSync('default.pdf').size,
@@ -553,7 +565,7 @@ function manipulation(bool) {
 					defaultSize.should.be.greaterThan(0);
 					euroSize.should.be.greaterThan(0);
 				})
-				.finally(done);			
+				.finally(done);
 		});
 
 		//File upload is broken in Phantomjs 2.0
@@ -569,11 +581,11 @@ function manipulation(bool) {
 			horseman
 				.open("http://validator.w3.org/#validate_by_upload")
 				.upload("#uploaded_file", "nope.jpg")
-				.then( function( err ){
+				.then(function(err) {
 					err.toString().indexOf("Error").should.be.above(-1);
 				})
-				.finally( done );
-			
+				.finally(done);
+
 		});
 
 		it('should fire a keypress when typing', function(done) {
@@ -590,7 +602,7 @@ function manipulation(bool) {
 				.evaluate(function() {
 					return window.keypresses;
 				})
-				.then( function(keypresses){
+				.then(function(keypresses) {
 					keypresses.should.equal(6);
 				})
 				.finally(done);
@@ -626,7 +638,7 @@ function manipulation(bool) {
 						'mousemove': findByTextContent("tr", "mousemove"),
 					}
 				})
-				.then( function( events ){
+				.then(function(events) {
 					//console.log( events );
 					events['mousedown'].should.be.greaterThan(0);
 					events['mouseup'].should.be.greaterThan(0);
@@ -634,7 +646,7 @@ function manipulation(bool) {
 					events['doubleclick'].should.be.greaterThan(0);
 					events['mousemove'].should.be.greaterThan(0);
 				})
-				.finally( done);
+				.finally(done);
 		});
 
 		it('should send keyboard events', function(done) {
@@ -644,10 +656,10 @@ function manipulation(bool) {
 				.evaluate(function() {
 					return document.querySelector("textarea[name='t']").value;
 				})
-				.then( function( data ){
+				.then(function(data) {
 					data.indexOf("keyCode=13").should.be.greaterThan(-1);
 				})
-				.finally( done );
+				.finally(done);
 		});
 	});
 }
@@ -690,13 +702,13 @@ describe('Horseman', function() {
 	evaluation(true);
 
 	evaluation(false);
-	
-	manipulation( true );
-	
-	manipulation( false );
-	
-	describe("Inject jQuery", function(){
-		it('should inject jQuery', function(done){
+
+	manipulation(true);
+
+	manipulation(false);
+
+	describe("Inject jQuery", function() {
+		it('should inject jQuery', function(done) {
 			var horseman = new Horseman();
 
 			horseman
@@ -711,12 +723,12 @@ describe('Horseman', function() {
 					horseman.close();
 				})
 				.finally(done);
-			
+
 		});
 
-		it('should not inject jQuery', function(done){
+		it('should not inject jQuery', function(done) {
 			var horseman = new Horseman({
-				injectJquery : false
+				injectJquery: false
 			});
 
 			horseman
@@ -733,9 +745,9 @@ describe('Horseman', function() {
 				.finally(done);
 		});
 
-		it('should not stomp on existing jQuery', function(done){
+		it('should not stomp on existing jQuery', function(done) {
 			var horseman = new Horseman({
-				injectJquery : true
+				injectJquery: true
 			});
 			//Horseman injects 2.1.1, digg uses 1.8.3
 			horseman
@@ -752,7 +764,7 @@ describe('Horseman', function() {
 	});
 
 
-	describe("Waiting", function(){
+	describe("Waiting", function() {
 
 		var horseman;
 
@@ -764,136 +776,136 @@ describe('Horseman', function() {
 			horseman.close();
 		});
 
-		it('should wait for the page to change', function(done){
+		it('should wait for the page to change', function(done) {
 			horseman
-				.open( serverUrl )
+				.open(serverUrl)
 				.click("a")
 				.waitForNextPage()
 				.url()
-				.then(function(url){
-					url.should.equal( serverUrl + "next.html" );
+				.then(function(url) {
+					url.should.equal(serverUrl + "next.html");
 				})
 				.finally(done);
 		});
 
 		it('should wait until a condition on the page is true', function(done) {
-			var forALink = function () {
+			var forALink = function() {
 				return ($("a:contains('About')").length > 0);
 			};
 
-	    	horseman
-	        	.open('http://www.google.com/')
-	        	.waitFor(forALink,true)
-	        	.url()
-	        	.then(function(url){
-	        		url.should.equal('http://www.google.com/');
-	        	})
-	        	.finally(done);
-	    });
+			horseman
+				.open('http://www.google.com/')
+				.waitFor(forALink, true)
+				.url()
+				.then(function(url) {
+					url.should.equal('http://www.google.com/');
+				})
+				.finally(done);
+		});
 
-	    it('should wait a set amount of time', function(done){
-	    	var start = new Date();
+		it('should wait a set amount of time', function(done) {
+			var start = new Date();
 
-	    	horseman
-	        	.open(serverUrl)
-	        	.wait(1000)
-	        	.then( function(){
-	        		var end = new Date();
-	    			var diff = end - start;
-	    			diff.should.be.greaterThan(999); //may be a ms or so off.
-	        	})
-	        	.finally(done);	    	
-	    });
+			horseman
+				.open(serverUrl)
+				.wait(1000)
+				.then(function() {
+					var end = new Date();
+					var diff = end - start;
+					diff.should.be.greaterThan(999); //may be a ms or so off.
+				})
+				.finally(done);
+		});
 
-	    it('should wait until a selector is seen', function(done){
-	    	horseman
-	    		.open( serverUrl )
-	    		.waitForSelector("input")
-	    		.count("input")
-	        	.then(function(count){
-	        		count.should.be.above( 0 );
-	        	})
-	    		.finally(done);	    		
-	    });
+		it('should wait until a selector is seen', function(done) {
+			horseman
+				.open(serverUrl)
+				.waitForSelector("input")
+				.count("input")
+				.then(function(count) {
+					count.should.be.above(0);
+				})
+				.finally(done);
+		});
 
-	    it('should call onTimeout if timeout period elapses when waiting for next page', function(done){
-	    	var timeoutHorseman = new Horseman({
-	    		timeout : 10
-	    	});
+		it('should call onTimeout if timeout period elapses when waiting for next page', function(done) {
+			var timeoutHorseman = new Horseman({
+				timeout: 10
+			});
 
-	    	var timeoutFired = false;
+			var timeoutFired = false;
 
 			timeoutHorseman
-				.on("timeout", function(){
+				.on("timeout", function() {
 					timeoutFired = true
 				})
 				.open("http://www.google.com")
 				.click("a:contains('Advertising')")
 				.waitForNextPage()
-				.then(function(){
-					timeoutFired.should.be.true;					
+				.then(function() {
+					timeoutFired.should.be.true;
 				})
-				.finally(function(){
+				.finally(function() {
 					timeoutHorseman.close();
 					done();
-				});			
-			
+				});
+
 		});
 
-		it('should call onTimeout if timeout period elapses when waiting for selector', function(done){
-	    	var timeoutHorseman = new Horseman({
-	    		timeout : 10
-	    	});
+		it('should call onTimeout if timeout period elapses when waiting for selector', function(done) {
+			var timeoutHorseman = new Horseman({
+				timeout: 10
+			});
 
-	    	var timeoutFired = false;
+			var timeoutFired = false;
 
 			timeoutHorseman
-				.on("timeout", function(){
+				.on("timeout", function() {
 					timeoutFired = true
 				})
 				.open(serverUrl)
 				.waitForSelector('bob')
-				.then(function(){
-					timeoutFired.should.be.true;					
+				.then(function() {
+					timeoutFired.should.be.true;
 				})
-				.finally(function(){
+				.finally(function() {
 					timeoutHorseman.close();
 					done();
-				});	
-				
+				});
+
 		});
 
-		it('should call onTimeout if timeout period elapses when waiting for fn == value', function(done){
-	    	var timeoutHorseman = new Horseman({
-	    		timeout : 10
-	    	});
+		it('should call onTimeout if timeout period elapses when waiting for fn == value', function(done) {
+			var timeoutHorseman = new Horseman({
+				timeout: 10
+			});
 
-	    	var timeoutFired = false;
+			var timeoutFired = false;
 
-	    	var return5 = function(){
+			var return5 = function() {
 				return 5;
 			}
 
-	    	timeoutHorseman
-				.on("timeout", function(){
+			timeoutHorseman
+				.on("timeout", function() {
 					timeoutFired = true;
 				})
 				.open(serverUrl)
-				.waitFor(return5,6)
-				.then(function(){
-					timeoutFired.should.be.true;					
+				.waitFor(return5, 6)
+				.then(function() {
+					timeoutFired.should.be.true;
 				})
-				.finally(function(){
+				.finally(function() {
 					timeoutHorseman.close();
 					done();
-				});	
+				});
 		});
 	});
 
 
 	/**
 	 * Iframes
-	 */	
+	 */
 	describe("Frames", function() {
 
 		var horseman;
@@ -924,10 +936,10 @@ describe('Horseman', function() {
 
 	/**
 	 * events
-	 */	
-  	describe('Events', function(){
+	 */
+	describe('Events', function() {
 
-  		var horseman;
+		var horseman;
 
 		beforeEach(function() {
 			horseman = new Horseman();
@@ -936,7 +948,7 @@ describe('Horseman', function() {
 		afterEach(function() {
 			horseman.close();
 		});
-    	
+
 		it('should fire an event on initialized', function(done) {
 			var fired = false;
 
@@ -963,10 +975,10 @@ describe('Horseman', function() {
 					fired.should.be.true;
 				})
 				.finally(done);
-	    });
+		});
 
-	    it('should fire an event on load finished', function(done) {
-	      	var fired = false;
+		it('should fire an event on load finished', function(done) {
+			var fired = false;
 
 			horseman
 				.on("loadFinished", function() {
@@ -978,10 +990,10 @@ describe('Horseman', function() {
 					fired.should.be.true;
 				})
 				.finally(done);
-	    });
+		});
 
-	    it('should fire an event when a resource is requested', function(done) {
-	      	var fired = false;
+		it('should fire an event when a resource is requested', function(done) {
+			var fired = false;
 
 			horseman
 				.on("resourceRequested", function() {
@@ -992,10 +1004,10 @@ describe('Horseman', function() {
 					fired.should.be.true;
 				})
 				.finally(done);
-	    });
+		});
 
-	    it('should fire an event when a resource is received', function(done) {
-	      	var fired = false;
+		it('should fire an event when a resource is received', function(done) {
+			var fired = false;
 
 			horseman
 				.on("resourceReceived", function() {
@@ -1006,24 +1018,24 @@ describe('Horseman', function() {
 					fired.should.be.true;
 				})
 				.finally(done);
-	    });
+		});
 
-	    it('should fire an event when navigation requested', function(done) {
-	    	var fired = false;
+		it('should fire an event when navigation requested', function(done) {
+			var fired = false;
 
 			horseman
 				.on("navigationRequested", function(url) {
-					fired = (url==="https://www.yahoo.com/");
+					fired = (url === "https://www.yahoo.com/");
 				})
 				.open('http://www.yahoo.com')
 				.then(function() {
 					fired.should.be.true;
 				})
 				.finally(done);
-	    });
+		});
 
-	    it('should fire an event when the url changes', function(done) {
-	      	var fired = false;
+		it('should fire an event when the url changes', function(done) {
+			var fired = false;
 
 			horseman
 				.on("urlChanged", function() {
@@ -1034,62 +1046,119 @@ describe('Horseman', function() {
 					fired.should.be.true;
 				})
 				.finally(done);
-	    });
+		});
 
-	    it('should fire an event when a console message is seen', function(done) {
-	    	var fired = false;
+		it('should fire an event when a console message is seen', function(done) {
+			var fired = false;
 
 			horseman
 				.on("consoleMessage", function() {
 					fired = true;
 				})
 				.open(serverUrl)
-				.evaluate(function(){
-					console.log("message");					
+				.evaluate(function() {
+					console.log("message");
 				})
 				.then(function() {
 					fired.should.be.true;
 				})
 				.finally(done);
-	    });
+		});
 
-	    it('should fire an event when an alert is seen', function(done) {
-	      	var fired = false;
+		it('should fire an event when an alert is seen', function(done) {
+			var fired = false;
 
 			horseman
 				.on("alert", function() {
 					fired = true;
 				})
 				.open(serverUrl)
-				.evaluate( function(){
+				.evaluate(function() {
 					alert('ono');
 				})
 				.then(function() {
 					fired.should.be.true;
 				})
 				.finally(done);
-	    });
+		});
 
-	    it('should fire an event when a prompt is seen', function(done) {
-	      	var fired = false;
+		it('should fire an event when a prompt is seen', function(done) {
+			var fired = false;
 
 			horseman
 				.on("prompt", function() {
 					fired = true;
 				})
 				.open(serverUrl)
-				.evaluate( function(){
+				.evaluate(function() {
 					prompt('ono');
 				})
 				.then(function() {
 					fired.should.be.true;
 				})
 				.finally(done);
-	    });
+		});
 
 	});
 
-	describe('Chaining', function(){
+	/**
+	 * tabs
+	 */
+
+	describe('Tabs', function() {
+		var horseman;
+
+		beforeEach(function() {
+			horseman = new Horseman();
+		});
+
+		afterEach(function() {
+			horseman.close();
+		});
+
+		it('should let you open a new tab', function(done) {
+			horseman
+				.open(serverUrl)
+				.openTab(serverUrl + "next.html")
+				.tabCount()
+				.then(function(count) {
+					count.should.equal(2);
+				})
+				.finally(done);
+		});
+
+		it('should fire an event when a tab is created', function(done) {
+			var fired = false;
+
+			horseman
+				.on('tabCreated', function() {
+					fired = true;
+				})
+				.open(serverUrl)
+				.openTab(serverUrl + "next.html")
+				.then(function() {
+					fired.should.be.true;
+				})
+				.finally(done);
+
+		});
+
+		it('should let switch tabs', function(done) {
+			horseman
+				.open(serverUrl)
+				.openTab(serverUrl + "next.html")
+				.switchToTab(0)
+				.url()
+				.then(function(url){
+					url.should.equal(serverUrl)
+				})
+				.finally(done);
+
+		});
+
+	});
+
+	describe('Chaining', function() {
 
 		var horseman;
 
@@ -1101,61 +1170,15 @@ describe('Horseman', function() {
 			horseman.close();
 		});
 
-		it('should be available when calling actions on horseman', function(){
+		it('should be available when calling actions on horseman', function() {
 			horseman.open(serverUrl)
 				.should.have.properties(Object.keys(actions));
 		});
 
-		it('should be available when calling actions on Promises', function(){
+		it('should be available when calling actions on Promises', function() {
 			horseman.open(serverUrl).url()
 				.should.have.properties(Object.keys(actions));
 		});
 	});
 
-	/**
-	 * tabs
-	 */
-	/* 	
-  	describe('Tabs', function(){
-  		var horseman = new Horseman();
-
-		after( function(){
-			horseman.close();
-		});
-
-		it('should let you open a new tab', function(){
-			horseman
-				.open( serverUrl )
-				.openTab( serverUrl + "next.html")
-				.tabCount()
-				.should.equal( 2 );
-		});
-
-		it('should fire an event when a tab is created', function(){
-			var fired = false;
-			horseman
-				.on('tabCreated', function(){
-					fired = true;
-				})
-				.open( serverUrl )				
-				.openTab( serverUrl + "next.html");
-
-			fired.should.be.true;
-		});
-
-		it('should let you get a tab count', function(){
-			horseman
-				.tabCount()
-				.should.equal( 3 );
-		});
-
-		it('should let switch tabs', function(){
-			horseman
-				.switchToTab(0)
-				.url()
-				.should.equal( serverUrl )
-		});
-
-  	});
-*/
 });
