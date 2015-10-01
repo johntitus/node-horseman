@@ -27,13 +27,9 @@ function navigation(bool) {
 		it('should set the user agent', function(done) {
 			horseman
 				.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
-				.then(function() {
-					return horseman.evaluate(function() {
-						return navigator.userAgent;
-					});
+				.open(serverUrl)
+				.evaluate(function() {
+					return navigator.userAgent;
 				})
 				.then(function(result) {
 					result.should.equal("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36")
@@ -48,13 +44,9 @@ function navigation(bool) {
 
 			horseman
 				.headers(headers)
-				.then(function() {
-					return horseman.open('http://httpbin.org/headers')
-				})
-				.then(function() {
-					return horseman.evaluate(function() {
-						return document.body.children[0].innerHTML;
-					});
+				.open('http://httpbin.org/headers')
+				.evaluate(function() {
+					return document.body.children[0].innerHTML;
 				})
 				.then(function(data) {
 					var response = JSON.parse(data);
@@ -68,9 +60,7 @@ function navigation(bool) {
 		it('should open a page', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.url();
-				})
+				.url()
 				.then(function(data) {
 					data.should.equal(serverUrl);
 				})
@@ -80,13 +70,9 @@ function navigation(bool) {
 		it('should click a link', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.click("a[href='next.html']");
-				})
-				.delay(300)
-				.then(function() {
-					return horseman.url();
-				})
+				.click("a[href='next.html']")
+				.waitForNextPage()
+				.url()
 				.then(function(data) {
 					data.should.equal(serverUrl + "next.html")
 				})
@@ -96,43 +82,32 @@ function navigation(bool) {
 		it('should go backwards and forwards', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.click("a[href='next.html']");
-				})
-				.delay(300)
-				.then(function() {
-					return horseman.back();
-				})
-				.delay(300)
-				.then(function() {
-					return horseman.url();
-				})
+				.click("a[href='next.html']")
+				.waitForNextPage()
+				.back()
+				.waitForNextPage()
+				.url()
 				.then(function(data) {
 					data.should.equal(serverUrl)
 				})
 				.then(function() {
-					return horseman.forward();
-				})
-				.delay(300)
-				.then(function() {
-					return horseman.url();
-				})
-				.then(function(data) {
-					data.should.equal(serverUrl + "next.html")
-				})
+					return horseman
+						.forward()
+						.waitForNextPage()
+						.url()
+						.then(function(data) {
+							data.should.equal(serverUrl + "next.html")
+						});
+				})				
 				.finally(done);
 		});
 
 		it('should use basic authentication', function(done) {
 			horseman
 				.authentication('my', 'auth')
-				.then(function() {
-					return horseman.open('http://httpbin.org/basic-auth/my/auth');
-				})
-				.then(function() {
-					return horseman.evaluate(function() {
-						return document.body.innerHTML.length;
-					})
+				.open('http://httpbin.org/basic-auth/my/auth')
+				.evaluate(function() {
+					return document.body.innerHTML.length;					
 				})
 				.then(function(result) {
 					result.should.be.above(0);
@@ -147,12 +122,8 @@ function navigation(bool) {
 			};
 			horseman
 				.viewport(size.width, size.height)
-				.then(function() {
-					return horseman.open("http://www.google.com");
-				})
-				.then(function() {
-					return horseman.viewport();
-				})
+				.open("http://www.google.com")
+				.viewport()
 				.then(function(vp) {
 					vp.height.should.equal(size.height);
 					vp.width.should.equal(size.width);
@@ -164,16 +135,12 @@ function navigation(bool) {
 
 			horseman
 				.open('http://www.google.com')
-				.then(function() {
-					return horseman.scrollTo(50, 40);
-				})
-				.then(function() {
-					return horseman.evaluate(function() {
-						return {
-							top: document.body.scrollTop,
-							left: document.body.scrollLeft
-						}
-					});
+				.scrollTo(50, 40)
+				.evaluate(function() {
+					return {
+						top: document.body.scrollTop,
+						left: document.body.scrollLeft
+					}
 				})
 				.then(function(coordinates) {
 					coordinates.top.should.equal(50);
@@ -193,12 +160,8 @@ function navigation(bool) {
 
 			horseman
 				.cookies(cookie)
-				.then(function() {
-					return horseman.open("http://httpbin.org/cookies");
-				})
-				.then(function() {
-					return horseman.text("pre");
-				})
+				.open("http://httpbin.org/cookies")
+				.text("pre")
 				.then(function(body) {
 					var result = JSON.parse(body);
 					result.cookies[cookie.name].should.equal(cookie.value);
@@ -210,12 +173,8 @@ function navigation(bool) {
 		it('should clear out all cookies', function(done) {
 			horseman
 				.cookies([])
-				.then(function() {
-					return horseman.open("http://httpbin.org/cookies");
-				})
-				.then(function() {
-					return horseman.text("pre");
-				})
+				.open("http://httpbin.org/cookies")
+				.text("pre")
 				.then(function(body) {
 					var result = JSON.parse(body);
 					Object.keys(result.cookies).length.should.equal(0);
@@ -236,12 +195,8 @@ function navigation(bool) {
 
 			var body = horseman
 				.cookies(cookies)
-				.then(function() {
-					return horseman.open("http://httpbin.org/cookies");
-				})
-				.then(function() {
-					return horseman.text("pre");
-				})
+				.open("http://httpbin.org/cookies")
+				.text("pre")
 				.then(function(body) {
 					var result = JSON.parse(body);
 					result.cookies[cookies[0].name].should.equal(cookies[0].value);
@@ -255,9 +210,7 @@ function navigation(bool) {
 
 			horseman
 				.post('http://httpbin.org/post', data)
-				.then(function() {
-					return horseman.text("pre");
-				})
+				.text("pre")
 				.then(function(response) {
 					response = JSON.parse(response);
 					response.should.have.property('form');
@@ -299,9 +252,7 @@ function evaluation(bool) {
 		it('should get the title', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.title();
-				})
+				.title()
 				.then(function(title) {
 					title.should.equal('Testing Page');
 				})
@@ -312,9 +263,7 @@ function evaluation(bool) {
 		it('should verify an element exists', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.exists("input");
-				})
+				.exists("input")
 				.then(function(exists) {
 					exists.should.be.true;
 				})
@@ -325,9 +274,7 @@ function evaluation(bool) {
 		it('should verify an element does not exists', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.exists("article");
-				})
+				.exists("article")
 				.then(function(exists) {
 					exists.should.be.false;
 				})
@@ -337,9 +284,7 @@ function evaluation(bool) {
 		it('should count the number of selectors', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.count("a");
-				})
+				.count("a")
 				.then(function(count) {
 					count.should.be.above(0);
 				})
@@ -350,9 +295,7 @@ function evaluation(bool) {
 		it('should get the html of an element', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.html("#text");
-				})
+				.html("#text")
 				.then(function(html) {
 					html.indexOf("code").should.be.above(0);
 				})
@@ -362,9 +305,7 @@ function evaluation(bool) {
 		it('should get the text of an element', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.text("#text");
-				})
+				.text("#text")
 				.then(function(text) {
 					text.trim().should.equal("This is my code.");
 				})
@@ -375,9 +316,7 @@ function evaluation(bool) {
 		it('should get the value of an element', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.value("input[name='input1']");
-				})
+				.value("input[name='input1']")
 				.then(function(value) {
 					value.should.equal("");
 				})
@@ -387,9 +326,7 @@ function evaluation(bool) {
 		it('should get an attribute of an element', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.attribute("a", "href");
-				})
+				.attribute("a", "href")
 				.then( function( value ){
 					value.should.equal("next.html");
 				})
@@ -400,9 +337,7 @@ function evaluation(bool) {
 		it('should get a css property of an element', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.cssProperty("a", "margin-bottom");
-				})
+				.cssProperty("a", "margin-bottom")
 				.then( function( value ){
 					value.should.equal("3px");
 				})
@@ -412,9 +347,7 @@ function evaluation(bool) {
 		it('should get the width of an element', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.width("a");
-				})
+				.width("a")
 				.then( function( value ){
 					value.should.be.above(0);
 				})
@@ -424,9 +357,7 @@ function evaluation(bool) {
 		it('should get the height of an element', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.height("a");
-				})
+				.height("a")
 				.then( function( value ){
 					value.should.be.above(0);
 				})
@@ -436,9 +367,7 @@ function evaluation(bool) {
 		it('should determine if an element is visible', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.visible("a");
-				})
+				.visible("a")
 				.then( function( visible ){
 					visible.should.be.true;
 				})
@@ -448,9 +377,7 @@ function evaluation(bool) {
 		it('should determine if an element is not-visible', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.visible(".login-popup")
-				})
+				.visible(".login-popup")
 				.then( function( visible ){
 					visible.should.be.false;
 				})
@@ -460,10 +387,8 @@ function evaluation(bool) {
 		it('should evaluate javascript', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.evaluate(function() {
-						return document.title;
-					});
+				.evaluate(function() {
+					return document.title;					
 				})
 				.then( function( result ){
 					result.should.equal("Testing Page");
@@ -475,11 +400,9 @@ function evaluation(bool) {
 			var str = "yo";
 			horseman
 				.open(serverUrl)
-				.then(function() {
-					return horseman.evaluate(function(param) {
-						return param;
-					}, str);
-				})
+				.evaluate(function(param) {
+					return param;
+				}, str)
 				.then( function( result ){
 					result.should.equal(str);
 				})
@@ -503,8 +426,7 @@ function manipulation(bool) {
 			horseman.close();
 		});
 
-		after(function() {
-			
+		after(function() {			
 			if (fs.existsSync("out.png")) {
 				fs.unlinkSync("out.png");
 			}
@@ -520,38 +442,14 @@ function manipulation(bool) {
 			if (fs.existsSync("euro.pdf")) {
 				fs.unlinkSync("euro.pdf");
 			}
-		});
-
-		it('should execute javascript without breaking the chain', function(done) {
-			horseman
-				.open(serverUrl)
-				.then( function(){
-					return horseman.manipulate(function() {
-						document.title = "blah";
-					})
-				})
-				.then( function(){
-					return horseman.evaluate(function() {
-						return document.title;
-					})
-				})
-				.then( function( title ){
-					title.should.equal("blah");
-				})
-				.finally( done );
-				
-		});
+		});		
 
 		it('should inject javascript', function(done) {
 			horseman
 				.open(serverUrl)
-				.then( function(){
-					return horseman.injectJs("test/files/testjs.js");
-				})
-				.then( function(){
-					return horseman.evaluate(function() {
-						return ___obj.myname;
-					});
+				.injectJs("test/files/testjs.js")
+				.evaluate(function() {
+					return ___obj.myname;
 				})
 				.then( function( result ){
 					result.should.equal("isbob");
@@ -563,12 +461,8 @@ function manipulation(bool) {
 		it('should type and click', function(done) {
 			horseman
 				.open(serverUrl)
-				.then( function(){
-					return horseman.type('input[name="input1"]', 'github');
-				})
-				.then( function(){
-					return horseman.value('input[name="input1"]');
-				})
+				.type('input[name="input1"]', 'github')
+				.value('input[name="input1"]')
 				.then( function( value ){
 					value.should.equal('github');
 				})
@@ -579,15 +473,9 @@ function manipulation(bool) {
 		it('should clear a field', function(done) {
 			horseman
 				.open(serverUrl)
-				.then( function(){
-					return horseman.type('input[name="input1"]', 'github');
-				})
-				.then( function(){
-					return horseman.clear('input[name="input1"]');
-				})
-				.then( function(){
-					return horseman.value('input[name="input1"]');
-				})
+				.type('input[name="input1"]', 'github')
+				.clear('input[name="input1"]')
+				.value('input[name="input1"]')
 				.then( function( value ){
 					value.should.equal('');
 				})
@@ -597,12 +485,8 @@ function manipulation(bool) {
 		it('should select a value', function(done) {
 			horseman
 				.open(serverUrl)
-				.then( function(){
-					return horseman.select("#select1", "1");
-				})
-				.then( function(){
-					return horseman.value("#select1");
-				})
+				.select("#select1", "1")
+				.value("#select1")
 				.then( function( value ){
 					value.should.equal('1');
 				})
@@ -612,9 +496,7 @@ function manipulation(bool) {
 		it('should take a screenshot', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function(){
-					return horseman.screenshot("out.png");
-				})
+				.screenshot("out.png")
 				.then( function(){
 					fs.existsSync("out.png").should.be.true;
 				})
@@ -624,9 +506,7 @@ function manipulation(bool) {
 		it('should take a screenshotBase64', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function(){
-					return horseman.screenshotBase64("PNG");
-				})
+				.screenshotBase64("PNG")
 				.then( function( asPng ){
 					var type = typeof asPng;
 					type.should.equal('string');
@@ -638,27 +518,13 @@ function manipulation(bool) {
 		it('should let you zoom', function(done) {
 			horseman
 				.open(serverUrl)
-				.then(function(){
-					return horseman.viewport(800, 400)
-				})
-				.then(function(){
-					return horseman.open(serverUrl);
-				})
-				.then(function(){
-					return horseman.screenshot('small.png');
-				})
-				.then(function(){
-					return horseman.viewport(1600, 800);
-				})
-				.then(function(){
-					return horseman.zoom(2);
-				})
-				.then(function(){
-					return horseman.open(serverUrl);
-				})
-				.then(function(){
-					return horseman.screenshot('big.png');
-				})
+				.viewport(800, 400)
+				.open(serverUrl)
+				.screenshot('small.png')
+				.viewport(1600, 800)
+				.zoom(2)
+				.open(serverUrl)
+				.screenshot('big.png')
 				.then( function(){
 					var smallSize = fs.statSync('small.png').size,
 					bigSize = fs.statSync('big.png').size;
@@ -672,15 +538,11 @@ function manipulation(bool) {
 		it('should let you export as a pdf', function(done) {
 			horseman
 				.open('http://www.google.com')
-				.then(function(){
-					return horseman.pdf('default.pdf');
-				})
-				.then(function(){
-					return horseman.pdf('euro.pdf', {
-						format: 'A5',
-						orientation: 'portrait',
-						margin: 0
-					});
+				.pdf('default.pdf')
+				.pdf('euro.pdf', {
+					format: 'A5',
+					orientation: 'portrait',
+					margin: 0
 				})
 				.then(function(){
 					// A4 size is slightly larger than US Letter size,
@@ -706,9 +568,7 @@ function manipulation(bool) {
 		it('should verify a file exists before upload', function(done) {
 			horseman
 				.open("http://validator.w3.org/#validate_by_upload")
-				.then( function(){
-					return horseman.upload("#uploaded_file", "nope.jpg");
-				})
+				.upload("#uploaded_file", "nope.jpg")
 				.then( function( err ){
 					err.toString().indexOf("Error").should.be.above(-1);
 				})
@@ -719,22 +579,16 @@ function manipulation(bool) {
 		it('should fire a keypress when typing', function(done) {
 			horseman
 				.open("http://httpbin.org/forms/post")
-				.then( function(){
-					return horseman.manipulate(function() {
-						window.keypresses = 0;
-						var elem = document.querySelector("input[name='custname']");
-						elem.onkeypress = function() {
-							window.keypresses++;
-						}
-					})
+				.evaluate(function() {
+					window.keypresses = 0;
+					var elem = document.querySelector("input[name='custname']");
+					elem.onkeypress = function() {
+						window.keypresses++;
+					}
 				})
-				.then( function(){
-					return horseman.type("input[name='custname']", "github");
-				})
-				.then( function(){
-					return horseman.evaluate(function() {
-						return window.keypresses;
-					})
+				.type("input[name='custname']", "github")
+				.evaluate(function() {
+					return window.keypresses;
 				})
 				.then( function(keypresses){
 					keypresses.should.equal(6);
@@ -745,44 +599,32 @@ function manipulation(bool) {
 		it('should send mouse events', function(done) {
 			horseman
 				.open('https://dvcs.w3.org/hg/d4e/raw-file/tip/mouse-event-test.html')
-				.then(function() {
-					return horseman.mouseEvent('mousedown', 200, 200);
-				})
-				.then(function() {
-					return horseman.mouseEvent('mouseup', 200, 200);
-				})
-				.then(function() {
-					return horseman.mouseEvent('click', 200, 200);
-				})
-				.then(function() {
-					return horseman.mouseEvent('doubleclick', 200, 200);
-				})
-				.then(function() {
-					return horseman.mouseEvent('mousemove', 200, 200);
-				})
-				.then(function() {
-					return horseman.evaluate(function() {
-						function findByTextContent(selector, text) {
-							var tags = document.querySelectorAll(selector);
+				.mouseEvent('mousedown', 200, 200)
+				.mouseEvent('mouseup', 200, 200)
+				.mouseEvent('click', 200, 200)
+				.mouseEvent('doubleclick', 200, 200)
+				.mouseEvent('mousemove', 200, 200)
+				.evaluate(function() {
+					function findByTextContent(selector, text) {
+						var tags = document.querySelectorAll(selector);
 
-							var count = 0;
+						var count = 0;
 
-							for (var i = 0; i < tags.length; i++) {
-								if (tags[i].textContent.indexOf(text) > -1) {
-									count++;
-								}
+						for (var i = 0; i < tags.length; i++) {
+							if (tags[i].textContent.indexOf(text) > -1) {
+								count++;
 							}
-							return count;
 						}
+						return count;
+					}
 
-						return {
-							'mousedown': findByTextContent("tr", "mousedown"),
-							'mouseup': findByTextContent("tr", "mouseup"),
-							'click': findByTextContent("tr", "click"),
-							'doubleclick': findByTextContent("tr", "dblclick"),
-							'mousemove': findByTextContent("tr", "mousemove"),
-						}
-					});
+					return {
+						'mousedown': findByTextContent("tr", "mousedown"),
+						'mouseup': findByTextContent("tr", "mouseup"),
+						'click': findByTextContent("tr", "click"),
+						'doubleclick': findByTextContent("tr", "dblclick"),
+						'mousemove': findByTextContent("tr", "mousemove"),
+					}
 				})
 				.then( function( events ){
 					//console.log( events );
@@ -797,14 +639,10 @@ function manipulation(bool) {
 
 		it('should send keyboard events', function(done) {
 			horseman
-				.open('http://unixpapa.com/js/testkey.html')				
-				.then( function(){
-					return horseman.keyboardEvent('keypress', 16777221);
-				})
-				.then( function(){
-					return horseman.evaluate(function() {
-						return document.querySelector("textarea[name='t']").value;
-					});
+				.open('http://unixpapa.com/js/testkey.html')
+				.keyboardEvent('keypress', 16777221)
+				.evaluate(function() {
+					return document.querySelector("textarea[name='t']").value;
 				})
 				.then( function( data ){
 					data.indexOf("keyCode=13").should.be.greaterThan(-1);
@@ -863,10 +701,8 @@ describe('Horseman', function() {
 
 			horseman
 				.open("http://www.google.com")
-				.then(function() {
-					return horseman.evaluate(function() {
-						return typeof jQuery;
-					})
+				.evaluate(function() {
+					return typeof jQuery;
 				})
 				.then(function(result) {
 					result.should.equal("function");
@@ -885,10 +721,8 @@ describe('Horseman', function() {
 
 			horseman
 				.open("http://www.google.com")
-				.then(function() {
-					return horseman.evaluate(function() {
-						return typeof jQuery;
-					})
+				.evaluate(function() {
+					return typeof jQuery;
 				})
 				.then(function(result) {
 					result.should.equal("undefined");
@@ -906,10 +740,8 @@ describe('Horseman', function() {
 			//Horseman injects 2.1.1, digg uses 1.8.3
 			horseman
 				.open("http://www.digg.com")
-				.then(function() {
-					return horseman.evaluate(function() {
-						return $.fn.jquery;
-					})
+				.evaluate(function() {
+					return $.fn.jquery;
 				})
 				.then(function(result) {
 					result.should.not.equal("2.1.1");
@@ -935,20 +767,11 @@ describe('Horseman', function() {
 		it('should wait for the page to change', function(done){
 			horseman
 				.open( serverUrl )
-				.then(function(){
-					return horseman.click("a");
-				})
-				.then(function(){
-					return horseman.waitForNextPage();
-				})
-				.then(function(){
-					return horseman.url()
-				})
+				.click("a")
+				.waitForNextPage()
+				.url()
 				.then(function(url){
 					url.should.equal( serverUrl + "next.html" );
-				})
-				.catch(function(e ){
-					console.log(e)
 				})
 				.finally(done);
 		});
@@ -960,12 +783,8 @@ describe('Horseman', function() {
 
 	    	horseman
 	        	.open('http://www.google.com/')
-	        	.then(function(){
-	        		return horseman.waitFor(forALink,true);
-	        	})
-	        	.then( function(){
-	        		return horseman.url();
-	        	})
+	        	.waitFor(forALink,true)
+	        	.url()
 	        	.then(function(url){
 	        		url.should.equal('http://www.google.com/');
 	        	})
@@ -977,9 +796,7 @@ describe('Horseman', function() {
 
 	    	horseman
 	        	.open(serverUrl)
-	        	.then(function(){
-	        		return horseman.wait(1000);
-	        	})
+	        	.wait(1000)
 	        	.then( function(){
 	        		var end = new Date();
 	    			var diff = end - start;
@@ -991,12 +808,8 @@ describe('Horseman', function() {
 	    it('should wait until a selector is seen', function(done){
 	    	horseman
 	    		.open( serverUrl )
-	    		.then(function(){
-	        		return horseman.waitForSelector("input")
-	        	})
-	        	.then(function(){
-	        		return horseman.count("input");
-	        	})
+	    		.waitForSelector("input")
+	    		.count("input")
 	        	.then(function(count){
 	        		count.should.be.above( 0 );
 	        	})
@@ -1014,15 +827,9 @@ describe('Horseman', function() {
 				.on("timeout", function(){
 					timeoutFired = true
 				})
-				.then(function(){
-					return timeoutHorseman.open("http://www.google.com");
-				})
-				.then(function(){
-					return timeoutHorseman.click("a:contains('Advertising')");
-				})
-				.then(function(){
-					return timeoutHorseman.waitForNextPage();
-				})
+				.open("http://www.google.com")
+				.click("a:contains('Advertising')")
+				.waitForNextPage()
 				.then(function(){
 					timeoutFired.should.be.true;					
 				})
@@ -1044,12 +851,8 @@ describe('Horseman', function() {
 				.on("timeout", function(){
 					timeoutFired = true
 				})
-				.then(function(){
-					return timeoutHorseman.open(serverUrl);
-				})
-				.then(function(){
-					return timeoutHorseman.waitForSelector('bob');
-				})
+				.open(serverUrl)
+				.waitForSelector('bob')
 				.then(function(){
 					timeoutFired.should.be.true;					
 				})
@@ -1075,12 +878,8 @@ describe('Horseman', function() {
 				.on("timeout", function(){
 					timeoutFired = true;
 				})
-				.then(function(){
-					return timeoutHorseman.open(serverUrl);
-				})
-				.then(function(){
-					return timeoutHorseman.waitFor(return5,6);
-				})
+				.open(serverUrl)
+				.waitFor(return5,6)
 				.then(function(){
 					timeoutFired.should.be.true;					
 				})
@@ -1111,15 +910,9 @@ describe('Horseman', function() {
 
 			horseman
 				.open(serverUrl + "frames.html")
-				.then(function() {
-					return horseman.switchToChildFrame('frame1');
-				})
-				.then(function() {
-					return horseman.waitForSelector("h1");
-				})
-				.then(function() {
-					return horseman.html("h1");
-				})
+				.switchToChildFrame('frame1')
+				.waitForSelector("h1")
+				.html("h1")
 				.then(function(html) {
 					html.should.equal("This is frame 1.")
 				})
@@ -1151,9 +944,7 @@ describe('Horseman', function() {
 				.on("initialized", function() {
 					fired = true;
 				})
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
+				.open(serverUrl)
 				.then(function() {
 					fired.should.be.true;
 				})
@@ -1167,9 +958,7 @@ describe('Horseman', function() {
 				.on("loadStarted", function() {
 					fired = true;
 				})
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
+				.open(serverUrl)
 				.then(function() {
 					fired.should.be.true;
 				})
@@ -1183,12 +972,8 @@ describe('Horseman', function() {
 				.on("loadFinished", function() {
 					fired = true;
 				})
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
-				.then(function(){
-					return horseman.wait(50); //have to wait for the event to fire.
-				})
+				.open(serverUrl)
+				.wait(50) //have to wait for the event to fire.
 				.then(function() {
 					fired.should.be.true;
 				})
@@ -1202,9 +987,7 @@ describe('Horseman', function() {
 				.on("resourceRequested", function() {
 					fired = true;
 				})
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
+				.open(serverUrl)
 				.then(function() {
 					fired.should.be.true;
 				})
@@ -1218,9 +1001,7 @@ describe('Horseman', function() {
 				.on("resourceReceived", function() {
 					fired = true;
 				})
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
+				.open(serverUrl)
 				.then(function() {
 					fired.should.be.true;
 				})
@@ -1234,9 +1015,7 @@ describe('Horseman', function() {
 				.on("navigationRequested", function(url) {
 					fired = (url==="https://www.yahoo.com/");
 				})
-				.then(function() {
-					return horseman.open('http://www.yahoo.com');
-				})
+				.open('http://www.yahoo.com')
 				.then(function() {
 					fired.should.be.true;
 				})
@@ -1250,9 +1029,7 @@ describe('Horseman', function() {
 				.on("urlChanged", function() {
 					fired = true;
 				})
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
+				.open(serverUrl)
 				.then(function() {
 					fired.should.be.true;
 				})
@@ -1266,13 +1043,9 @@ describe('Horseman', function() {
 				.on("consoleMessage", function() {
 					fired = true;
 				})
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
-				.then(function(){
-					return horseman.evaluate( function(){
-						console.log("message");
-					});
+				.open(serverUrl)
+				.evaluate(function(){
+					console.log("message");					
 				})
 				.then(function() {
 					fired.should.be.true;
@@ -1287,13 +1060,9 @@ describe('Horseman', function() {
 				.on("alert", function() {
 					fired = true;
 				})
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
-				.then(function(){
-					return horseman.evaluate( function(){
-						alert('ono');
-					});
+				.open(serverUrl)
+				.evaluate( function(){
+					alert('ono');
 				})
 				.then(function() {
 					fired.should.be.true;
@@ -1308,13 +1077,9 @@ describe('Horseman', function() {
 				.on("prompt", function() {
 					fired = true;
 				})
-				.then(function() {
-					return horseman.open(serverUrl);
-				})
-				.then(function(){
-					return horseman.evaluate( function(){
-						prompt('ono');
-					});
+				.open(serverUrl)
+				.evaluate( function(){
+					prompt('ono');
 				})
 				.then(function() {
 					fired.should.be.true;
