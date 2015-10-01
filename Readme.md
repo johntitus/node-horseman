@@ -5,29 +5,10 @@ Horseman
 Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
 
 Horseman has:
-  * a simple chainable API based on Promises,
+  * a simple chainable API,
   * an easy-to-use control flow (see the examples),
+  * support for multiple tabs being open at the same time,
   * built in jQuery for easier page manipulation.
-
-## Version 2.0
-This version includes major changes to the API.  While the 1.x line of Horseman is based on forced synchronization of the API, the 2.x line is based on Promises.  This allows for multiple Horseman to be run concurrently.
-
-## Installation
-1) Install Node, if you haven't already:
-
-http://nodejs.org/
-
-2) Install PhantomJS:
-
-http://phantomjs.org/download.html 
-
-Either the 1.x or 2.x versions are fine, but be aware that PhantomJS has a bug in the 2.x line that prevents file uploads.
-
-*Note*: Make sure PhantomJS is available in your system PATH, or use the `phantomPath` option.
-
-3) NPM install Horseman:
-
-`npm install node-horseman`
 
 ## Example
 
@@ -56,6 +37,23 @@ horseman
 Save the file as `google.js`. Then, `node google.js`.
 
 For longer examples, check out the Examples folder.
+
+## Installation
+1) Install Node, if you haven't already:
+
+http://nodejs.org/
+
+2) Install PhantomJS:
+
+http://phantomjs.org/download.html 
+
+Either the 1.x or 2.x versions are fine, but be aware that PhantomJS has a bug in the 2.x line that prevents file uploads.
+
+*Note*: Make sure PhantomJS is available in your system PATH, or use the `phantomPath` option.
+
+3) NPM install Horseman:
+
+`npm install node-horseman`
 
 ## API
 
