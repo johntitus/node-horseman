@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.2.1 - 2015-10-01
+### Fixed
+- `.waitFor` bug fix. Closes #45.
+
 ##2.2.0 - 2015-09-29
 ### Added
 - `.crop()`. Closes #51.
