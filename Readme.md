@@ -359,7 +359,20 @@ Wait until a page finishes loading, typically after a `.click()`.
 Wait until the element `selector` is present e.g. `.waitForSelector('#pay-button')`
 
 #### .waitFor(fn, value)
-Wait until the `fn` evaluated on the page returns `value`. 
+Wait until the `fn` evaluated on the page returns `value`.
+
+
+### Tabs
+Horseman supports multiple tabs being open at the same time.
+
+#### .openTab(url)
+Open a url in a new tab. Fires a `tabCreated` event.
+
+#### .tabCount()
+Returns the number of tabs currently open.
+
+#### .switchToTab(tabnumber)
+Switch to another tab. Count starts at 0.
 
 
 ### Events

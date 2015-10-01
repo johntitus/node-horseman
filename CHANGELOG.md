@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.3.0 - 2015-10-01
+### Added
+- Support for multiple tabs. Closes #49.
+- .status(). Returns the HTTP status code from the last opened page.
+
 ##2.2.1 - 2015-10-01
 ### Fixed
 - `.waitFor` bug fix. Closes #45.
