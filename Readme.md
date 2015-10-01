@@ -39,21 +39,10 @@ Save the file as `google.js`. Then, `node google.js`.
 For longer examples, check out the Examples folder.
 
 ## Installation
-1) Install Node, if you haven't already:
-
-http://nodejs.org/
-
-2) Install PhantomJS:
-
-http://phantomjs.org/download.html 
-
-Either the 1.x or 2.x versions are fine, but be aware that PhantomJS has a bug in the 2.x line that prevents file uploads.
-
-*Note*: Make sure PhantomJS is available in your system PATH, or use the `phantomPath` option.
-
-3) NPM install Horseman:
 
 `npm install node-horseman`
+
+Note: Make sure PhantomJS is available in your path, or use the `phantomPath` option.
 
 ## API
 
@@ -77,7 +66,7 @@ The available options are:
 * `phantomPath`: If PhantomJS is not installed in your path, you can use this option to specify the executable's location.
 
 ### Cleanup
-Be sure to `.close()` each Horseman instance when you're done with it!.
+Be sure to `.close()` each Horseman instance when you're done with it!
 
 ####.close()
 Closes the Horseman instance by shutting down PhantomJS.
