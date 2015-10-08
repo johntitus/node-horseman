@@ -277,16 +277,33 @@ Orientation (`portrait`, `landscape`) is optional and defaults to 'portrait'.
 
 Supported dimension units are: 'mm', 'cm', 'in', 'px'. No unit means 'px'.
 
+####.log()
+Outputs the results of the last call in the chain, or a string you provide, without breaking the chain.
+
+```js
+horseman
+  .open('http://www.google.com')
+  .count('a')
+  .log() // outputs the number of anchor tags
+  .click('a')
+  .log('clicked the button') //outputs the string
+  .finally(function(){
+    horseman.close();
+  });
+```
+
 ####.do(fn)
 Run an function without breaking the chain. Works with asynchronous functions.  Must call the callback when complete.
 
 ```js
-horseman.
+horseman
   .open('http://www.google.com')
   .do(function(done){
     setTimeout(done,1000);
   })
-  .finally(horseman.close);
+  .finally(function(){
+    horseman.close();
+  });
 ```
 
 ####.evaluate(fn, [arg1, arg2,...])

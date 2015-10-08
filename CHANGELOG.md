@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.5.0 - 2015-10-08
+### Added
+- .log(). Closes #54.
+
+### Fixed
+- .viewport() wasn't returning the actual viewport size.
+
 ##2.4.0 - 2015-10-08
 ### Added
 - .do(). Closes #53.

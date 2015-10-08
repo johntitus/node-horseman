@@ -12,7 +12,7 @@ function navigation(bool) {
 
 	var title = 'Navigation ' + ((bool) ? 'with' : 'without') + ' jQuery';
 
-	parallel(title, function() {		
+	parallel(title, function() {
 
 		it('should set the user agent', function(done) {
 			var horseman = new Horseman({
@@ -25,9 +25,10 @@ function navigation(bool) {
 					return navigator.userAgent;
 				})
 				.then(function(result) {
-					result.should.equal("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36");
 					horseman.close();
+					result.should.equal("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36");
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -45,12 +46,13 @@ function navigation(bool) {
 					return document.body.children[0].innerHTML;
 				})
 				.then(function(data) {
+					horseman.close();
 					var response = JSON.parse(data);
 					response.should.have.property('headers');
 					response.headers.should.have.property('X-Horseman-Header');
 					response.headers['X-Horseman-Header'].should.equal('test header');
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -62,9 +64,10 @@ function navigation(bool) {
 				.open(serverUrl)
 				.url()
 				.then(function(data) {
-					data.should.equal(serverUrl);
 					horseman.close();
+					data.should.equal(serverUrl);
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -76,9 +79,10 @@ function navigation(bool) {
 				.open(serverUrl)
 				.status()
 				.then(function(data) {
+					horseman.close();
 					data.should.equal(200);
-					horseman.close()
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -92,9 +96,10 @@ function navigation(bool) {
 				.waitForNextPage()
 				.url()
 				.then(function(data) {
-					data.should.equal(serverUrl + "next.html");
 					horseman.close();
+					data.should.equal(serverUrl + "next.html");
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -118,10 +123,11 @@ function navigation(bool) {
 						.waitForNextPage()
 						.url()
 						.then(function(data) {
-							data.should.equal(serverUrl + "next.html");
 							horseman.close();
+							data.should.equal(serverUrl + "next.html");
 						});
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -136,9 +142,10 @@ function navigation(bool) {
 					return document.body.innerHTML.length;
 				})
 				.then(function(result) {
-					result.should.be.above(0);
 					horseman.close();
+					result.should.be.above(0);
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -155,10 +162,11 @@ function navigation(bool) {
 				.open("http://www.google.com")
 				.viewport()
 				.then(function(vp) {
+					horseman.close();
 					vp.height.should.equal(size.height);
 					vp.width.should.equal(size.width);
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -176,10 +184,11 @@ function navigation(bool) {
 					}
 				})
 				.then(function(coordinates) {
+					horseman.close();
 					coordinates.top.should.equal(50);
 					coordinates.left.should.equal(40);
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -199,10 +208,11 @@ function navigation(bool) {
 				.open("http://httpbin.org/cookies")
 				.text("pre")
 				.then(function(body) {
+					horseman.close();
 					var result = JSON.parse(body);
 					result.cookies[cookie.name].should.equal(cookie.value);
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -216,10 +226,11 @@ function navigation(bool) {
 				.open("http://httpbin.org/cookies")
 				.text("pre")
 				.then(function(body) {
+					horseman.close();
 					var result = JSON.parse(body);
 					Object.keys(result.cookies).length.should.equal(0);
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -242,11 +253,12 @@ function navigation(bool) {
 				.open("http://httpbin.org/cookies")
 				.text("pre")
 				.then(function(body) {
+					horseman.close();
 					var result = JSON.parse(body);
 					result.cookies[cookies[0].name].should.equal(cookies[0].value);
 					result.cookies[cookies[1].name].should.equal(cookies[1].value);
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -260,12 +272,13 @@ function navigation(bool) {
 				.post('http://httpbin.org/post', data)
 				.text("pre")
 				.then(function(response) {
+					horseman.close();
 					response = JSON.parse(response);
 					response.should.have.property('form');
 					response.form['answer'].should.equal('42');
 					response.form['universe'].should.equal('expanding');
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -276,12 +289,13 @@ function navigation(bool) {
 			});
 			horseman
 				.open(serverUrl)
-				.then(function( status ){
-					status.should.equal('success');
+				.then(function(status) {
 					horseman.close();
+					status.should.equal('success');
 				})
+				.catch(done)
 				.finally(done);
-			
+
 		});
 
 	});
@@ -291,7 +305,7 @@ function evaluation(bool) {
 	var title = 'Evaluation ' + ((bool) ? 'with' : 'without') + ' jQuery';
 
 	parallel(title, function() {
-		
+
 		it('should get the title', function(done) {
 			var horseman = new Horseman({
 				injectJquery: bool
@@ -300,9 +314,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.title()
 				.then(function(title) {
-					title.should.equal('Testing Page');
 					horseman.close();
+					title.should.equal('Testing Page');
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -315,9 +330,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.exists("input")
 				.then(function(exists) {
-					exists.should.be.true;
 					horseman.close();
+					exists.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -330,9 +346,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.exists("article")
 				.then(function(exists) {
-					exists.should.be.false;
 					horseman.close();
+					exists.should.be.false;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -344,9 +361,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.count("a")
 				.then(function(count) {
-					count.should.be.above(0);
 					horseman.close();
+					count.should.be.above(0);
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -359,9 +377,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.html("#text")
 				.then(function(html) {
-					html.indexOf("code").should.be.above(0);
 					horseman.close();
+					html.indexOf("code").should.be.above(0);
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -373,9 +392,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.text("#text")
 				.then(function(text) {
-					text.trim().should.equal("This is my code.");
 					horseman.close();
+					text.trim().should.equal("This is my code.");
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -388,9 +408,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.value("input[name='input1']")
 				.then(function(value) {
-					value.should.equal("");
 					horseman.close();
+					value.should.equal("");
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -402,9 +423,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.attribute("a", "href")
 				.then(function(value) {
-					value.should.equal("next.html");
 					horseman.close();
+					value.should.equal("next.html");
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -417,9 +439,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.cssProperty("a", "margin-bottom")
 				.then(function(value) {
-					value.should.equal("3px");
 					horseman.close();
+					value.should.equal("3px");
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -431,9 +454,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.width("a")
 				.then(function(value) {
-					value.should.be.above(0);
 					horseman.close();
+					value.should.be.above(0);
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -445,9 +469,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.height("a")
 				.then(function(value) {
-					value.should.be.above(0);
 					horseman.close();
+					value.should.be.above(0);
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -459,9 +484,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.visible("a")
 				.then(function(visible) {
-					visible.should.be.true;
 					horseman.close();
+					visible.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -473,9 +499,10 @@ function evaluation(bool) {
 				.open(serverUrl)
 				.visible(".login-popup")
 				.then(function(visible) {
-					visible.should.be.false;
 					horseman.close();
+					visible.should.be.false;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -489,9 +516,10 @@ function evaluation(bool) {
 					return document.title;
 				})
 				.then(function(result) {
-					result.should.equal("Testing Page");
 					horseman.close();
+					result.should.equal("Testing Page");
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -506,31 +534,14 @@ function evaluation(bool) {
 					return param;
 				}, str)
 				.then(function(result) {
+					horseman.close();
 					result.should.equal(str);
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 		});
 
-		it('should do a function without breaking the chain', function(done){
-			var doComplete = false;
-			var horseman = new Horseman({
-				injectJquery: bool
-			});
-
-			horseman
-				.do(function(complete){
-					setTimeout(function(){
-						doComplete = true;
-						complete();
-					},500)
-				})
-				.then(function(){
-					doComplete.should.be.true;
-					horseman.close();
-				})
-				.finally(done);
-		});
+		
 	});
 }
 
@@ -538,7 +549,7 @@ function manipulation(bool) {
 	var title = 'Manipulation ' + ((bool) ? 'with' : 'without') + ' jQuery';
 
 	parallel(title, function() {
-		
+
 		after(function() {
 			if (fs.existsSync("out.png")) {
 				fs.unlinkSync("out.png");
@@ -568,9 +579,10 @@ function manipulation(bool) {
 					return ___obj.myname;
 				})
 				.then(function(result) {
-					result.should.equal("isbob");
 					horseman.close();
+					result.should.equal("isbob");
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -584,9 +596,10 @@ function manipulation(bool) {
 				.type('input[name="input1"]', 'github')
 				.value('input[name="input1"]')
 				.then(function(value) {
-					value.should.equal('github');
 					horseman.close();
+					value.should.equal('github');
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -601,9 +614,10 @@ function manipulation(bool) {
 				.clear('input[name="input1"]')
 				.value('input[name="input1"]')
 				.then(function(value) {
-					value.should.equal('');
 					horseman.close();
+					value.should.equal('');
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -616,9 +630,10 @@ function manipulation(bool) {
 				.select("#select1", "1")
 				.value("#select1")
 				.then(function(value) {
-					value.should.equal('1');
 					horseman.close();
+					value.should.equal('1');
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -630,9 +645,10 @@ function manipulation(bool) {
 				.open(serverUrl)
 				.screenshot("out.png")
 				.then(function() {
-					fs.existsSync("out.png").should.be.true;
 					horseman.close();
+					fs.existsSync("out.png").should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -644,10 +660,11 @@ function manipulation(bool) {
 				.open(serverUrl)
 				.screenshotBase64("PNG")
 				.then(function(asPng) {
+					horseman.close();
 					var type = typeof asPng;
 					type.should.equal('string');
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -666,12 +683,14 @@ function manipulation(bool) {
 				.open(serverUrl)
 				.screenshot('big.png')
 				.then(function() {
+					horseman.close();
+
 					var smallSize = fs.statSync('small.png').size,
 						bigSize = fs.statSync('big.png').size;
 
 					bigSize.should.be.greaterThan(smallSize);
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -689,6 +708,7 @@ function manipulation(bool) {
 					margin: 0
 				})
 				.then(function() {
+					horseman.close();
 					// A4 size is slightly larger than US Letter size,
 					// which is the default pdf paper size.
 					var defaultSize = fs.statSync('default.pdf').size,
@@ -696,8 +716,8 @@ function manipulation(bool) {
 
 					defaultSize.should.be.greaterThan(0);
 					euroSize.should.be.greaterThan(0);
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -718,9 +738,10 @@ function manipulation(bool) {
 				.open("http://validator.w3.org/#validate_by_upload")
 				.upload("#uploaded_file", "nope.jpg")
 				.then(function(err) {
-					err.toString().indexOf("Error").should.be.above(-1);
 					horseman.close();
+					err.toString().indexOf("Error").should.be.above(-1);
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -743,9 +764,10 @@ function manipulation(bool) {
 					return window.keypresses;
 				})
 				.then(function(keypresses) {
-					keypresses.should.equal(6);
 					horseman.close();
+					keypresses.should.equal(6);
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -783,14 +805,14 @@ function manipulation(bool) {
 					}
 				})
 				.then(function(events) {
-					//console.log( events );
+					horseman.close();
 					events['mousedown'].should.be.greaterThan(0);
 					events['mouseup'].should.be.greaterThan(0);
 					events['click'].should.be.greaterThan(0);
 					events['doubleclick'].should.be.greaterThan(0);
 					events['mousemove'].should.be.greaterThan(0);
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -805,9 +827,10 @@ function manipulation(bool) {
 					return document.querySelector("textarea[name='t']").value;
 				})
 				.then(function(data) {
-					data.indexOf("keyCode=13").should.be.greaterThan(-1);
 					horseman.close();
+					data.indexOf("keyCode=13").should.be.greaterThan(-1);
 				})
+				.catch(done)
 				.finally(done);
 		});
 	});
@@ -856,6 +879,49 @@ describe('Horseman', function() {
 
 	manipulation(false);
 
+	describe("Usability", function(){
+		it('should do a function without breaking the chain', function(done) {
+			var doComplete = false;
+			var horseman = new Horseman();
+
+			horseman
+				.do(function(complete) {
+					setTimeout(function() {
+						doComplete = true;
+						complete();
+					}, 500)
+				})
+				.then(function() {
+					horseman.close();
+					doComplete.should.be.true;
+				})
+				.catch(done)
+				.finally(done);
+		});
+
+		it('should log output', function(done) {
+
+			var horseman = new Horseman();
+			var oldLog = console.log;
+			var output = '';
+			console.log = function(message) {
+				output += message;
+			};
+
+			horseman
+				.open(serverUrl)
+				.count('a')
+				.log()
+				.then(function() {
+					console.log = oldLog;
+					horseman.close();	
+					output.should.equal('1');
+				})
+				.catch(done)
+				.finally(done);
+		});
+	})
+
 	parallel("Inject jQuery", function() {
 		it('should inject jQuery', function(done) {
 			var horseman = new Horseman();
@@ -866,11 +932,10 @@ describe('Horseman', function() {
 					return typeof jQuery;
 				})
 				.then(function(result) {
+					horseman.close();
 					result.should.equal("function");
 				})
-				.then(function() {
-					horseman.close();
-				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -886,11 +951,10 @@ describe('Horseman', function() {
 					return typeof jQuery;
 				})
 				.then(function(result) {
+					horseman.close();
 					result.should.equal("undefined");
 				})
-				.then(function() {
-					horseman.close();
-				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -905,15 +969,17 @@ describe('Horseman', function() {
 					return $.fn.jquery;
 				})
 				.then(function(result) {
+					horseman.close();
 					result.should.not.equal("2.1.1");
 				})
+				.catch(done)
 				.finally(done);
 		});
 
 	});
 
 
-	parallel("Waiting", function() {		
+	parallel("Waiting", function() {
 		it('should wait for the page to change', function(done) {
 			var horseman = new Horseman();
 			horseman
@@ -922,9 +988,10 @@ describe('Horseman', function() {
 				.waitForNextPage()
 				.url()
 				.then(function(url) {
-					url.should.equal(serverUrl + "next.html");
 					horseman.close();
+					url.should.equal(serverUrl + "next.html");
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -938,9 +1005,10 @@ describe('Horseman', function() {
 				.waitFor(forALink, true)
 				.url()
 				.then(function(url) {
-					url.should.equal('http://www.google.com/');
 					horseman.close();
+					url.should.equal('http://www.google.com/');
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -951,11 +1019,12 @@ describe('Horseman', function() {
 				.open(serverUrl)
 				.wait(1000)
 				.then(function() {
+					horseman.close();
 					var end = new Date();
 					var diff = end - start;
 					diff.should.be.greaterThan(999); //may be a ms or so off.
-					horseman.close();
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -966,9 +1035,10 @@ describe('Horseman', function() {
 				.waitForSelector("input")
 				.count("input")
 				.then(function(count) {
-					count.should.be.above(0);
 					horseman.close();
+					count.should.be.above(0);
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -987,12 +1057,11 @@ describe('Horseman', function() {
 				.click("a:contains('Advertising')")
 				.waitForNextPage()
 				.then(function() {
+					timeoutHorseman.close();
 					timeoutFired.should.be.true;
 				})
-				.finally(function() {
-					timeoutHorseman.close();
-					done();
-				});
+				.catch(done)
+				.finally(done);
 
 		});
 
@@ -1010,12 +1079,11 @@ describe('Horseman', function() {
 				.open(serverUrl)
 				.waitForSelector('bob')
 				.then(function() {
+					timeoutHorseman.close();
 					timeoutFired.should.be.true;
 				})
-				.finally(function() {
-					timeoutHorseman.close();
-					done();
-				});
+				.catch(done)
+				.finally(done);
 
 		});
 
@@ -1037,12 +1105,11 @@ describe('Horseman', function() {
 				.open(serverUrl)
 				.waitFor(return5, 6)
 				.then(function() {
+					timeoutHorseman.close();
 					timeoutFired.should.be.true;
 				})
-				.finally(function() {
-					timeoutHorseman.close();
-					done();
-				});
+				.catch(done)
+				.finally(done);
 		});
 	});
 
@@ -1050,7 +1117,7 @@ describe('Horseman', function() {
 	/**
 	 * Iframes
 	 */
-	describe("Frames", function() {		
+	describe("Frames", function() {
 
 		it('should let you switch to a child frame', function(done) {
 			var horseman = new Horseman();
@@ -1060,9 +1127,10 @@ describe('Horseman', function() {
 				.waitForSelector("h1")
 				.html("h1")
 				.then(function(html) {
-					html.should.equal("This is frame 1.");
 					horseman.close();
+					html.should.equal("This is frame 1.");
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -1083,9 +1151,10 @@ describe('Horseman', function() {
 				})
 				.open(serverUrl)
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1099,9 +1168,10 @@ describe('Horseman', function() {
 				})
 				.open(serverUrl)
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1116,9 +1186,10 @@ describe('Horseman', function() {
 				.open(serverUrl)
 				.wait(50) //have to wait for the event to fire.
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1132,9 +1203,10 @@ describe('Horseman', function() {
 				})
 				.open(serverUrl)
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1148,9 +1220,10 @@ describe('Horseman', function() {
 				})
 				.open(serverUrl)
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1164,9 +1237,10 @@ describe('Horseman', function() {
 				})
 				.open('http://www.yahoo.com')
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1180,9 +1254,10 @@ describe('Horseman', function() {
 				})
 				.open(serverUrl)
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1199,9 +1274,10 @@ describe('Horseman', function() {
 					console.log("message");
 				})
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1218,9 +1294,10 @@ describe('Horseman', function() {
 					alert('ono');
 				})
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1237,9 +1314,10 @@ describe('Horseman', function() {
 					prompt('ono');
 				})
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1249,7 +1327,7 @@ describe('Horseman', function() {
 	 * tabs
 	 */
 
-	parallel('Tabs', function() {		
+	parallel('Tabs', function() {
 
 		it('should let you open a new tab', function(done) {
 			var horseman = new Horseman();
@@ -1258,9 +1336,10 @@ describe('Horseman', function() {
 				.openTab(serverUrl + "next.html")
 				.tabCount()
 				.then(function(count) {
-					count.should.equal(2);
 					horseman.close();
+					count.should.equal(2);
 				})
+				.catch(done)
 				.finally(done);
 		});
 
@@ -1275,9 +1354,10 @@ describe('Horseman', function() {
 				.open(serverUrl)
 				.openTab(serverUrl + "next.html")
 				.then(function() {
-					fired.should.be.true;
 					horseman.close();
+					fired.should.be.true;
 				})
+				.catch(done)
 				.finally(done);
 
 		});
@@ -1289,12 +1369,12 @@ describe('Horseman', function() {
 				.openTab(serverUrl + "next.html")
 				.switchToTab(0)
 				.url()
-				.then(function(url){
-					url.should.equal(serverUrl);
+				.then(function(url) {
 					horseman.close();
+					url.should.equal(serverUrl);
 				})
+				.catch(done)
 				.finally(done);
-
 		});
 
 	});
