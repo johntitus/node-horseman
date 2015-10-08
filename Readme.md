@@ -26,12 +26,8 @@ horseman
   .keyboardEvent("keypress",16777221)
   .waitForSelector("div.g")
   .count("div.g")
-  .then(function(numLinks) {
-    console.log(numLinks);
-  })
-  .finally(function() {
-    horseman.close();
-  });
+  .log() // prints out the number of results
+  .close();
 
 ```
 Save the file as `google.js`. Then, `node google.js`.
@@ -101,10 +97,8 @@ Without any options, this function will return all the cookies inside the browse
 horseman
   .open('http://httpbin.org/cookies')
   .cookies()
-  .then(function(cookies){
-    console.log( cookies ); // []
-    return horseman.close();
-  });
+  .log() // []
+  .close();
 ```
 
 You can pass in a cookie object to add to the cookie jar.
@@ -198,9 +192,7 @@ horseman
   .zoom(2)
   .open('http://www.horsemanjs.org')
   .screenshot('big.png')
-  .finally(function(){
-    horseman.close();
-  });
+  .close();
 ```
 
 ### Evaluation
@@ -287,9 +279,7 @@ horseman
   .log() // outputs the number of anchor tags
   .click('a')
   .log('clicked the button') //outputs the string
-  .finally(function(){
-    horseman.close();
-  });
+  .close();
 ```
 
 ####.do(fn)
@@ -301,9 +291,7 @@ horseman
   .do(function(done){
     setTimeout(done,1000);
   })
-  .finally(function(){
-    horseman.close();
-  });
+  .close();
 ```
 
 ####.evaluate(fn, [arg1, arg2,...])

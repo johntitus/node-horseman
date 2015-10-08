@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ##2.5.0 - 2015-10-08
+### Updated
+- .close() is now chainable. Updated readme with examples.
+
+##2.5.0 - 2015-10-08
 ### Added
 - .log(). Closes #54.
 
