@@ -420,6 +420,22 @@ function evaluation(bool) {
 				})
 				.finally(done);
 		});
+
+		it('should do a function without breaking the chain', function(done){
+			var doComplete = false;
+
+			horseman
+				.do(function(complete){
+					setTimeout(function(){
+						doComplete = true;
+						complete();
+					},500)
+				})
+				.then(function(){
+					doComplete.should.be.true;
+				})
+				.finally(done);
+		});
 	});
 }
 

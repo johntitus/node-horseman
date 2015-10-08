@@ -277,6 +277,18 @@ Orientation (`portrait`, `landscape`) is optional and defaults to 'portrait'.
 
 Supported dimension units are: 'mm', 'cm', 'in', 'px'. No unit means 'px'.
 
+####.do(fn)
+Run an function without breaking the chain. Works with asynchronous functions.  Must call the callback when complete.
+
+```js
+horseman.
+  .open('http://www.google.com')
+  .do(function(done){
+    setTimeout(done,1000);
+  })
+  .finally(horseman.close);
+```
+
 ####.evaluate(fn, [arg1, arg2,...])
 Invokes fn on the page with args. On completion it returns a value. Useful for extracting information from the page.
 
