@@ -1333,6 +1333,11 @@ describe('Horseman', function() {
 			horseman.open(serverUrl).url()
 				.should.have.properties(Object.keys(actions));
 		});
+
+		it('should be available when calling Promise methods', function() {
+			horseman.open(serverUrl).then(function() {})
+				.should.have.properties(Object.keys(actions));
+		});
 	});
 
 });
