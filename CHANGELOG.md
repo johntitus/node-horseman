@@ -1,7 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-##2.5.0 - 2015-10-08
+##2.7.0 - 2015-10-15
+### Updated
+- Makes promise functions (like then, catch, tap) chainable with the rest of Horseman actions. Merges #57. Thanks @awlayton!
+
+##2.6.0 - 2015-10-08
 ### Updated
 - .close() is now chainable. Updated readme with examples.
 
