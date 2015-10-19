@@ -1338,6 +1338,26 @@ describe('Horseman', function() {
 			horseman.open(serverUrl).then(function() {})
 				.should.have.properties(Object.keys(actions));
 		});
+
+		it('should call close after rejection', function(done) {
+			// Record if close gets called
+			var close = horseman.close;
+			var called = false;
+			horseman.close = function() {
+				called = true;
+				return close.apply(this, arguments);
+			}
+
+			horseman.open(serverUrl)
+				.then(function() {
+					throw new Error('Intentional Rejection');
+				})
+				.close()
+				.finally(function() {
+					called.should.equal(true);
+				})
+				.nodeify(done);
+		});
 	});
 
 });
