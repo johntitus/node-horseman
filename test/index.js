@@ -1324,19 +1324,53 @@ describe('Horseman', function() {
 			horseman.close();
 		});
 
-		it('should be available when calling actions on horseman', function() {
+		it('should be available when calling actions on horseman', function(done) {
+			var p = horseman.open(serverUrl);
+
+			p.finally(function() {
+				p.should.have.properties(Object.keys(actions));
+			}).nodeify(done);
+		});
+
+		it('should be available when calling actions on Promises', function(done) {
+			var p = horseman.open(serverUrl).url();
+
+			p.finally(function() {
+				p.should.have.properties(Object.keys(actions));
+			}).nodeify(done);
+		});
+
+		it('should be available when calling Promise methods', function(done) {
+			var p = horseman.open(serverUrl).then(function() {});
+
+			p.finally(function() {
+				p.should.have.properties(Object.keys(actions));
+			}).nodeify(done);
+		});
+
+		it('should call close after rejection', function(done) {
+			// Record if close gets called
+			var close = horseman.close;
+			var called = false;
+			horseman.close = function() {
+				called = true;
+				return close.apply(this, arguments);
+			}
+
 			horseman.open(serverUrl)
-				.should.have.properties(Object.keys(actions));
-		});
-
-		it('should be available when calling actions on Promises', function() {
-			horseman.open(serverUrl).url()
-				.should.have.properties(Object.keys(actions));
-		});
-
-		it('should be available when calling Promise methods', function() {
-			horseman.open(serverUrl).then(function() {})
-				.should.have.properties(Object.keys(actions));
+				.then(function() {
+					throw new Error('Intentional Rejection');
+				})
+				.close()
+				.catch(function() {})
+				.finally(function() {
+					called.should.equal(true);
+				})
+				.then(function() {
+					// Don't call close twice
+					horseman.close = function() {};
+				})
+				.nodeify(done);
 		});
 	});
 
