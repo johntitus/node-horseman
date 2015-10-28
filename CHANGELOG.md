@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ##2.8.0 - 2015-10-28
 ### Added
 - .cropBase64(). Thanks @jeprojects!
+
 ### Updated
 - node-phantom-simple dependency to version 2.1.0.
 - Updated readme with examples on how to set header/footer contents.
