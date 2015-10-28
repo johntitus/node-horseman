@@ -269,6 +269,36 @@ Orientation (`portrait`, `landscape`) is optional and defaults to 'portrait'.
 
 Supported dimension units are: 'mm', 'cm', 'in', 'px'. No unit means 'px'.
 
+You can create a header and footer like this:
+```js
+horseman
+  .open('http://www.amazon.com')
+  .pdf('amazon.pdf', {
+    format: 'Letter',
+    orientation: 'portrait',
+    margin: '0.5in',
+    header: {
+      height: "3cm",
+      contents: function(pageNum, numPages) {
+        if (pageNum == 1) {
+          return "";
+        }
+        return "<h3>Header " + pageNum + " / " + numPages + "</h3>";
+      }
+    },
+    footer: {
+      height: "3cm",
+      contents: function(pageNum, numPages) {
+        if (pageNum == 1) {
+          return "";
+        }
+        return "<h3>Footer " + pageNum + " / " + numPages + "</h3>";
+      }
+    }
+  })
+  .close()
+```
+
 ####.log()
 Outputs the results of the last call in the chain, or a string you provide, without breaking the chain.
 

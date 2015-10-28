@@ -1,6 +1,6 @@
 {
   "name": "node-horseman",
-  "version": "2.7.1",
+  "version": "2.8.0",
   "description": "Run PhantomJS from Node",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "clone": "^0.1.19",
     "debug": "^2.1.1",
     "defaults": "~1.0.0",
-    "node-phantom-simple": "^2.0.5"
+    "node-phantom-simple": "^2.1.0"
   },
   "devDependencies": {
     "express": "^4.10.4",

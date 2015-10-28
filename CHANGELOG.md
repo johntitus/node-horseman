@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.8.0 - 2015-10-28
+### Added
+- .cropBase64(). Thanks @jeprojects!
+### Updated
+- node-phantom-simple dependency to version 2.1.0.
+- Updated readme with examples on how to set header/footer contents.
+
 ##2.7.1 - 2015-10-21
 ### Fixed
 - If an exception was thrown, close() wouldn't get called. Merged #58. Thanks @awlayton!
