@@ -893,6 +893,26 @@ describe('Horseman', function() {
 				})
 				.nodeify(done);
 		});
+
+		it('should log falsy argument', function(done) {
+
+			var horseman = new Horseman();
+			var oldLog = console.log;
+			var output = '';
+			console.log = function(message) {
+				output += message;
+			};
+
+			horseman
+				.open(serverUrl)
+				.log(undefined)
+				.then(function() {
+					console.log = oldLog;
+					horseman.close();	
+					output.should.equal('undefined');
+				})
+				.nodeify(done);
+		});
 	})
 
 	parallel("Inject jQuery", function() {
