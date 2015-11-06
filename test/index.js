@@ -1426,7 +1426,7 @@ describe('Horseman', function() {
 				.close()
 				.catch(function(e) {
 					// Make sure rejected by initialization error
-					e.should.have.property('path', BAD_PATH);
+					e.should.have.property('code', 'ENOENT');
 				})
 				.nodeify(done);
 		});
