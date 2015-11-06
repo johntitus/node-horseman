@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.8.1 - 2015-11-06
+### Fixed
+- .upload() now works in PhantomJS 1.x line (still broken in 2.x line) - thanks @flashhhh
+- logging for falsy arguments - thanks @awlayton
+
 ##2.8.0 - 2015-10-28
 ### Added
 - .cropBase64(). Thanks @jeprojects!
