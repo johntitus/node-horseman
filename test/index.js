@@ -702,11 +702,19 @@ function manipulation(bool) {
 
 		//File upload is broken in Phantomjs 2.0
 		//https://github.com/ariya/phantomjs/issues/12506
-		it.skip('should upload a file', function() {
+		it('should upload a file', function(done) {
+			var horseman = new Horseman({
+				injectJquery: bool
+			});
 			horseman
+				.open(serverUrl)
 				.upload("#upload", "test/files/testjs.js")
 				.value("#upload")
-				.should.equal("C:\\fakepath\\testjs.js");
+				.then(function(val) {
+					val.should.equal("C:\\fakepath\\testjs.js");
+				})
+				.close()
+				.nodeify(done);
 		});
 
 		it('should verify a file exists before upload', function(done) {
@@ -720,6 +728,7 @@ function manipulation(bool) {
 					horseman.close();
 					err.toString().indexOf("Error").should.be.above(-1);
 				})
+				.close()
 				.nodeify(done);
 
 		});
