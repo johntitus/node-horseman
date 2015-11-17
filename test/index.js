@@ -7,6 +7,8 @@ var should = require('should');
 var parallel = require('mocha.parallel');
 
 var app, server, serverUrl;
+var hostname = 'http://localhost';
+var defaultPort = 4567;
 
 function navigation(bool) {
 
@@ -829,10 +831,10 @@ describe('Horseman', function() {
 	 */
 	before(function(done) {
 		app = express();
-		var port = process.env.port || 4567;
+		var port = process.env.port || defaultPort;
 		app.use(express.static(path.join(__dirname, 'files')));
 		server = app.listen(port, function() {
-			serverUrl = 'http://localhost:' + port + '/';;
+			serverUrl = hostname + ':' + port + '/';
 			done();
 		});
 	});
