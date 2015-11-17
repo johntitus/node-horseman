@@ -7,6 +7,8 @@ var should = require('should');
 var parallel = require('mocha.parallel');
 
 var app, server, serverUrl;
+var hostname = 'http://localhost';
+var defaultPort = 4567;
 
 function navigation(bool) {
 
@@ -64,6 +66,27 @@ function navigation(bool) {
 				.then(function(data) {
 					horseman.close();
 					data.should.equal(serverUrl);
+				})
+				.nodeify(done);
+		});
+
+		it('should reject on fail', function(done) {
+			var port = (process.env.port || defaultPort) + 1;
+			var requestUrl = hostname + ':' + port + '/';
+
+			var horseman = new Horseman({
+				injectJquery: bool
+			});
+			horseman
+				.open(requestUrl)
+				.then(function() {
+					throw new Error('fail status did not reject')
+				}, function (err) {
+					err.should.be.instanceOf(Error);
+					err.message.should.equal('Failed to open url: ' + requestUrl);
+				})
+				.finally(function () {
+					horseman.close();
 				})
 				.nodeify(done);
 		});
@@ -829,10 +852,10 @@ describe('Horseman', function() {
 	 */
 	before(function(done) {
 		app = express();
-		var port = process.env.port || 4567;
+		var port = process.env.port || defaultPort;
 		app.use(express.static(path.join(__dirname, 'files')));
 		server = app.listen(port, function() {
-			serverUrl = 'http://localhost:' + port + '/';;
+			serverUrl = hostname + ':' + port + '/';
 			done();
 		});
 	});
