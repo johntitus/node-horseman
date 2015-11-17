@@ -81,8 +81,9 @@ function navigation(bool) {
 				.open(requestUrl)
 				.then(function() {
 					throw new Error('fail status did not reject')
-				}, function (status) {
-					status.should.equal('fail');
+				}, function (err) {
+					err.should.be.instanceOf(Error);
+					err.message.should.equal('failed to open url');
 				})
 				.finally(function () {
 					horseman.close();
