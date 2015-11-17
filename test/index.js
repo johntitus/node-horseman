@@ -70,6 +70,26 @@ function navigation(bool) {
 				.nodeify(done);
 		});
 
+		it('should reject on fail', function(done) {
+			var port = (process.env.port || defaultPort) + 1;
+			var requestUrl = hostname + ':' + port + '/';
+
+			var horseman = new Horseman({
+				injectJquery: bool
+			});
+			horseman
+				.open(requestUrl)
+				.then(function() {
+					throw new Error('fail status did not reject')
+				}, function (status) {
+					status.should.equal('fail');
+				})
+				.finally(function () {
+					horseman.close();
+				})
+				.nodeify(done);
+		});
+
 		it('should have a HTTP status code', function(done) {
 			var horseman = new Horseman({
 				injectJquery: bool
