@@ -83,7 +83,7 @@ function navigation(bool) {
 					throw new Error('fail status did not reject')
 				}, function (err) {
 					err.should.be.instanceOf(Error);
-					err.message.should.equal('failed to open url');
+					err.message.should.equal('Failed to open url: ' + requestUrl);
 				})
 				.finally(function () {
 					horseman.close();
