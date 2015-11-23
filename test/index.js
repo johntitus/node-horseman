@@ -1417,6 +1417,19 @@ describe('Horseman', function() {
 				})
 				.nodeify(done);
 		});
+
+		it('should not call exit in close after failed init', function(done) {
+			var BAD_PATH = 'notphantom';
+			var horseman = new Horseman({phantomPath: BAD_PATH});
+
+			horseman.open(serverUrl)
+				.close()
+				.catch(function(e) {
+					// Make sure rejected by initialization error
+					e.should.have.property('code', 'ENOENT');
+				})
+				.nodeify(done);
+		});
 	});
 
 });
