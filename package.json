@@ -1,6 +1,6 @@
 {
   "name": "node-horseman",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "description": "Run PhantomJS from Node",
   "repository": {
     "type": "git",
