@@ -1218,8 +1218,11 @@ describe('Horseman', function() {
 			var fired = false;
 
 			horseman
-				.on("navigationRequested", function(url) {
+				.on("navigationRequested", function(url, type, willNavigate, isMain) {
 					fired = (url === "https://www.yahoo.com/");
+					type.should.equal("Other");
+					willNavigate.should.be.true;
+					isMain.should.be.true;
 				})
 				.open('http://www.yahoo.com')
 				.then(function() {
