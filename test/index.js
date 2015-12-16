@@ -633,7 +633,21 @@ function manipulation(bool) {
 				.nodeify(done);
 
 		});
-		
+
+		it('should take a crop', function(done) {
+			var horseman = new Horseman({
+				injectJquery: bool
+			});
+			horseman
+				.open(serverUrl)
+				.crop("#text", "out.png")
+				.then(function() {
+					horseman.close();
+					fs.existsSync("out.png").should.be.true;
+				})
+				.nodeify(done);
+		});
+
 		it('should take a cropBase64', function(done) {
 			var horseman = new Horseman({
 				injectJquery: bool
@@ -647,7 +661,6 @@ function manipulation(bool) {
 					type.should.equal('string');
 				})
 				.nodeify(done);
-			
 		});
 
 		it('should let you zoom', function(done) {
@@ -658,11 +671,11 @@ function manipulation(bool) {
 				.open(serverUrl)
 				.viewport(800, 400)
 				.open(serverUrl)
-				.screenshot('small.png')
+				.crop('#text', 'small.png')
 				.viewport(1600, 800)
 				.zoom(2)
 				.open(serverUrl)
-				.screenshot('big.png')
+				.crop('#text', 'big.png')
 				.then(function() {
 					horseman.close();
 
