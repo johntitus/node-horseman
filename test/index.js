@@ -1358,6 +1358,48 @@ describe('Horseman', function() {
 				.nodeify(done);
 		});
 
+		it('should have tabs opened by links', function() {
+			var horseman = new Horseman();
+			return horseman
+				.open(serverUrl + "opennewtab.html")
+				.click('a#newtab')
+				.tabCount()
+				.then(function(count) {
+					count.should.equal(2);
+				})
+				.close();
+		});
+
+		describe('swtichToNewTab option', function() {
+
+			it('should default to not switching tab', function() {
+				var horseman = new Horseman();
+				return horseman
+					.open(serverUrl + "opennewtab.html")
+					.click('a#newtab')
+					.title()
+					.then(function(title) {
+						title.should.equal('Horseman test link open new tab');
+					})
+					.close();
+			});
+
+			it('should switch tab when true', function () {
+				var horseman = new Horseman({
+					switchToNewTab: true
+				});
+				return horseman
+					.open(serverUrl + "opennewtab.html")
+					.click('a#newtab')
+					.title()
+					.then(function(title) {
+						title.should.equal('Horseman new tab');
+					})
+					.close();
+			});
+
+		});
+
 	});
 
 	describe('Chaining', function() {
