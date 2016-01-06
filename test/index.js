@@ -1363,6 +1363,7 @@ describe('Horseman', function() {
 			return horseman
 				.open(serverUrl + "opennewtab.html")
 				.click('a#newtab')
+				.waitForNextPage()
 				.tabCount()
 				.then(function(count) {
 					count.should.equal(2);
@@ -1377,6 +1378,7 @@ describe('Horseman', function() {
 				return horseman
 					.open(serverUrl + "opennewtab.html")
 					.click('a#newtab')
+					.waitForNextPage()
 					.title()
 					.then(function(title) {
 						title.should.equal('Horseman test link open new tab');
@@ -1391,6 +1393,7 @@ describe('Horseman', function() {
 				return horseman
 					.open(serverUrl + "opennewtab.html")
 					.click('a#newtab')
+					.waitForNextPage()
 					.title()
 					.then(function(title) {
 						title.should.equal('Horseman new tab');
