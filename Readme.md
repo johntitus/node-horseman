@@ -46,20 +46,23 @@ Note: Make sure PhantomJS is available in your path, or use the `phantomPath` op
 Create a new instance that can navigate around the web.
 
 The available options are:
-* `clientScripts` an array of local javascript files to load onto each page.
-* `timeout`: how long to wait for page loads or wait periods, default `5000` ms.
-* `interval`: how frequently to poll for page load state, default `50` ms.
-* `port`: port to mount the phantomjs instance to, default `12401`.
-* `loadImages`: load all inlined images, default `true`.
-* `cookiesFile`: A file where to store/use cookies.
-* `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
-* `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
-* `webSecurity`: enables web security and forbids cross-domain XHR, default `true`.
-* `injectJquery`: whether or not jQuery is automatically loaded into each page. Default is `true`. If jQuery is already present on the page, it is not injected.
-* `proxy`: specify the proxy server to use `address:port`, default not set.
-* `proxyType`: specify the proxy server type `[http|socks5|none]`, default not set.
-* `proxyAuth`: specify the auth information for the proxy `user:pass`, default not set.
-* `phantomPath`: If PhantomJS is not installed in your path, you can use this option to specify the executable's location.
+
+Option | Default | Description
+------ | ------- | -----------
+timeout | 5000 | How long to wait for page loads or wait periods, in ms
+interval | 50 | How frequently to poll for page load state, in ms
+port | 12401 | Port to mount the phantomjs instance to
+loadImages | true | Load all inlined images
+sslProtocol | any | Sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`
+injectJquery | true | Whether or not jQuery is automatically loaded into each page (only if jQuery doesn't already exist)
+ignoreSSLErrors | | Ignores SSL errors, such as expired or self-signed certificate errors
+webSecurity | | Enables web security and forbids cross-domain XHR
+phantomPath | | If PhantomJS is not installed in your path, you can use this option to specify the executable's location.
+clientScripts | | An array of local javascript files to load onto each page
+cookiesFile | | A file where to store/use cookies
+proxy | | Specify the proxy server to use `address:port`
+proxyType | | Specify the proxy server type `[http|socks5|none]`
+proxyAuth | | Specify the auth information for the proxy `user:pass`
 
 ### Cleanup
 Be sure to `.close()` each Horseman instance when you're done with it!
