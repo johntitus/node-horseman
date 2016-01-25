@@ -61,6 +61,7 @@ The available options are:
 * `proxyAuth`: specify the auth information for the proxy `user:pass`, default not set.
 * `phantomPath`: If PhantomJS is not installed in your path, you can use this option to specify the executable's location.
 * `debugPort`: Enable web inspector on specified port, default not set.
+* `debugAutorun`: Autorun on launch when in debug mode, default is true.
 
 ### Cleanup
 Be sure to `.close()` each Horseman instance when you're done with it!
