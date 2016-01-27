@@ -977,6 +977,62 @@ describe('Horseman', function() {
 
 	});
 
+	parallel("Inject bluebird", function() {
+		it('should not inject bluebird', function() {
+			var horseman = new Horseman();
+
+			return horseman
+				.open("http://www.google.com")
+				.evaluate(function() {
+					return typeof Promise;
+				})
+				.then(function(result) {
+					result.should.equal("undefined");
+				})
+				.close();
+
+		});
+
+		it('should inject bluebird', function() {
+			var horseman = new Horseman({
+				injectBluebird: true
+			});
+
+			return horseman
+				.open("http://www.google.com")
+				.evaluate(function() {
+					return typeof Promise;
+				})
+				.then(function(result) {
+					result.should.equal("function");
+				})
+				.close();
+		});
+
+		it('should expose as Bluebird', function() {
+			var horseman = new Horseman({
+				injectBluebird: 'bluebird'
+			});
+			//Horseman injects 2.1.1, digg uses 1.8.3
+			horseman
+				.open("http://www.google.com")
+				.evaluate(function() {
+					return typeof Promise;
+				})
+				.then(function(result) {
+					result.should.equal("undefined");
+				})
+				.evaluate(function() {
+					return typeof Bluebird;
+				})
+				.then(function(result) {
+					result.should.equal("function");
+				})
+				.close();
+		});
+
+	});
+
 
 	parallel("Waiting", function() {
 		it('should wait for the page to change', function(done) {
