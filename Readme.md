@@ -56,6 +56,13 @@ The available options are:
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
 * `webSecurity`: enables web security and forbids cross-domain XHR, default `true`.
 * `injectJquery`: whether or not jQuery is automatically loaded into each page. Default is `true`. If jQuery is already present on the page, it is not injected.
+* `injectBluebird`: whether or not bluebird is automatically loaded into each
+page. Default is `false`. If `true` and `Promise` is already present on the
+page, it is not injected. If `'bluebird'`, it is always injected as Bluebird
+whether Promise is present or not.
+* `bluebirdDebug`: whether or not to enable bluebird debug features. Default is
+`false`. If `true`, no-minified bluebird is injected and long stack traces are
+enabled
 * `proxy`: specify the proxy server to use `address:port`, default not set.
 * `proxyType`: specify the proxy server type `[http|socks5|none]`, default not set.
 * `proxyAuth`: specify the auth information for the proxy `user:pass`, default not set.
