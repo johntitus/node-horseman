@@ -366,6 +366,9 @@ Specify the `path` to upload into a file input `selector` element.
 #### .injectJs(file)
 Inject a javascript file onto the page.
 
+#### .includetJs(url)
+Include an external javascript script on the page via url.
+
 #### .mouseEvent( type, [, x, y, button] )
 Send a mouse event to the page. Each event is sent to the page as if it comes from real user interaction. `type` must be one of "mouseup", "mousedown", "mousemove", "doubleclick", or "click", which is the default.  `x` and `y` are optional and specify the location on the page to send the mouse event. `button` is also optional, and defaults to "left".
 

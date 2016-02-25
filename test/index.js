@@ -580,6 +580,24 @@ function manipulation(bool) {
 
 		});
 
+		it('should include javascript', function(done) {
+			var horseman = new Horseman({
+				injectJquery: bool
+			});
+			horseman
+				.open(serverUrl)
+				.includeJs(serverUrl + '/testjs.js')
+				.evaluate(function() {
+					return ___obj.myname;
+				})
+				.then(function(result) {
+					result.should.equal("isbob");
+				})
+				.close()
+				.nodeify(done);
+
+		});
+
 		it('should type and click', function(done) {
 			var horseman = new Horseman({
 				injectJquery: bool
