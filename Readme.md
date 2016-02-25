@@ -51,6 +51,7 @@ The available options are:
 * `interval`: how frequently to poll for page load state, default `50` ms.
 * `port`: port to mount the phantomjs instance to, default `12401`.
 * `loadImages`: load all inlined images, default `true`.
+* `switchToNewTab`: switch to new tab when created, default `false`.
 * `cookiesFile`: A file where to store/use cookies.
 * `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors.
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
@@ -400,7 +401,7 @@ Wait until the `fn` evaluated on the page returns `value`.
 Horseman supports multiple tabs being open at the same time.
 
 #### .openTab(url)
-Open a url in a new tab. Fires a `tabCreated` event.
+Open a url in a new tab. Fires a `tabCreated` event. Also, the newly created tab becomes the current tab.
 
 #### .tabCount()
 Returns the number of tabs currently open.
