@@ -57,10 +57,19 @@ The available options are:
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
 * `webSecurity`: enables web security and forbids cross-domain XHR.
 * `injectJquery`: whether or not jQuery is automatically loaded into each page. Default is `true`. If jQuery is already present on the page, it is not injected.
+* `injectBluebird`: whether or not bluebird is automatically loaded into each
+page. Default is `false`. If `true` and `Promise` is already present on the
+page, it is not injected. If `'bluebird'`, it is always injected as Bluebird
+whether Promise is present or not.
+* `bluebirdDebug`: whether or not to enable bluebird debug features. Default is
+`false`. If `true`, no-minified bluebird is injected and long stack traces are
+enabled
 * `proxy`: specify the proxy server to use `address:port`, default not set.
 * `proxyType`: specify the proxy server type `[http|socks5|none]`, default not set.
 * `proxyAuth`: specify the auth information for the proxy `user:pass`, default not set.
 * `phantomPath`: If PhantomJS is not installed in your path, you can use this option to specify the executable's location.
+* `debugPort`: Enable web inspector on specified port, default not set.
+* `debugAutorun`: Autorun on launch when in debug mode, default is true.
 
 ### Cleanup
 Be sure to `.close()` each Horseman instance when you're done with it!
@@ -114,7 +123,7 @@ horseman
   .open('http://httpbin.org/cookies')
   .cookies()
   .then(function(cookies){
-    console.log( cookies ); 
+    console.log( cookies );
     return horseman.close();
   });
 
@@ -170,7 +179,7 @@ horseman
     console.log(body);
     /*
         {
-        "authenticated": true, 
+        "authenticated": true,
         "user": "myUserName"
       }
     */
@@ -248,7 +257,7 @@ Takes a cropped screenshot of the page. `area` can be a string identifying an ht
 #### .pdf(path, [paperSize])
 Renders the page as a PDF. The default paperSize is [US Letter](http://en.wikipedia.org/wiki/Letter_%28paper_size%29).
 
-The `paperSize` object should be in either this format: 
+The `paperSize` object should be in either this format:
 ```js
 {
   width: '200px',
@@ -373,7 +382,7 @@ Include an external javascript script on the page via url.
 Send a mouse event to the page. Each event is sent to the page as if it comes from real user interaction. `type` must be one of "mouseup", "mousedown", "mousemove", "doubleclick", or "click", which is the default.  `x` and `y` are optional and specify the location on the page to send the mouse event. `button` is also optional, and defaults to "left".
 
 #### .keyboardEvent( type, key [, modifier ] )
-Send a keyboard event to the page. Each event is sent to the page as if it comes from real user interaction. `type` must be one of "keyup", "keydown", or "keypress", which is the default. `key` should be a numerical value from [this page](https://github.com/ariya/phantomjs/commit/cab2635e66d74b7e665c44400b8b20a8f225153a). For instance, to send an "enter" key press, use `.keyboardEvent("keypress",16777221)`. 
+Send a keyboard event to the page. Each event is sent to the page as if it comes from real user interaction. `type` must be one of "keyup", "keydown", or "keypress", which is the default. `key` should be a numerical value from [this page](https://github.com/ariya/phantomjs/commit/cab2635e66d74b7e665c44400b8b20a8f225153a). For instance, to send an "enter" key press, use `.keyboardEvent("keypress",16777221)`.
 
 `modifier` is optional, and comes from this list:
   * 0x02000000: A Shift key on the keyboard is pressed
@@ -416,7 +425,7 @@ Switch to another tab. Count starts at 0.
 ### Events
 
 #### .on(event, callback)
-Respond to page events with the callback. Be sure to set these before calling `.open()`. 
+Respond to page events with the callback. Be sure to set these before calling `.open()`.
 
 Supported events are:
 * `initialized` - callback()
