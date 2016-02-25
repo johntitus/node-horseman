@@ -394,7 +394,7 @@ Send a keyboard event to the page. Each event is sent to the page as if it comes
 To send a shift+p event, you would use `.keyboardEvent("keypress","p",0x02000000)`.
 
 ### Waiting
-These functions for the browser to wait for an event to occur. If the event does not occur before the timeout period (configurable via the options), a timeout event will fire.
+These functions for the browser to wait for an event to occur. If the event does not occur before the timeout period (configurable via the options), a timeout event will fire and the Promise for the action will reject.
 
 #### .wait(ms)
 Wait for `ms` milliseconds e.g. `.wait(5000)`

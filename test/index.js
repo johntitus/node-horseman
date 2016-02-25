@@ -1148,10 +1148,34 @@ describe('Horseman', function() {
 				.open("http://www.google.com")
 				.click("a:contains('Advertising')")
 				.waitForNextPage()
+				.catch(Horseman.TimeoutError, function() {})
 				.then(function() {
 					timeoutHorseman.close();
 					timeoutFired.should.be.true;
 				})
+				.close()
+				.asCallback(done);
+
+		});
+
+		it('should reject Promise if timeout period elapses when waiting for next page', function(done) {
+			var timeoutHorseman = new Horseman({
+				timeout: 10
+			});
+
+			var timeoutFired = false;
+
+			timeoutHorseman
+				.open("http://www.google.com")
+				.click("a:contains('Advertising')")
+				.waitForNextPage()
+				.catch(Horseman.TimeoutError, function() {
+					timeoutFired = true;
+				})
+				.then(function() {
+					timeoutFired.should.be.true;
+				})
+				.close()
 				.asCallback(done);
 
 		});
@@ -1169,10 +1193,32 @@ describe('Horseman', function() {
 				})
 				.open(serverUrl)
 				.waitForSelector('bob')
+				.catch(Horseman.TimeoutError, function() {})
 				.then(function() {
 					timeoutHorseman.close();
 					timeoutFired.should.be.true;
 				})
+				.asCallback(done);
+
+		});
+
+		it('should reject Promise if timeout period elapses when waiting for selector', function(done) {
+			var timeoutHorseman = new Horseman({
+				timeout: 10
+			});
+
+			var timeoutFired = false;
+
+			timeoutHorseman
+				.open(serverUrl)
+				.waitForSelector('bob')
+				.catch(Horseman.TimeoutError, function() {
+					timeoutFired = true;
+				})
+				.then(function() {
+					timeoutFired.should.be.true;
+				})
+				.close()
 				.asCallback(done);
 
 		});
@@ -1194,10 +1240,35 @@ describe('Horseman', function() {
 				})
 				.open(serverUrl)
 				.waitFor(return5, 6)
+				.catch(Horseman.TimeoutError, function() {})
 				.then(function() {
 					timeoutHorseman.close();
 					timeoutFired.should.be.true;
 				})
+				.asCallback(done);
+		});
+
+		it('should reject Promise if timeout period elapses when waiting for fn == value', function(done) {
+			var timeoutHorseman = new Horseman({
+				timeout: 10
+			});
+
+			var timeoutFired = false;
+
+			var return5 = function() {
+				return 5;
+			}
+
+			timeoutHorseman
+				.open(serverUrl)
+				.waitFor(return5, 6)
+				.catch(Horseman.TimeoutError, function() {
+					timeoutFired = true;
+				})
+				.then(function() {
+					timeoutFired.should.be.true;
+				})
+                .close()
 				.asCallback(done);
 		});
 	});
