@@ -1241,8 +1241,11 @@ describe('Horseman', function() {
 			var fired = false;
 
 			horseman
-				.on("navigationRequested", function(url) {
+				.on("navigationRequested", function(url, type, willNavigate, isMain) {
 					fired = (url === "https://www.yahoo.com/");
+					type.should.equal("Other");
+					willNavigate.should.be.true;
+					isMain.should.be.true;
 				})
 				.open('http://www.yahoo.com')
 				.then(function() {
@@ -1437,6 +1440,19 @@ describe('Horseman', function() {
 				.then(function() {
 					// Don't call close twice
 					horseman.close = function() {};
+				})
+				.nodeify(done);
+		});
+
+		it('should not call exit in close after failed init', function(done) {
+			var BAD_PATH = 'notphantom';
+			var horseman = new Horseman({phantomPath: BAD_PATH});
+
+			horseman.open(serverUrl)
+				.close()
+				.catch(function(e) {
+					// Make sure rejected by initialization error
+					e.should.have.property('code', 'ENOENT');
 				})
 				.nodeify(done);
 		});

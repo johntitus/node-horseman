@@ -52,9 +52,9 @@ The available options are:
 * `port`: port to mount the phantomjs instance to, default `12401`.
 * `loadImages`: load all inlined images, default `true`.
 * `cookiesFile`: A file where to store/use cookies.
-* `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors, default `true`.
+* `ignoreSSLErrors`: ignores SSL errors, such as expired or self-signed certificate errors.
 * `sslProtocol`: sets the SSL protocol for secure connections `[sslv3|sslv2|tlsv1|any]`, default `any`.
-* `webSecurity`: enables web security and forbids cross-domain XHR, default `true`.
+* `webSecurity`: enables web security and forbids cross-domain XHR.
 * `injectJquery`: whether or not jQuery is automatically loaded into each page. Default is `true`. If jQuery is already present on the page, it is not injected.
 * `proxy`: specify the proxy server to use `address:port`, default not set.
 * `proxyType`: specify the proxy server type `[http|socks5|none]`, default not set.

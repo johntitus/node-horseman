@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.8.2 - 2015-11-23
+### Fixed
+- #74 - do not try to exit PhantomJS when it failed to initialize
+
 ##2.8.1 - 2015-11-06
 ### Fixed
 - .upload() now works in PhantomJS 1.x line (still broken in 2.x line) - thanks @flashhhh
