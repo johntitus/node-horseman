@@ -11,7 +11,7 @@
     "test": "test"
   },
   "dependencies": {
-    "bluebird": "^2.9.34",
+    "bluebird": "^3.0.1",
     "clone": "^0.1.19",
     "debug": "^2.1.1",
     "defaults": "~1.0.0",

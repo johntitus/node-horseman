@@ -30,7 +30,7 @@ function navigation(bool) {
 					horseman.close();
 					result.should.equal("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36");
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should set headers', function(done) {
@@ -53,7 +53,7 @@ function navigation(bool) {
 					response.headers.should.have.property('X-Horseman-Header');
 					response.headers['X-Horseman-Header'].should.equal('test header');
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should open a page', function(done) {
@@ -67,7 +67,7 @@ function navigation(bool) {
 					horseman.close();
 					data.should.equal(serverUrl);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should reject on fail', function(done) {
@@ -88,7 +88,7 @@ function navigation(bool) {
 				.finally(function () {
 					horseman.close();
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should have a HTTP status code', function(done) {
@@ -102,7 +102,7 @@ function navigation(bool) {
 					horseman.close();
 					data.should.equal(200);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should click a link', function(done) {
@@ -118,7 +118,7 @@ function navigation(bool) {
 					horseman.close();
 					data.should.equal(serverUrl + "next.html");
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should go backwards and forwards', function(done) {
@@ -145,7 +145,7 @@ function navigation(bool) {
 							data.should.equal(serverUrl + "next.html");
 						});
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should use basic authentication', function(done) {
@@ -162,7 +162,7 @@ function navigation(bool) {
 					horseman.close();
 					result.should.be.above(0);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should set the viewport', function(done) {
@@ -182,7 +182,7 @@ function navigation(bool) {
 					vp.height.should.equal(size.height);
 					vp.width.should.equal(size.width);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should let you scroll', function(done) {
@@ -203,7 +203,7 @@ function navigation(bool) {
 					coordinates.top.should.equal(50);
 					coordinates.left.should.equal(40);
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -226,7 +226,7 @@ function navigation(bool) {
 					var result = JSON.parse(body);
 					result.cookies[cookie.name].should.equal(cookie.value);
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -243,7 +243,7 @@ function navigation(bool) {
 					var result = JSON.parse(body);
 					Object.keys(result.cookies).length.should.equal(0);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should add an array of cookies', function(done) {
@@ -270,7 +270,7 @@ function navigation(bool) {
 					result.cookies[cookies[0].name].should.equal(cookies[0].value);
 					result.cookies[cookies[1].name].should.equal(cookies[1].value);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should post to a page', function(done) {
@@ -289,7 +289,7 @@ function navigation(bool) {
 					response.form['answer'].should.equal('42');
 					response.form['universe'].should.equal('expanding');
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -303,7 +303,7 @@ function navigation(bool) {
 					horseman.close();
 					status.should.equal('success');
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -326,7 +326,7 @@ function evaluation(bool) {
 					horseman.close();
 					title.should.equal('Testing Page');
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -341,7 +341,7 @@ function evaluation(bool) {
 					horseman.close();
 					exists.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -356,7 +356,7 @@ function evaluation(bool) {
 					horseman.close();
 					exists.should.be.false;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should count the number of selectors', function(done) {
@@ -370,7 +370,7 @@ function evaluation(bool) {
 					horseman.close();
 					count.should.be.above(0);
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -385,7 +385,7 @@ function evaluation(bool) {
 					horseman.close();
 					html.indexOf("code").should.be.above(0);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should get the text of an element', function(done) {
@@ -399,7 +399,7 @@ function evaluation(bool) {
 					horseman.close();
 					text.trim().should.equal("This is my code.");
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -414,7 +414,7 @@ function evaluation(bool) {
 					horseman.close();
 					value.should.equal("");
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should get an attribute of an element', function(done) {
@@ -428,7 +428,7 @@ function evaluation(bool) {
 					horseman.close();
 					value.should.equal("next.html");
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -443,7 +443,7 @@ function evaluation(bool) {
 					horseman.close();
 					value.should.equal("3px");
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should get the width of an element', function(done) {
@@ -457,7 +457,7 @@ function evaluation(bool) {
 					horseman.close();
 					value.should.be.above(0);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should get the height of an element', function(done) {
@@ -471,7 +471,7 @@ function evaluation(bool) {
 					horseman.close();
 					value.should.be.above(0);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should determine if an element is visible', function(done) {
@@ -485,7 +485,7 @@ function evaluation(bool) {
 					horseman.close();
 					visible.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should determine if an element is not-visible', function(done) {
@@ -499,7 +499,7 @@ function evaluation(bool) {
 					horseman.close();
 					visible.should.be.false;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should evaluate javascript', function(done) {
@@ -515,7 +515,7 @@ function evaluation(bool) {
 					horseman.close();
 					result.should.equal("Testing Page");
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should evaluate javascript with optional parameters', function(done) {
@@ -532,7 +532,7 @@ function evaluation(bool) {
 					horseman.close();
 					result.should.equal(str);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		
@@ -576,7 +576,7 @@ function manipulation(bool) {
 					horseman.close();
 					result.should.equal("isbob");
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -592,7 +592,7 @@ function manipulation(bool) {
 					horseman.close();
 					value.should.equal('github');
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -609,7 +609,7 @@ function manipulation(bool) {
 					horseman.close();
 					value.should.equal('');
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should select a value', function(done) {
@@ -624,7 +624,7 @@ function manipulation(bool) {
 					horseman.close();
 					value.should.equal('1');
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should take a screenshot', function(done) {
@@ -638,7 +638,7 @@ function manipulation(bool) {
 					horseman.close();
 					fs.existsSync("out.png").should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should take a screenshotBase64', function(done) {
@@ -653,7 +653,7 @@ function manipulation(bool) {
 					var type = typeof asPng;
 					type.should.equal('string');
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 		
@@ -669,7 +669,7 @@ function manipulation(bool) {
 					var type = typeof asPng;
 					type.should.equal('string');
 				})
-				.nodeify(done);
+				.asCallback(done);
 			
 		});
 
@@ -694,7 +694,7 @@ function manipulation(bool) {
 
 					bigSize.should.be.greaterThan(smallSize);
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -720,7 +720,7 @@ function manipulation(bool) {
 					defaultSize.should.be.greaterThan(0);
 					euroSize.should.be.greaterThan(0);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		//File upload is broken in Phantomjs 2.0
@@ -737,7 +737,7 @@ function manipulation(bool) {
 					val.should.equal("C:\\fakepath\\testjs.js");
 				})
 				.close()
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should verify a file exists before upload', function(done) {
@@ -752,7 +752,7 @@ function manipulation(bool) {
 					err.toString().indexOf("Error").should.be.above(-1);
 				})
 				.close()
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -777,7 +777,7 @@ function manipulation(bool) {
 					horseman.close();
 					keypresses.should.equal(6);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should send mouse events', function(done) {
@@ -821,7 +821,7 @@ function manipulation(bool) {
 					events['doubleclick'].should.be.greaterThan(0);
 					events['mousemove'].should.be.greaterThan(0);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should send keyboard events', function(done) {
@@ -838,7 +838,7 @@ function manipulation(bool) {
 					horseman.close();
 					data.indexOf("keyCode=13").should.be.greaterThan(-1);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 	});
 }
@@ -902,7 +902,7 @@ describe('Horseman', function() {
 					horseman.close();
 					doComplete.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should log output', function(done) {
@@ -923,7 +923,7 @@ describe('Horseman', function() {
 					horseman.close();	
 					output.should.equal('1');
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should log falsy argument', function(done) {
@@ -943,7 +943,7 @@ describe('Horseman', function() {
 					horseman.close();	
 					output.should.equal('undefined');
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 	})
 
@@ -960,7 +960,7 @@ describe('Horseman', function() {
 					horseman.close();
 					result.should.equal("function");
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -978,7 +978,7 @@ describe('Horseman', function() {
 					horseman.close();
 					result.should.equal("undefined");
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should not stomp on existing jQuery', function(done) {
@@ -995,7 +995,7 @@ describe('Horseman', function() {
 					horseman.close();
 					result.should.not.equal("2.1.1");
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 	});
@@ -1013,7 +1013,7 @@ describe('Horseman', function() {
 					horseman.close();
 					url.should.equal(serverUrl + "next.html");
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should wait until a condition on the page is true', function(done) {
@@ -1029,7 +1029,7 @@ describe('Horseman', function() {
 					horseman.close();
 					url.should.equal('http://www.google.com/');
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should wait a set amount of time', function(done) {
@@ -1044,7 +1044,7 @@ describe('Horseman', function() {
 					var diff = end - start;
 					diff.should.be.greaterThan(999); //may be a ms or so off.
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should wait until a selector is seen', function(done) {
@@ -1057,7 +1057,7 @@ describe('Horseman', function() {
 					horseman.close();
 					count.should.be.above(0);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should call onTimeout if timeout period elapses when waiting for next page', function(done) {
@@ -1078,7 +1078,7 @@ describe('Horseman', function() {
 					timeoutHorseman.close();
 					timeoutFired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -1099,7 +1099,7 @@ describe('Horseman', function() {
 					timeoutHorseman.close();
 					timeoutFired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -1124,7 +1124,7 @@ describe('Horseman', function() {
 					timeoutHorseman.close();
 					timeoutFired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 	});
 
@@ -1145,7 +1145,7 @@ describe('Horseman', function() {
 					horseman.close();
 					html.should.equal("This is frame 1.");
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 	});
@@ -1168,7 +1168,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event on load started', function(done) {
@@ -1184,7 +1184,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event on load finished', function(done) {
@@ -1201,7 +1201,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event when a resource is requested', function(done) {
@@ -1217,7 +1217,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event when a resource is received', function(done) {
@@ -1233,7 +1233,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event when navigation requested', function(done) {
@@ -1252,7 +1252,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event when the url changes', function(done) {
@@ -1268,7 +1268,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event when a console message is seen', function(done) {
@@ -1287,7 +1287,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event when an alert is seen', function(done) {
@@ -1306,7 +1306,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event when a prompt is seen', function(done) {
@@ -1325,7 +1325,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 	});
@@ -1346,7 +1346,7 @@ describe('Horseman', function() {
 					horseman.close();
 					count.should.equal(2);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should fire an event when a tab is created', function(done) {
@@ -1363,7 +1363,7 @@ describe('Horseman', function() {
 					horseman.close();
 					fired.should.be.true;
 				})
-				.nodeify(done);
+				.asCallback(done);
 
 		});
 
@@ -1378,7 +1378,7 @@ describe('Horseman', function() {
 					horseman.close();
 					url.should.equal(serverUrl);
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 	});
@@ -1400,7 +1400,7 @@ describe('Horseman', function() {
 
 			p.finally(function() {
 				p.should.have.properties(Object.keys(actions));
-			}).nodeify(done);
+			}).asCallback(done);
 		});
 
 		it('should be available when calling actions on Promises', function(done) {
@@ -1408,7 +1408,7 @@ describe('Horseman', function() {
 
 			p.finally(function() {
 				p.should.have.properties(Object.keys(actions));
-			}).nodeify(done);
+			}).asCallback(done);
 		});
 
 		it('should be available when calling Promise methods', function(done) {
@@ -1416,7 +1416,7 @@ describe('Horseman', function() {
 
 			p.finally(function() {
 				p.should.have.properties(Object.keys(actions));
-			}).nodeify(done);
+			}).asCallback(done);
 		});
 
 		it('should call close after rejection', function(done) {
@@ -1441,7 +1441,7 @@ describe('Horseman', function() {
 					// Don't call close twice
 					horseman.close = function() {};
 				})
-				.nodeify(done);
+				.asCallback(done);
 		});
 
 		it('should not call exit in close after failed init', function(done) {
