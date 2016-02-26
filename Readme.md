@@ -405,8 +405,9 @@ Wait until a page finishes loading, typically after a `.click()`.
 #### .waitForSelector(selector)
 Wait until the element `selector` is present e.g. `.waitForSelector('#pay-button')`
 
-#### .waitFor(fn, value)
+#### .waitFor(fn, [arg1, arg2,...], value)
 Wait until the `fn` evaluated on the page returns `value`.
+`fn` is invoked with args;
 
 
 ### Tabs
