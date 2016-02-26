@@ -566,6 +566,109 @@ function evaluation(bool) {
 				.asCallback(done);
 		});
 
+		it('should evaluate Promise/thenable', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectBluebird: true,
+				injectJquery: bool
+			});
+			var str = "yo";
+			horseman
+				.open(serverUrl)
+				.evaluate(function(param) {
+					return Promise.resolve(param).delay(10);
+				}, str)
+				.then(function(result) {
+					result.should.equal(str);
+				})
+				.close()
+				.asCallback(done);
+		});
+
+		it('should evaluate with callback', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var str = "yo";
+			horseman
+				.open(serverUrl)
+				.evaluate(function(param, done) {
+					return setTimeout(function() {
+						done(null, param);
+					}, 10);
+				}, str)
+				.then(function(result) {
+					result.should.equal(str);
+				})
+				.close()
+				.asCallback(done);
+		});
+
+		it('should reject Promise on evaluate throw', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var rejected = false;
+			horseman
+				.open(serverUrl)
+				.evaluate(function() {
+					throw new Error();
+				})
+				.catch(function() {
+					rejected = true;
+				})
+				.then(function(result) {
+					rejected.should.equal(true);
+				})
+				.close()
+				.asCallback(done);
+		});
+
+		it('should reject Promise on evaluate reject', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var rejected = false;
+			horseman
+				.open(serverUrl)
+				.evaluate(function() {
+					return Promise.reject(new Error());
+				})
+				.catch(function() {
+					rejected = true;
+				})
+				.then(function(result) {
+					rejected.should.equal(true);
+				})
+				.close()
+				.asCallback(done);
+		});
+
+		it('should reject Promise on evaluate callback err', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var rejected = false;
+			horseman
+				.open(serverUrl)
+				.evaluate(function(done) {
+					return setTimeout(function() {
+						done(new Error());
+					}, 10);
+				})
+				.catch(function() {
+					rejected = true;
+				})
+				.then(function(result) {
+					rejected.should.equal(true);
+				})
+				.close()
+				.asCallback(done);
+		});
 		
 	});
 }
