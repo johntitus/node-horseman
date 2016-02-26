@@ -375,7 +375,7 @@ Specify the `path` to upload into a file input `selector` element.
 #### .injectJs(file)
 Inject a javascript file onto the page.
 
-#### .includetJs(url)
+#### .includeJs(url)
 Include an external javascript script on the page via url.
 
 #### .mouseEvent( type, [, x, y, button] )
