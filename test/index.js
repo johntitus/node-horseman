@@ -9,6 +9,7 @@ var parallel = require('mocha.parallel');
 var app, server, serverUrl;
 var hostname = 'http://localhost';
 var defaultPort = 4567;
+var defaultTimeout = 8000; // Increase timeout for Travis
 
 function navigation(bool) {
 
@@ -18,6 +19,7 @@ function navigation(bool) {
 
 		it('should set the user agent', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -38,6 +40,7 @@ function navigation(bool) {
 				'X-Horseman-Header': 'test header'
 			};
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -58,6 +61,7 @@ function navigation(bool) {
 
 		it('should open a page', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -75,6 +79,7 @@ function navigation(bool) {
 			var requestUrl = hostname + ':' + port + '/';
 
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -93,6 +98,7 @@ function navigation(bool) {
 
 		it('should have a HTTP status code', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -107,6 +113,7 @@ function navigation(bool) {
 
 		it('should click a link', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -123,6 +130,7 @@ function navigation(bool) {
 
 		it('should go backwards and forwards', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -150,6 +158,7 @@ function navigation(bool) {
 
 		it('should use basic authentication', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -167,6 +176,7 @@ function navigation(bool) {
 
 		it('should set the viewport', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			var size = {
@@ -187,6 +197,7 @@ function navigation(bool) {
 
 		it('should let you scroll', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -209,6 +220,7 @@ function navigation(bool) {
 
 		it('should add a cookie', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			var cookie = {
@@ -232,6 +244,7 @@ function navigation(bool) {
 
 		it('should clear out all cookies', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -248,6 +261,7 @@ function navigation(bool) {
 
 		it('should add an array of cookies', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			var cookies = [{
@@ -275,6 +289,7 @@ function navigation(bool) {
 
 		it('should post to a page', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			var data = 'universe=expanding&answer=42';
@@ -295,6 +310,7 @@ function navigation(bool) {
 
 		it('should return a status from open', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -317,6 +333,7 @@ function evaluation(bool) {
 
 		it('should get the title', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -332,6 +349,7 @@ function evaluation(bool) {
 
 		it('should verify an element exists', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -347,6 +365,7 @@ function evaluation(bool) {
 
 		it('should verify an element does not exists', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -361,6 +380,7 @@ function evaluation(bool) {
 
 		it('should count the number of selectors', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -376,6 +396,7 @@ function evaluation(bool) {
 
 		it('should get the html of an element', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -390,6 +411,7 @@ function evaluation(bool) {
 
 		it('should get the text of an element', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -405,6 +427,7 @@ function evaluation(bool) {
 
 		it('should get the value of an element', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -419,6 +442,7 @@ function evaluation(bool) {
 
 		it('should get an attribute of an element', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -434,6 +458,7 @@ function evaluation(bool) {
 
 		it('should get a css property of an element', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -448,6 +473,7 @@ function evaluation(bool) {
 
 		it('should get the width of an element', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -462,6 +488,7 @@ function evaluation(bool) {
 
 		it('should get the height of an element', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -476,6 +503,7 @@ function evaluation(bool) {
 
 		it('should determine if an element is visible', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -490,6 +518,7 @@ function evaluation(bool) {
 
 		it('should determine if an element is not-visible', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -504,6 +533,7 @@ function evaluation(bool) {
 
 		it('should evaluate javascript', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -520,6 +550,7 @@ function evaluation(bool) {
 
 		it('should evaluate javascript with optional parameters', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			var str = "yo";
@@ -564,6 +595,7 @@ function manipulation(bool) {
 
 		it('should inject javascript', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -582,6 +614,7 @@ function manipulation(bool) {
 
 		it('should include javascript', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -600,6 +633,7 @@ function manipulation(bool) {
 
 		it('should type and click', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -616,6 +650,7 @@ function manipulation(bool) {
 
 		it('should clear a field', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -632,6 +667,7 @@ function manipulation(bool) {
 
 		it('should select a value', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -647,6 +683,7 @@ function manipulation(bool) {
 
 		it('should take a screenshot', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -661,6 +698,7 @@ function manipulation(bool) {
 
 		it('should take a screenshotBase64', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -677,6 +715,7 @@ function manipulation(bool) {
 		
 		it('should take a cropBase64', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -693,6 +732,7 @@ function manipulation(bool) {
 
 		it('should let you zoom', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -718,6 +758,7 @@ function manipulation(bool) {
 
 		it('should let you export as a pdf', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -745,6 +786,7 @@ function manipulation(bool) {
 		//https://github.com/ariya/phantomjs/issues/12506
 		it('should upload a file', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -760,6 +802,7 @@ function manipulation(bool) {
 
 		it('should verify a file exists before upload', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -776,6 +819,7 @@ function manipulation(bool) {
 
 		it('should fire a keypress when typing', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -800,6 +844,7 @@ function manipulation(bool) {
 
 		it('should send mouse events', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -844,6 +889,7 @@ function manipulation(bool) {
 
 		it('should send keyboard events', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: bool
 			});
 			horseman
@@ -907,7 +953,9 @@ describe('Horseman', function() {
 	describe("Usability", function(){
 		it('should do a function without breaking the chain', function(done) {
 			var doComplete = false;
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 
 			horseman
 				.do(function(complete) {
@@ -925,7 +973,9 @@ describe('Horseman', function() {
 
 		it('should log output', function(done) {
 
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var oldLog = console.log;
 			var output = '';
 			console.log = function(message) {
@@ -946,7 +996,9 @@ describe('Horseman', function() {
 
 		it('should log falsy argument', function(done) {
 
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var oldLog = console.log;
 			var output = '';
 			console.log = function(message) {
@@ -967,7 +1019,9 @@ describe('Horseman', function() {
 
 	parallel("Inject jQuery", function() {
 		it('should inject jQuery', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 
 			horseman
 				.open("http://www.google.com")
@@ -984,6 +1038,7 @@ describe('Horseman', function() {
 
 		it('should not inject jQuery', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: false
 			});
 
@@ -1001,6 +1056,7 @@ describe('Horseman', function() {
 
 		it('should not stomp on existing jQuery', function(done) {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectJquery: true
 			});
 			//Horseman injects 2.1.1, digg uses 1.8.3
@@ -1020,7 +1076,9 @@ describe('Horseman', function() {
 
 	parallel("Inject bluebird", function() {
 		it('should not inject bluebird', function() {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 
 			return horseman
 				.open("http://www.google.com")
@@ -1036,6 +1094,7 @@ describe('Horseman', function() {
 
 		it('should inject bluebird', function() {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectBluebird: true
 			});
 
@@ -1052,6 +1111,7 @@ describe('Horseman', function() {
 
 		it('should expose as Bluebird', function() {
 			var horseman = new Horseman({
+				timeout: defaultTimeout,
 				injectBluebird: 'bluebird'
 			});
 			//Horseman injects 2.1.1, digg uses 1.8.3
@@ -1077,7 +1137,9 @@ describe('Horseman', function() {
 
 	parallel("Waiting", function() {
 		it('should wait for the page to change', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			horseman
 				.open(serverUrl)
 				.click("a")
@@ -1094,7 +1156,9 @@ describe('Horseman', function() {
 			var forALink = function() {
 				return ($("a:contains('About')").length > 0);
 			};
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			horseman
 				.open('http://www.google.com/')
 				.waitFor(forALink, true)
@@ -1108,7 +1172,9 @@ describe('Horseman', function() {
 
 		it('should wait a set amount of time', function(done) {
 			var start = new Date();
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			horseman
 				.open(serverUrl)
 				.wait(1000)
@@ -1122,7 +1188,9 @@ describe('Horseman', function() {
 		});
 
 		it('should wait until a selector is seen', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			horseman
 				.open(serverUrl)
 				.waitForSelector("input")
@@ -1268,7 +1336,7 @@ describe('Horseman', function() {
 				.then(function() {
 					timeoutFired.should.be.true;
 				})
-                .close()
+				.close()
 				.asCallback(done);
 		});
 	});
@@ -1280,7 +1348,9 @@ describe('Horseman', function() {
 	describe("Frames", function() {
 
 		it('should let you switch to a child frame', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			horseman
 				.open(serverUrl + "frames.html")
 				.switchToChildFrame('frame1')
@@ -1303,7 +1373,9 @@ describe('Horseman', function() {
 
 		it('should fire an event on initialized', function(done) {
 			var fired = false;
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			horseman
 				.on("initialized", function() {
 					fired = true;
@@ -1317,7 +1389,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event on load started', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1333,7 +1407,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event on load finished', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1350,7 +1426,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event when a resource is requested', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1366,7 +1444,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event when a resource is received', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1382,7 +1462,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event when navigation requested', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1401,7 +1483,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event when the url changes', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1417,7 +1501,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event when a console message is seen', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1436,7 +1522,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event when an alert is seen', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1455,7 +1543,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event when a prompt is seen', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1482,7 +1572,9 @@ describe('Horseman', function() {
 	parallel('Tabs', function() {
 
 		it('should let you open a new tab', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			horseman
 				.open(serverUrl)
 				.openTab(serverUrl + "next.html")
@@ -1495,7 +1587,9 @@ describe('Horseman', function() {
 		});
 
 		it('should fire an event when a tab is created', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			var fired = false;
 
 			horseman
@@ -1513,7 +1607,9 @@ describe('Horseman', function() {
 		});
 
 		it('should let switch tabs', function(done) {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			horseman
 				.open(serverUrl)
 				.openTab(serverUrl + "next.html")
@@ -1527,7 +1623,9 @@ describe('Horseman', function() {
 		});
 
 		it('should have tabs opened by links', function() {
-			var horseman = new Horseman();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 			return horseman
 				.open(serverUrl + "opennewtab.html")
 				.click('a#newtab')
@@ -1542,7 +1640,9 @@ describe('Horseman', function() {
 		describe('swtichToNewTab option', function() {
 
 			it('should default to not switching tab', function() {
-				var horseman = new Horseman();
+				var horseman = new Horseman({
+					timeout: defaultTimeout,
+				});
 				return horseman
 					.open(serverUrl + "opennewtab.html")
 					.click('a#newtab')
@@ -1556,6 +1656,7 @@ describe('Horseman', function() {
 
 			it('should switch tab when true', function () {
 				var horseman = new Horseman({
+					timeout: defaultTimeout,
 					switchToNewTab: true
 				});
 				return horseman
@@ -1578,7 +1679,9 @@ describe('Horseman', function() {
 		var horseman;
 
 		beforeEach(function() {
-			horseman = new Horseman();
+			horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
 		});
 
 		afterEach(function() {
