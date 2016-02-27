@@ -908,12 +908,15 @@ function manipulation(bool) {
 				timeout: defaultTimeout,
 				injectJquery: bool
 			});
+			var rejected = false;
 			horseman
 				.open("http://validator.w3.org/#validate_by_upload")
 				.upload("#uploaded_file", "nope.jpg")
-				.then(function(err) {
-					horseman.close();
-					err.toString().indexOf("Error").should.be.above(-1);
+				.catch(function() {
+					rejected = true;
+				})
+				.then(function() {
+					rejected.should.equal(true);
 				})
 				.close()
 				.asCallback(done);
