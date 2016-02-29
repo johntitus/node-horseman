@@ -1,3 +1,5 @@
+'use strict';
+
 var Horseman = require('../lib');
 var actions = require('../lib/actions');
 var fs = require('fs');
