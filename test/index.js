@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var Promise = require('bluebird');
 var express = require('express');
+var semver = require('semver');
 var hoxy = require('hoxy');
 var should = require('should');
 var parallel = require('mocha.parallel');
@@ -1782,6 +1783,9 @@ describe('Horseman', function() {
 
 		// Set up proxy server for phantom to connect to
 		before(function setupProxy(done) {
+			if (!semver.satisfies(process.version, '>= 0.12')) {
+				this.skip('text proxy server require Node 0.12 or above');
+			}
 			proxy = hoxy.createServer();
 			proxy.intercept('response', function(req, resp) {
 				resp.headers[PROXY_HEADER] = 'test';
@@ -1790,7 +1794,11 @@ describe('Horseman', function() {
 		});
 
 		after(function closeProxy(done) {
-			proxy.close(done);
+			if (proxy) {
+				proxy.close(done);
+			} else {
+				done();
+			}
 		});
 
 		it('should use arguments', function(done) {

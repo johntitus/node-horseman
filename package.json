@@ -22,6 +22,7 @@
     "hoxy": "^3.2.0",
     "mocha": "^2.2.5",
     "mocha.parallel": "^0.7.1",
+    "semver": "^5.1.0",
     "should": "~2.1.1"
   },
   "scripts": {
