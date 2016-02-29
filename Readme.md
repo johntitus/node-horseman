@@ -71,6 +71,18 @@ enabled
 * `debugPort`: Enable web inspector on specified port, default not set.
 * `debugAutorun`: Autorun on launch when in debug mode, default is true.
 
+### Configuration
+
+#### .setProxy(ip, [port], [type], [user, pass])
+Dynamically set proxy settings (***requires PhantomJS 2.0.0 or above***).
+The `ip` argument can either be the IP of the proxy server,
+or a URI of the form `type://user:pass@ip:port`.
+
+The `port` is optional and defaults to `80`.
+The `type` is optional and defaults to `'http'`.
+The `user` and `pass` are the optional username and password for authentication,
+by default no authentication is used.
+
 ### Cleanup
 Be sure to `.close()` each Horseman instance when you're done with it!
 

@@ -2,7 +2,9 @@ var Horseman = require('../lib');
 var actions = require('../lib/actions');
 var fs = require('fs');
 var path = require('path');
+var Promise = require('bluebird');
 var express = require('express');
+var hoxy = require('hoxy');
 var should = require('should');
 var parallel = require('mocha.parallel');
 
@@ -925,6 +927,27 @@ describe('Horseman', function() {
 	});
 
 	/**
+	 * Get PhantomJS version.
+	 * Some features require certain verrsions.
+	 */
+	var phantomVersion;
+	before(function setupPhatom(done) {
+		var horseman = new Horseman();
+
+		horseman.ready
+			.then(function() {
+				return Promise.fromCallback(function(done) {
+					return horseman.phantom.get('version', done);
+				});
+			})
+			.then(function(version) {
+				phantomVersion = version;
+			})
+			.close()
+			.asCallback(done);
+	});
+
+	/**
 	 * Tear down the express server we used for testing.
 	 */
 	after(function(done) {
@@ -1748,6 +1771,73 @@ describe('Horseman', function() {
 					e.should.have.property('code', 'ENOENT');
 				})
 				.nodeify(done);
+		});
+	});
+
+	describe('Proxy', function() {
+		var proxy;
+		var PROXY_HEADER = 'x-horseman-proxied';
+		var PROXY_PORT = process.env.proxy_port ||
+				(process.env.port || defaultPort) + 1;
+
+		// Set up proxy server for phantom to connect to
+		before(function setupProxy(done) {
+			proxy = hoxy.createServer();
+			proxy.intercept('response', function(req, resp) {
+				resp.headers[PROXY_HEADER] = 'test';
+			});
+			proxy.listen(PROXY_PORT, done);
+		});
+
+		after(function closeProxy(done) {
+			proxy.close(done);
+		});
+
+		it('should use arguments', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				proxy: 'localhost:' + PROXY_PORT,
+				proxyType: 'http',
+			});
+
+			var hadHeader = 'truthy';
+			horseman
+				.on('resourceReceived', function(resp) {
+					var hasHeader = resp.headers.some(function(header) {
+						return header.name === PROXY_HEADER;
+					});
+					hadHeader = hadHeader && hasHeader;
+				})
+				.open('http://www.google.com')
+				.close()
+				.then(function() {
+					hadHeader.should.equal(true);
+				})
+				.asCallback(done);
+		});
+
+		it('should use setProxy', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+
+			if (phantomVersion.major < 2) {
+				this.skip('setProxy requires PhantomJS 2.0 or greater');
+			}
+
+			var hadHeader = 'truthy';
+			return horseman.setProxy('localhost', PROXY_PORT)
+				.on('resourceReceived', function(resp) {
+					var hasHeader = resp.headers.some(function(header) {
+						return header.name === PROXY_HEADER;
+					});
+					hadHeader = hadHeader && hasHeader;
+				})
+				.open('http://www.google.com')
+				.then(function() {
+					hadHeader.should.equal(true);
+				})
+				.close();
 		});
 	});
 
