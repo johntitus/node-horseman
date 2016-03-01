@@ -1345,10 +1345,10 @@ describe('Horseman', function() {
 
 			timeoutHorseman
 				.on("timeout", function() {
-					timeoutFired = true
+					timeoutFired = true;
 				})
-				.open("http://www.google.com")
-				.click("a:contains('Advertising')")
+				.open(serverUrl)
+				.click('p#text')
 				.waitForNextPage()
 				.catch(Horseman.TimeoutError, function() {})
 				.then(function() {
@@ -1368,8 +1368,8 @@ describe('Horseman', function() {
 			var timeoutFired = false;
 
 			timeoutHorseman
-				.open("http://www.google.com")
-				.click("a:contains('Advertising')")
+				.open(serverUrl)
+				.click('p#text')
 				.waitForNextPage()
 				.catch(Horseman.TimeoutError, function() {
 					timeoutFired = true;
@@ -1391,7 +1391,7 @@ describe('Horseman', function() {
 
 			timeoutHorseman
 				.on("timeout", function() {
-					timeoutFired = true
+					timeoutFired = true;
 				})
 				.open(serverUrl)
 				.waitForSelector('bob')
