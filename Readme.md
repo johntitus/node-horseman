@@ -97,6 +97,9 @@ Load the page at `url`.
 #### .post(url, postData)
 POST `postData` to the page at `url`.
 
+#### .put(url, putData)
+PUT `putData` to the page at `url`.
+
 #### .back()
 Go back to the previous page.
 
@@ -367,6 +370,40 @@ horseman
     console.log(size);
     return horseman.close();
   });
+```
+Can be used in an asynchronous way as well (with a node-style callback).
+This is similar to `.do`, but fn is invoked in the browser.
+```js
+horseman
+  .open("http://en.wikipedia.org/wiki/Headless_Horseman")
+  .evaluate(function(ms, done){
+    var start = Date.now();
+    setTimeout(function() {
+      done(null, Date.now() - start);
+      // ^ Can pass an Error as first argument,
+      // making evaluate action reject its Promise in Node.
+      // Second argument is what the Promise will resolve to.
+    }, ms);
+  }, 100)
+  .then(function(actualMs){
+    console.log(actualMs);
+  })
+  .close();
+```
+Lastly, if fn returns a Promise or thenable,
+it will be waited on and the action in Node will resolve/reject accordingly.
+```js
+horseman
+  .open("http://en.wikipedia.org/wiki/Headless_Horseman")
+  .evaluate(function() {
+    // Silly example for illustrative purposes.
+    return Bluebird.delay(100).return('Hello World');
+  })
+  .then(function(mesg){
+    // Will log "Hello World" after a roughly 100 ms delay.
+    console.log(mesg);
+  })
+  .close();
 ```
 
 #### .click(selector)

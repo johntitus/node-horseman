@@ -87,17 +87,19 @@ function navigation(bool) {
 				timeout: defaultTimeout,
 				injectJquery: bool
 			});
+			var rejected = false;
 			horseman
 				.open(requestUrl)
+				.catch(
+					{message: 'Failed to GET url: ' + requestUrl},
+					function() {
+						rejected = true;
+					}
+				)
 				.then(function() {
-					throw new Error('fail status did not reject')
-				}, function (err) {
-					err.should.be.instanceOf(Error);
-					err.message.should.equal('Failed to open url: ' + requestUrl);
+					rejected.should.equal(true);
 				})
-				.finally(function () {
-					horseman.close();
-				})
+				.close()
 				.asCallback(done);
 		});
 
@@ -571,6 +573,109 @@ function evaluation(bool) {
 				.asCallback(done);
 		});
 
+		it('should evaluate Promise/thenable', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectBluebird: true,
+				injectJquery: bool
+			});
+			var str = "yo";
+			horseman
+				.open(serverUrl)
+				.evaluate(function(param) {
+					return Promise.resolve(param).delay(10);
+				}, str)
+				.then(function(result) {
+					result.should.equal(str);
+				})
+				.close()
+				.asCallback(done);
+		});
+
+		it('should evaluate with callback', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var str = "yo";
+			horseman
+				.open(serverUrl)
+				.evaluate(function(param, done) {
+					return setTimeout(function() {
+						done(null, param);
+					}, 10);
+				}, str)
+				.then(function(result) {
+					result.should.equal(str);
+				})
+				.close()
+				.asCallback(done);
+		});
+
+		it('should reject Promise on evaluate throw', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var rejected = false;
+			horseman
+				.open(serverUrl)
+				.evaluate(function() {
+					throw new Error();
+				})
+				.catch(function() {
+					rejected = true;
+				})
+				.then(function(result) {
+					rejected.should.equal(true);
+				})
+				.close()
+				.asCallback(done);
+		});
+
+		it('should reject Promise on evaluate reject', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var rejected = false;
+			horseman
+				.open(serverUrl)
+				.evaluate(function() {
+					return Promise.reject(new Error());
+				})
+				.catch(function() {
+					rejected = true;
+				})
+				.then(function(result) {
+					rejected.should.equal(true);
+				})
+				.close()
+				.asCallback(done);
+		});
+
+		it('should reject Promise on evaluate callback err', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var rejected = false;
+			horseman
+				.open(serverUrl)
+				.evaluate(function(done) {
+					return setTimeout(function() {
+						done(new Error());
+					}, 10);
+				})
+				.catch(function() {
+					rejected = true;
+				})
+				.then(function(result) {
+					rejected.should.equal(true);
+				})
+				.close()
+				.asCallback(done);
+		});
 		
 	});
 }
@@ -810,12 +915,15 @@ function manipulation(bool) {
 				timeout: defaultTimeout,
 				injectJquery: bool
 			});
+			var rejected = false;
 			horseman
 				.open("http://validator.w3.org/#validate_by_upload")
 				.upload("#uploaded_file", "nope.jpg")
-				.then(function(err) {
-					horseman.close();
-					err.toString().indexOf("Error").should.be.above(-1);
+				.catch(function() {
+					rejected = true;
+				})
+				.then(function() {
+					rejected.should.equal(true);
 				})
 				.close()
 				.asCallback(done);
