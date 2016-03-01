@@ -82,17 +82,19 @@ function navigation(bool) {
 				timeout: defaultTimeout,
 				injectJquery: bool
 			});
+			var rejected = false;
 			horseman
 				.open(requestUrl)
+				.catch(
+					{message: 'Failed to GET url: ' + requestUrl},
+					function() {
+						rejected = true;
+					}
+				)
 				.then(function() {
-					throw new Error('fail status did not reject')
-				}, function (err) {
-					err.should.be.instanceOf(Error);
-					err.message.should.equal('Failed to open url: ' + requestUrl);
+					rejected.should.equal(true);
 				})
-				.finally(function () {
-					horseman.close();
-				})
+				.close()
 				.asCallback(done);
 		});
 

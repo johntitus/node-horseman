@@ -85,6 +85,9 @@ Load the page at `url`.
 #### .post(url, postData)
 POST `postData` to the page at `url`.
 
+#### .put(url, putData)
+PUT `putData` to the page at `url`.
+
 #### .back()
 Go back to the previous page.
 
