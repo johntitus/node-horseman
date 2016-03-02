@@ -1716,6 +1716,26 @@ describe('Horseman', function() {
 				.asCallback(done);
 		});
 
+		it('should receive return value of at callback', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+
+			horseman
+				.at("prompt", function() {
+					return 'foo';
+				})
+				.open(serverUrl)
+				.evaluate(function() {
+					return prompt('ono');
+				})
+				.then(function(ret) {
+					ret.should.equal('foo');
+				})
+				.close()
+				.asCallback(done);
+		});
+
 	});
 
 	/**

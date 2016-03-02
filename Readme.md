@@ -475,7 +475,10 @@ Switch to another tab. Count starts at 0.
 ### Events
 
 #### .on(event, callback)
-Respond to page events with the callback. Be sure to set these before calling `.open()`.
+Respond to page events with the callback. 
+Be sure to set these before calling `.open()`.
+The `callback` is evaluated in node.
+If you need to return from `callback`, you probably want `.at` instead.
 
 Supported events are:
 * `initialized` - callback()
@@ -501,6 +504,26 @@ horseman
     console.log(msg);
   })
 ```
+
+#### .at(event, callback)
+Respond to page events with the callback.
+Be sure to set these before calling `.open()`.
+The `callback` is evaluated in PhantomJS.
+If you do not need to return from `callback`, you probably want `.on` instead.
+
+Useful events are:
+* `confirm` - callback(msg)
+* `prompt` - callback(msg, defaultVal)
+* `filePicker` - callback(oldFile)
+
+For a more in depth description, see [the full callbacks list for phantomjs](https://github.com/ariya/phantomjs/wiki/API-Reference-WebPage#callbacks-list).
+
+```js
+horseman
+  .at('confirm', function(msg) {
+    return msg === 'Like this?' ? true : false;
+  })
+``
 
 #### Yielding
 You can use yields with Horseman with a library like [co](https://github.com/tj/co).
