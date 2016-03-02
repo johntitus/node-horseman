@@ -1559,6 +1559,25 @@ describe('Horseman', function() {
 				.asCallback(done);
 		});
 
+		it('should send status on load finished', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			var stat;
+
+			horseman
+				.on("loadFinished", function(status) {
+					stat = status;
+				})
+				.open(serverUrl)
+				.wait(50) //have to wait for the event to fire.
+				.then(function() {
+					stat.should.equal('success');
+				})
+				.close()
+				.asCallback(done);
+		});
+
 		it('should fire an event when a resource is requested', function(done) {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
