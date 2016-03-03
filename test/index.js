@@ -1347,8 +1347,6 @@ describe('Horseman', function() {
 				.on("timeout", function() {
 					timeoutFired = true;
 				})
-				.open(serverUrl)
-				.click('p#text')
 				.waitForNextPage()
 				.catch(Horseman.TimeoutError, function() {})
 				.then(function() {
@@ -1368,8 +1366,6 @@ describe('Horseman', function() {
 			var timeoutFired = false;
 
 			timeoutHorseman
-				.open(serverUrl)
-				.click('p#text')
 				.waitForNextPage()
 				.catch(Horseman.TimeoutError, function() {
 					timeoutFired = true;
@@ -1393,7 +1389,6 @@ describe('Horseman', function() {
 				.on("timeout", function() {
 					timeoutFired = true;
 				})
-				.open(serverUrl)
 				.waitForSelector('bob')
 				.catch(Horseman.TimeoutError, function() {})
 				.then(function() {
@@ -1412,7 +1407,6 @@ describe('Horseman', function() {
 			var timeoutFired = false;
 
 			timeoutHorseman
-				.open(serverUrl)
 				.waitForSelector('bob')
 				.catch(Horseman.TimeoutError, function() {
 					timeoutFired = true;
@@ -1440,7 +1434,6 @@ describe('Horseman', function() {
 				.on("timeout", function() {
 					timeoutFired = true;
 				})
-				.open(serverUrl)
 				.waitFor(return5, 6)
 				.catch(Horseman.TimeoutError, function() {})
 				.then(function() {
@@ -1462,7 +1455,6 @@ describe('Horseman', function() {
 			}
 
 			timeoutHorseman
-				.open(serverUrl)
 				.waitFor(return5, 6)
 				.catch(Horseman.TimeoutError, function() {
 					timeoutFired = true;
