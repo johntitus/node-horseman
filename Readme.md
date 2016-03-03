@@ -523,7 +523,7 @@ horseman
   .at('confirm', function(msg) {
     return msg === 'Like this?' ? true : false;
   })
-``
+```
 
 #### Yielding
 You can use yields with Horseman with a library like [co](https://github.com/tj/co).
