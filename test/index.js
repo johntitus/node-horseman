@@ -1193,16 +1193,15 @@ describe('Horseman', function() {
 				timeout: defaultTimeout,
 				injectJquery: true
 			});
-			//Horseman injects 2.1.1, digg uses 1.8.3
 			horseman
-				.open("http://www.digg.com")
+				.open(serverUrl + 'jQuery.html')
 				.evaluate(function() {
 					return $.fn.jquery;
 				})
 				.then(function(result) {
-					horseman.close();
-					result.should.not.equal("2.1.1");
+					result.should.equal('Not really jQuery');
 				})
+				.close()
 				.asCallback(done);
 		});
 
@@ -1248,7 +1247,6 @@ describe('Horseman', function() {
 				timeout: defaultTimeout,
 				injectBluebird: 'bluebird'
 			});
-			//Horseman injects 2.1.1, digg uses 1.8.3
 			horseman
 				.open("http://www.google.com")
 				.evaluate(function() {
