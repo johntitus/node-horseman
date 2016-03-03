@@ -21,9 +21,9 @@
     "express": "^4.10.4",
     "hoxy": "^3.2.0",
     "mocha": "^2.2.5",
-    "mocha.parallel": "^0.7.1",
+    "mocha.parallel": "^0.11.2",
     "semver": "^5.1.0",
-    "should": "~2.1.1"
+    "should": "^8.2.2"
   },
   "scripts": {
     "test": "mocha -R spec"
