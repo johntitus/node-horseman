@@ -607,6 +607,7 @@ function manipulation(bool) {
 						return fs.stat(file, done);
 					})
 					.call('isFile')
+					.catch(function() {})
 					.then(function(isFile) {
 						if (!isFile) {
 							return;
