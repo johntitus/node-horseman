@@ -1680,7 +1680,7 @@ describe('Horseman', function() {
 		});
 	});
 
-	parallel('Proxy', function() {
+	describe('Proxy', function() {
 		var proxy;
 		var PROXY_HEADER = 'x-horseman-proxied';
 		var PROXY_PORT = process.env.proxy_port ||
