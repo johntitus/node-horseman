@@ -11,7 +11,9 @@ var hoxy = require('hoxy');
 var should = require('should');
 var parallel = require('mocha.parallel');
 
-var app, server, serverUrl;
+var app;
+var server;
+var serverUrl;
 var hostname = 'http://localhost';
 var defaultPort = 4567;
 var defaultTimeout = 8000; // Increase timeout for Travis
@@ -111,12 +113,12 @@ function navigation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.click("a[href='next.html']")
+				.click('a[href="next.html"]')
 				.waitForNextPage()
 				.url()
 				.close()
 				.should.eventually
-				.equal(serverUrl + "next.html");
+				.equal(serverUrl + 'next.html');
 		});
 
 		it('should go backwards and forwards', function() {
@@ -132,7 +134,7 @@ function navigation(bool) {
 				.waitForNextPage()
 				.url()
 				.then(function(data) {
-					data.should.equal(serverUrl)
+					data.should.equal(serverUrl);
 				})
 				.forward()
 				.waitForNextPage()
@@ -169,7 +171,7 @@ function navigation(bool) {
 			};
 			return horseman
 				.viewport(size.width, size.height)
-				.open("http://www.google.com")
+				.open('http://www.google.com')
 				.viewport()
 				.close()
 				.should.eventually
@@ -188,7 +190,7 @@ function navigation(bool) {
 					return {
 						top: document.body.scrollTop,
 						left: document.body.scrollLeft
-					}
+					};
 				})
 				.close()
 				.should.eventually
@@ -204,15 +206,15 @@ function navigation(bool) {
 				injectJquery: bool
 			});
 			var cookie = {
-				name: "test",
-				value: "cookie",
+				name: 'test',
+				value: 'cookie',
 				domain: 'httpbin.org'
 			};
 
 			return horseman
 				.cookies(cookie)
-				.open("http://httpbin.org/cookies")
-				.text("pre")
+				.open('http://httpbin.org/cookies')
+				.text('pre')
 				.close()
 				.then(JSON.parse)
 				.get('cookies')
@@ -227,8 +229,8 @@ function navigation(bool) {
 			});
 			return horseman
 				.cookies([])
-				.open("http://httpbin.org/cookies")
-				.text("pre")
+				.open('http://httpbin.org/cookies')
+				.text('pre')
 				.close()
 				.then(JSON.parse)
 				.should.eventually
@@ -241,19 +243,19 @@ function navigation(bool) {
 				injectJquery: bool
 			});
 			var cookies = [{
-				name: "test",
-				value: "cookie",
+				name: 'test',
+				value: 'cookie',
 				domain: 'httpbin.org'
 			}, {
-				name: "test2",
-				value: "cookie2",
+				name: 'test2',
+				value: 'cookie2',
 				domain: 'httpbin.org'
 			}];
 
 			return horseman
 				.cookies(cookies)
-				.open("http://httpbin.org/cookies")
-				.text("pre")
+				.open('http://httpbin.org/cookies')
+				.text('pre')
 				.close()
 				.then(JSON.parse)
 				.get('cookies')
@@ -273,7 +275,7 @@ function navigation(bool) {
 
 			return horseman
 				.post('http://httpbin.org/post', data)
-				.text("pre")
+				.text('pre')
 				.close()
 				.then(JSON.parse)
 				.should.eventually
@@ -323,7 +325,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.exists("input")
+				.exists('input')
 				.close()
 				.should.eventually
 				.be.true();
@@ -336,7 +338,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.exists("article")
+				.exists('article')
 				.close()
 				.should.eventually
 				.be.false();
@@ -349,7 +351,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.count("a")
+				.count('a')
 				.close()
 				.should.eventually
 				.be.above(0);
@@ -375,7 +377,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.text("#text")
+				.text('#text')
 				.close()
 				.call('trim')
 				.should.eventually
@@ -389,7 +391,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.value("input[name='input1']")
+				.value('input[name="input1"]')
 				.close()
 				.should.eventually
 				.equal('');
@@ -402,7 +404,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.attribute("a", "href")
+				.attribute('a', 'href')
 				.close()
 				.should.eventually
 				.equal('next.html');
@@ -415,7 +417,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.cssProperty("a", "margin-bottom")
+				.cssProperty('a', 'margin-bottom')
 				.close()
 				.should.eventually
 				.equal('3px');
@@ -428,7 +430,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.width("a")
+				.width('a')
 				.close()
 				.should.eventually
 				.be.above(0);
@@ -441,7 +443,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.height("a")
+				.height('a')
 				.close()
 				.should.eventually
 				.be.above(0);
@@ -454,7 +456,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.visible("a")
+				.visible('a')
 				.close()
 				.should.eventually
 				.be.true();
@@ -467,7 +469,7 @@ function evaluation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.visible(".login-popup")
+				.visible('.login-popup')
 				.close()
 				.should.eventually
 				.be.false();
@@ -493,7 +495,7 @@ function evaluation(bool) {
 				timeout: defaultTimeout,
 				injectJquery: bool
 			});
-			var str = "yo";
+			var str = 'yo';
 			return horseman
 				.open(serverUrl)
 				.evaluate(function(param) {
@@ -510,7 +512,7 @@ function evaluation(bool) {
 				injectBluebird: true,
 				injectJquery: bool
 			});
-			var str = "yo";
+			var str = 'yo';
 			return horseman
 				.open(serverUrl)
 				.evaluate(function(param) {
@@ -526,7 +528,7 @@ function evaluation(bool) {
 				timeout: defaultTimeout,
 				injectJquery: bool
 			});
-			var str = "yo";
+			var str = 'yo';
 			return horseman
 				.open(serverUrl)
 				.evaluate(function(param, done) {
@@ -626,7 +628,7 @@ function manipulation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.injectJs("test/files/testjs.js")
+				.injectJs('test/files/testjs.js')
 				.evaluate(function() {
 					return ___obj.myname;
 				})
@@ -687,8 +689,8 @@ function manipulation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.select("#select1", "1")
-				.value("#select1")
+				.select('#select1', '1')
+				.value('#select1')
 				.close()
 				.should.eventually
 				.equal('1');
@@ -707,7 +709,7 @@ function manipulation(bool) {
 				.then(function() {
 					return Promise.fromCallback(function(done) {
 						return fs.stat('out.png', done);
-					})
+					});
 				})
 				.call('isFile')
 				.should.eventually
@@ -721,7 +723,7 @@ function manipulation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.screenshotBase64("PNG")
+				.screenshotBase64('PNG')
 				.close()
 				.should.eventually
 				.be.a.String();
@@ -736,7 +738,7 @@ function manipulation(bool) {
 				.open(serverUrl)
 				.cropBase64(
 					{top: 100, left: 100, width: 100, height: 100},
-					"PNG"
+					'PNG'
 				)
 				.close()
 				.should.eventually
@@ -808,11 +810,11 @@ function manipulation(bool) {
 			});
 			return horseman
 				.open(serverUrl)
-				.upload("#upload", "test/files/testjs.js")
-				.value("#upload")
+				.upload('#upload', 'test/files/testjs.js')
+				.value('#upload')
 				.close()
 				.should.eventually
-				.equal("C:\\fakepath\\testjs.js");
+				.equal('C:\\fakepath\\testjs.js');
 		});
 
 		it('should verify a file exists before upload', function() {
@@ -821,8 +823,8 @@ function manipulation(bool) {
 				injectJquery: bool
 			});
 			return horseman
-				.open("http://validator.w3.org/#validate_by_upload")
-				.upload("#uploaded_file", "nope.jpg")
+				.open('http://validator.w3.org/#validate_by_upload')
+				.upload('#uploaded_file', 'nope.jpg')
 				.close()
 				.should
 				.be.rejected();
@@ -834,15 +836,15 @@ function manipulation(bool) {
 				injectJquery: bool
 			});
 			return horseman
-				.open("http://httpbin.org/forms/post")
+				.open('http://httpbin.org/forms/post')
 				.evaluate(function() {
 					window.keypresses = 0;
-					var elem = document.querySelector("input[name='custname']");
+					var elem = document.querySelector('input[name="custname"]');
 					elem.onkeypress = function() {
 						window.keypresses++;
-					}
+					};
 				})
-				.type("input[name='custname']", "github")
+				.type('input[name="custname"]', 'github')
 				.evaluate(function() {
 					return window.keypresses;
 				})
@@ -857,7 +859,8 @@ function manipulation(bool) {
 				injectJquery: bool
 			});
 			return horseman
-				.open('https://dvcs.w3.org/hg/d4e/raw-file/tip/mouse-event-test.html')
+				.open('https://dvcs.w3.org/' +
+						'hg/d4e/raw-file/tip/mouse-event-test.html')
 				.mouseEvent('mousedown', 200, 200)
 				.mouseEvent('mouseup', 200, 200)
 				.mouseEvent('click', 200, 200)
@@ -878,12 +881,12 @@ function manipulation(bool) {
 					}
 
 					return {
-						'mousedown': findByTextContent("tr", "mousedown"),
-						'mouseup': findByTextContent("tr", "mouseup"),
-						'click': findByTextContent("tr", "click"),
-						'doubleclick': findByTextContent("tr", "dblclick"),
-						'mousemove': findByTextContent("tr", "mousemove"),
-					}
+						'mousedown': findByTextContent('tr', 'mousedown'),
+						'mouseup': findByTextContent('tr', 'mouseup'),
+						'click': findByTextContent('tr', 'click'),
+						'doubleclick': findByTextContent('tr', 'dblclick'),
+						'mousemove': findByTextContent('tr', 'mousemove'),
+					};
 				})
 				.close()
 				.should.eventually
@@ -901,7 +904,7 @@ function manipulation(bool) {
 				.open('http://unixpapa.com/js/testkey.html')
 				.keyboardEvent('keypress', 16777221)
 				.evaluate(function() {
-					return document.querySelector("textarea[name='t']").value;
+					return document.querySelector('textarea[name="t"]').value;
 				})
 				.close()
 				.should.eventually
@@ -954,7 +957,7 @@ describe('Horseman', function() {
 
 	it('should be constructable', function() {
 		var horseman = new Horseman();
-		horseman.should.be.ok;
+		horseman.should.be.ok();
 		return horseman.close();
 	});
 
@@ -970,7 +973,7 @@ describe('Horseman', function() {
 
 	manipulation(false);
 
-	describe("Usability", function(){
+	describe('Usability', function() {
 		it('should do a function without breaking the chain', function() {
 			var doComplete = false;
 			var horseman = new Horseman({
@@ -981,7 +984,7 @@ describe('Horseman', function() {
 					setTimeout(function() {
 						doComplete = true;
 						complete();
-					}, 500)
+					}, 500);
 				})
 				.close()
 				.then(function() {
@@ -1031,15 +1034,15 @@ describe('Horseman', function() {
 					console.log = oldLog;
 				});
 		});
-	})
+	});
 
-	parallel("Inject jQuery", function() {
+	parallel('Inject jQuery', function() {
 		it('should inject jQuery', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
 			});
 			return horseman
-				.open("http://www.google.com")
+				.open('http://www.google.com')
 				.evaluate(function() {
 					return typeof jQuery;
 				})
@@ -1054,7 +1057,7 @@ describe('Horseman', function() {
 				injectJquery: false
 			});
 			return horseman
-				.open("http://www.google.com")
+				.open('http://www.google.com')
 				.evaluate(function() {
 					return typeof jQuery;
 				})
@@ -1079,13 +1082,13 @@ describe('Horseman', function() {
 		});
 	});
 
-	parallel("Inject bluebird", function() {
+	parallel('Inject bluebird', function() {
 		it('should not inject bluebird', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
 			});
 			return horseman
-				.open("http://www.google.com")
+				.open('http://www.google.com')
 				.evaluate(function() {
 					return typeof Promise;
 				})
@@ -1100,7 +1103,7 @@ describe('Horseman', function() {
 				injectBluebird: true
 			});
 			return horseman
-				.open("http://www.google.com")
+				.open('http://www.google.com')
 				.evaluate(function() {
 					return typeof Promise;
 				})
@@ -1115,7 +1118,7 @@ describe('Horseman', function() {
 				injectBluebird: 'bluebird'
 			});
 			return horseman
-				.open("http://www.google.com")
+				.open('http://www.google.com')
 				.evaluate(function() {
 					return {
 						Promise: typeof Promise,
@@ -1132,14 +1135,14 @@ describe('Horseman', function() {
 
 	});
 
-	parallel("Waiting", function() {
+	parallel('Waiting', function() {
 		it('should wait for the page to change', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
 			});
 			return horseman
 				.open(serverUrl)
-				.click("a")
+				.click('a')
 				.waitForNextPage()
 				.url()
 				.close()
@@ -1149,7 +1152,7 @@ describe('Horseman', function() {
 
 		it('should wait until a condition on the page is true', function() {
 			var forALink = function() {
-				return ($("a:contains('About')").length > 0);
+				return ($('a:contains("About")').length > 0);
 			};
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
@@ -1185,20 +1188,20 @@ describe('Horseman', function() {
 			});
 			return horseman
 				.open(serverUrl)
-				.waitForSelector("input")
-				.count("input")
+				.waitForSelector('input')
+				.count('input')
 				.close()
 				.should.eventually
 				.be.above(0);
 		});
 
-		it('should call onTimeout if timeout period elapses when waiting for next page', function() {
+		it('should call onTimeout if timeout in waitForNextPage', function() {
 			var timeoutHorseman = new Horseman({
 				timeout: 10
 			});
 			var timeoutFired = false;
 			return timeoutHorseman
-				.on("timeout", function() {
+				.on('timeout', function() {
 					timeoutFired = true;
 				})
 				.waitForNextPage()
@@ -1209,7 +1212,7 @@ describe('Horseman', function() {
 				});
 		});
 
-		it('should reject Promise if timeout period elapses when waiting for next page', function() {
+		it('should reject Promise if timeout in  waitForNextPage', function() {
 			var timeoutHorseman = new Horseman({
 				timeout: 10
 			});
@@ -1220,13 +1223,13 @@ describe('Horseman', function() {
 				.be.rejectedWith(Horseman.TimeoutError);
 		});
 
-		it('should call onTimeout if timeout period elapses when waiting for selector', function() {
+		it('should call onTimeout if timeout in waitForSelector', function() {
 			var timeoutHorseman = new Horseman({
 				timeout: 10
 			});
 			var timeoutFired = false;
 			return timeoutHorseman
-				.on("timeout", function() {
+				.on('timeout', function() {
 					timeoutFired = true;
 				})
 				.waitForSelector('bob')
@@ -1237,7 +1240,7 @@ describe('Horseman', function() {
 				});
 		});
 
-		it('should reject Promise if timeout period elapses when waiting for selector', function() {
+		it('should reject Promise if timeout in waitForSelector', function() {
 			var timeoutHorseman = new Horseman({
 				timeout: 10
 			});
@@ -1249,16 +1252,16 @@ describe('Horseman', function() {
 				.be.rejectedWith(Horseman.TimeoutError);
 		});
 
-		it('should call onTimeout if timeout period elapses when waiting for fn == value', function() {
+		it('should call onTimeout if timeout in waitFor', function() {
 			var timeoutHorseman = new Horseman({
 				timeout: 10
 			});
 			var timeoutFired = false;
 			var return5 = function() {
 				return 5;
-			}
+			};
 			return timeoutHorseman
-				.on("timeout", function() {
+				.on('timeout', function() {
 					timeoutFired = true;
 				})
 				.waitFor(return5, 6)
@@ -1269,14 +1272,14 @@ describe('Horseman', function() {
 				});
 		});
 
-		it('should reject Promise if timeout period elapses when waiting for fn == value', function() {
+		it('should reject Promise if timeout in waitFor', function() {
 			var timeoutHorseman = new Horseman({
 				timeout: 10
 			});
 			var timeoutFired = false;
 			var return5 = function() {
 				return 5;
-			}
+			};
 			return timeoutHorseman
 				.waitFor(return5, 6)
 				.close()
@@ -1288,16 +1291,16 @@ describe('Horseman', function() {
 	/**
 	 * Iframes
 	 */
-	describe("Frames", function() {
+	describe('Frames', function() {
 		it('should let you switch to a child frame', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
 			});
 			return horseman
-				.open(serverUrl + "frames.html")
+				.open(serverUrl + 'frames.html')
 				.switchToChildFrame('frame1')
-				.waitForSelector("h1")
-				.html("h1")
+				.waitForSelector('h1')
+				.html('h1')
 				.close()
 				.should.eventually
 				.equal('This is frame 1.');
@@ -1314,7 +1317,7 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("initialized", function() {
+				.on('initialized', function() {
 					fired = true;
 				})
 				.open(serverUrl)
@@ -1330,7 +1333,7 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("loadStarted", function() {
+				.on('loadStarted', function() {
 					fired = true;
 				})
 				.open(serverUrl)
@@ -1346,7 +1349,7 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("loadFinished", function() {
+				.on('loadFinished', function() {
 					fired = true;
 				})
 				.open(serverUrl)
@@ -1363,7 +1366,7 @@ describe('Horseman', function() {
 			});
 			var stat;
 			return horseman
-				.on("loadFinished", function(status) {
+				.on('loadFinished', function(status) {
 					stat = status;
 				})
 				.open(serverUrl)
@@ -1380,7 +1383,7 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("resourceRequested", function() {
+				.on('resourceRequested', function() {
 					fired = true;
 				})
 				.open(serverUrl)
@@ -1396,7 +1399,7 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("resourceReceived", function() {
+				.on('resourceReceived', function() {
 					fired = true;
 				})
 				.open(serverUrl)
@@ -1412,10 +1415,10 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("navigationRequested",
+				.on('navigationRequested',
 					function(url, type, willNavigate, isMain) {
-						fired = (url === "https://www.yahoo.com/");
-						type.should.equal("Other");
+						fired = (url === 'https://www.yahoo.com/');
+						type.should.equal('Other');
 						willNavigate.should.be.true();
 						isMain.should.be.true();
 					}
@@ -1433,7 +1436,7 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("urlChanged", function() {
+				.on('urlChanged', function() {
 					fired = true;
 				})
 				.open(serverUrl)
@@ -1449,12 +1452,12 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("consoleMessage", function() {
+				.on('consoleMessage', function() {
 					fired = true;
 				})
 				.open(serverUrl)
 				.evaluate(function() {
-					console.log("message");
+					console.log('message');
 				})
 				.close()
 				.then(function() {
@@ -1468,7 +1471,7 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("alert", function() {
+				.on('alert', function() {
 					fired = true;
 				})
 				.open(serverUrl)
@@ -1487,7 +1490,7 @@ describe('Horseman', function() {
 			});
 			var fired = false;
 			return horseman
-				.on("prompt", function() {
+				.on('prompt', function() {
 					fired = true;
 				})
 				.open(serverUrl)
@@ -1505,7 +1508,7 @@ describe('Horseman', function() {
 				timeout: defaultTimeout,
 			});
 			return horseman
-				.at("prompt", function() {
+				.at('prompt', function() {
 					return 'foo';
 				})
 				.open(serverUrl)
@@ -1528,7 +1531,7 @@ describe('Horseman', function() {
 			});
 			return horseman
 				.open(serverUrl)
-				.openTab(serverUrl + "next.html")
+				.openTab(serverUrl + 'next.html')
 				.tabCount()
 				.close()
 				.should.eventually
@@ -1545,7 +1548,7 @@ describe('Horseman', function() {
 					fired = true;
 				})
 				.open(serverUrl)
-				.openTab(serverUrl + "next.html")
+				.openTab(serverUrl + 'next.html')
 				.close()
 				.then(function() {
 					fired.should.be.true();
@@ -1558,7 +1561,7 @@ describe('Horseman', function() {
 			});
 			return horseman
 				.open(serverUrl)
-				.openTab(serverUrl + "next.html")
+				.openTab(serverUrl + 'next.html')
 				.switchToTab(0)
 				.url()
 				.close()
@@ -1571,7 +1574,7 @@ describe('Horseman', function() {
 				timeout: defaultTimeout,
 			});
 			return horseman
-				.open(serverUrl + "opennewtab.html")
+				.open(serverUrl + 'opennewtab.html')
 				.click('a#newtab')
 				.waitForNextPage()
 				.tabCount()
@@ -1587,7 +1590,7 @@ describe('Horseman', function() {
 					timeout: defaultTimeout,
 				});
 				return horseman
-					.open(serverUrl + "opennewtab.html")
+					.open(serverUrl + 'opennewtab.html')
 					.click('a#newtab')
 					.waitForNextPage()
 					.title()
@@ -1596,13 +1599,13 @@ describe('Horseman', function() {
 					.equal('Horseman test link open new tab');
 			});
 
-			it('should switch tab when true', function () {
+			it('should switch tab when true', function() {
 				var horseman = new Horseman({
 					timeout: defaultTimeout,
 					switchToNewTab: true
 				});
 				return horseman
-					.open(serverUrl + "opennewtab.html")
+					.open(serverUrl + 'opennewtab.html')
 					.click('a#newtab')
 					.waitForNextPage()
 					.title()
@@ -1653,7 +1656,7 @@ describe('Horseman', function() {
 			horseman.close = function() {
 				called = true;
 				return close.apply(this, arguments);
-			}
+			};
 			return horseman
 				.open('about:blank')
 				.then(function() {
@@ -1684,7 +1687,7 @@ describe('Horseman', function() {
 	describe('Proxy', function() {
 		var proxy;
 		var PROXY_HEADER = 'x-horseman-proxied';
-		var PROXY_PORT = process.env.proxy_port ||
+		var PROXY_PORT = process.env['proxy_port'] ||
 				(process.env.port || defaultPort) + 1;
 
 		// Set up proxy server for phantom to connect to

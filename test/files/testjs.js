@@ -1,3 +1,3 @@
 var ___obj = {
-	myname : "isbob"
+	myname: 'isbob'
 };
