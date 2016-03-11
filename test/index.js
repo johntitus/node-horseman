@@ -305,6 +305,23 @@ function evaluation(bool) {
 	var title = 'Evaluation ' + ((bool) ? 'with' : 'without') + ' jQuery';
 
 	parallel(title, function() {
+		after(function unlinkFiles() {
+			return Promise
+				.fromCallback(function(done) {
+					return fs.stat('test.html', done);
+				})
+				.call('isFile')
+				.catch(function() {})
+				.then(function(isFile) {
+					if (!isFile) {
+						return;
+					}
+					return Promise.fromCallback(function(done) {
+						return fs.unlink('test.html', done);
+					});
+				});
+		});
+
 		it('should get the title', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
@@ -368,6 +385,25 @@ function evaluation(bool) {
 				.close()
 				.should.eventually
 				.match(/code/);
+		});
+
+		it('should write the html of an element', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			return horseman
+				.open(serverUrl)
+				.html('', 'test.html')
+				.close()
+				.then(function() {
+					return Promise.fromCallback(function(done) {
+						return fs.stat('test.html', done);
+					});
+				})
+				.call('isFile')
+				.should.eventually
+				.be.true();
 		});
 
 		it('should get the text of an element', function() {

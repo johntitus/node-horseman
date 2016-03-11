@@ -292,10 +292,11 @@ Determines if the selector exists, or not, on the page. Returns a boolean.
 
 Counts the number of `selector` on the page. Returns a number.
 
-#### .html(\[selector\])
+#### .html(\[selector\], \[file\])
 
 Gets the HTML inside of an element.
 If no `selector` is provided, it returns the HTML of the entire page.
+If `file` is provided, the HTML will be written to that filename.
 
 #### .text(selector)
 
