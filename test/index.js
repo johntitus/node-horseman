@@ -266,6 +266,37 @@ function navigation(bool) {
 				});
 		});
 
+		it('should add cookies.txt file', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			// Must keep these up to date with files/cookies.txt
+			var cookies = [{
+				name: 'test',
+				value: 'cookie',
+				domain: 'httpbin.org'
+			}, {
+				name: 'test2',
+				value: 'cookie2',
+				domain: 'httpbin.org'
+			}];
+			var COOKIES_TXT = path.join(__dirname, 'files', 'cookies.txt');
+
+			return horseman
+				.cookies(COOKIES_TXT)
+				.open('http://httpbin.org/cookies')
+				.text('pre')
+				.close()
+				.then(JSON.parse)
+				.get('cookies')
+				.then(function(result) {
+					return cookies.forEach(function(cookie) {
+						result.should.have.property(cookie.name, cookie.value);
+					});
+				});
+		});
+
 		it('should post to a page', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,

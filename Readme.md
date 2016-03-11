@@ -144,7 +144,7 @@ Refresh the current page.
 
 Switches focus to the child frame specified by the `selector`.
 
-#### .cookies(\[object|array of objects\])
+#### .cookies(\[object|array of objects|string\])
 
 Without any options,
 this function will return all the cookies inside the browser.
@@ -169,7 +169,7 @@ horseman
   .open('http://httpbin.org/cookies')
   .cookies()
   .then(function(cookies){
-    console.log( cookies );
+    console.log(cookies);
     return horseman.close();
   });
 
@@ -203,9 +203,28 @@ horseman
   .open('http://httpbin.org/cookies')
   .cookies()
   .then(function(cookies){
-    console.log( cookies.length ); // 2
+    console.log(cookies.length); // 2
     return horseman.close();
   });
+
+```
+
+[cookies.txt]: <http://www.cookiecentral.com/faq/#3.5>
+You can pass in the name of a [cookies.txt][] formatted file
+to reset all the cookies in the cookie jar
+to those contained in the file.
+
+```js
+horseman
+  .cookies('my-cookies.txt')
+  .open('http://httpbin.org/cookies')
+  .cookies()
+  .then(function(cookies){
+    console.log(cookies);
+    return horseman.close();
+  });
+
+  /* Cookies from my-cookies.txt (converted to the above object format) */
 
 ```
 

@@ -1,0 +1,3 @@
+# Dummy cookies.txt for horseman tests
+.httpbin.org	TRUE	/	FALSE	99999999	test	cookie
+.httpbin.org	TRUE	/	FALSE	99999999	test2	cookie2

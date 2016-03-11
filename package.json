@@ -13,6 +13,7 @@
   "dependencies": {
     "bluebird": "^3.0.1",
     "clone": "^1.0.2",
+    "cookies.txt": "^0.1.1",
     "debug": "^2.1.1",
     "defaults": "~1.0.0",
     "node-phantom-simple": "^2.2.4"
