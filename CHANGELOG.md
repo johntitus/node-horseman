@@ -17,12 +17,14 @@ All notable changes to this project will be documented in this file.
 - Options for injecting bluebird into each page for using Promises in browser
 - Option for automatically switching to newly opened tabs
 - Option for more verbose debug
+
 ### Changed
 - Horseman Promises now reject on error
 - Waiting actions now reject on timeout (timeout callback is still called too)
 - Phantom's reourceTimeout now set to match Horseman's timeout
 - Horseman will use Phantom from the phantomjs-prebuilt/phantomjs npm packages
   if installed (still overridden by phantomPath option)
+
 ### Fixed
 - .open() now rejects on fail - thanks @w33ble.
 - .crop() now works with zoomFactor other than 1 - thanks @wong2.
@@ -31,6 +33,7 @@ All notable changes to this project will be documented in this file.
   thanks @grahamkennery.
 - Tabs/pages not opened by Horseman (e.g. by a link)
   are now correctly added to Horseman's list of tabs
+
 ### Updated
 - bluebird dependency to 3.0.1
 - node-phantom-simple dependency to 2.2.4
@@ -49,6 +52,7 @@ All notable changes to this project will be documented in this file.
 ## 2.8.0 - 2015-10-28
 ### Added
 - .cropBase64(). Thanks @jeprojects!
+
 ### Updated
 - node-phantom-simple dependency to version 2.1.0.
 - Updated readme with examples on how to set header/footer contents.
