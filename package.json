@@ -22,7 +22,7 @@
     "express": "^4.10.4",
     "hoxy": "^3.2.0",
     "mocha": "^2.2.5",
-    "mocha.parallel": "^0.11.2",
+    "mocha.parallel": "^0.12.0",
     "semver": "^5.1.0",
     "should": "^8.2.2"
   },

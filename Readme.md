@@ -7,10 +7,11 @@ Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
 
 Horseman has:
 
-  * a simple chainable API,
+  * a simple chainable (Promise based) API,
   * an easy-to-use control flow (see the examples),
   * support for multiple tabs being open at the same time,
-  * built in jQuery for easier page manipulation.
+  * built in jQuery for easier page manipulation,
+  * built in bluebird for easier in-browser async.
 
 ## Example
 
@@ -42,7 +43,12 @@ For longer examples, check out the Examples folder.
 `npm install node-horseman`
 
 Note: Make sure PhantomJS is available in your path,
+you have the phantomjs-prebuilt/phantomjs npm package installed,
 or use the `phantomPath` option.
+
+### To install the current version 3 ***beta*** ###
+
+`npm install node-horseman@^3.0.0-beta`
 
 ## API
 
