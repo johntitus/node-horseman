@@ -1651,6 +1651,24 @@ describe('Horseman', function() {
 				.close();
 		});
 
+		it('should remove closed tabs', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl + 'opennewtab.html')
+				.click('a#newtab')
+				.waitForNextPage()
+				.switchToTab(1)
+				.evaluate(function closePage() {
+					window.close();
+				})
+				.tabCount()
+				.close()
+				.should.eventually
+				.equal(1);
+		});
+
 		describe('swtichToNewTab option', function() {
 			it('should default to not switching tab', function() {
 				var horseman = new Horseman({
