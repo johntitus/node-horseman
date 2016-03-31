@@ -8,6 +8,7 @@ var Promise = require('bluebird');
 var express = require('express');
 var semver = require('semver');
 var hoxy = require('hoxy');
+var request = require('request');
 var should = require('should');
 var parallel = require('mocha.parallel');
 
@@ -884,6 +885,40 @@ function manipulation(bool) {
 				.equal('C:\\fakepath\\testjs.js');
 		});
 
+		it('should download a text file', function(done) {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			return horseman
+				.open(serverUrl)
+				.download(serverUrl + 'test.txt')
+				.close()
+				.should.eventually
+				.match(/^This is test text.\n*$/);
+		});
+
+		it('should download a binary file', function(done) {
+			if (phantomVersion.major < 2) {
+				this.skip('binary .download() does not work in PhantomJS 1.0');
+			}
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var img = horseman
+				.open('http://httpbin.org')
+				.download('http://httpbin.org/image', undefined, true)
+				.close();
+			var opts = {url: 'http://httpbin.org/image', encoding: null};
+			request(opts, function(err, res, body) {
+				if (err) { return done(err); }
+				img.then(function(img) {
+					img.compare(body).should.equal(0, 'images should match');
+				}).asCallback(done);
+			});
+		});
+
 		it('should verify a file exists before upload', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
@@ -980,6 +1015,7 @@ function manipulation(bool) {
 	});
 }
 
+var phantomVersion;
 describe('Horseman', function() {
 	this.timeout(20000);
 
@@ -1000,7 +1036,6 @@ describe('Horseman', function() {
 	 * Get PhantomJS version.
 	 * Some features require certain verrsions.
 	 */
-	var phantomVersion;
 	before(function setupPhantom() {
 		var horseman = new Horseman();
 		return horseman.ready

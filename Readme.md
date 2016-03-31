@@ -541,6 +541,17 @@ and `modifiers`, which is a string in the form of `ctrl+shift+alt`.
 
 Specify the `path` to upload into a file input `selector` element.
 
+#### .download(url, \[path\], \[binary\])
+
+Download the contents of `url`.
+If `path` is supplied the contents will be written there,
+otherwise this gets the contents.
+If `binary` is `true` it gets the contents as a node `Buffer`,
+otherwise it gets them as a string (`binary` defaults to `false`).
+
+***Please note: binary downloads do not work correctly with PhantomJS 1.x***
+
+
 #### .injectJs(file)
 
 Inject a JavaScript file onto the page.
