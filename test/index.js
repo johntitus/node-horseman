@@ -914,7 +914,7 @@ function manipulation(bool) {
 			request(opts, function(err, res, body) {
 				if (err) { return done(err); }
 				img.then(function(img) {
-					img.compare(body).should.equal(0, 'images should match');
+					img.toString().should.equal(body.toString());
 				}).asCallback(done);
 			});
 		});
