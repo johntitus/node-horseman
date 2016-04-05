@@ -1136,6 +1136,19 @@ describe('Horseman', function() {
 					console.log = oldLog;
 				});
 		});
+
+		it('should keep resolution value after log', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl)
+				.return(1)
+				.log(undefined)
+				.close()
+				.should.eventually
+				.equal(1);
+		});
 	});
 
 	parallel('Inject jQuery', function() {
