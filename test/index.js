@@ -1393,19 +1393,100 @@ describe('Horseman', function() {
 	/**
 	 * Iframes
 	 */
-	describe('Frames', function() {
-		it('should let you switch to a child frame', function() {
+	parallel('Frames', function() {
+		it('should get the frame name', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
 			});
 			return horseman
 				.open(serverUrl + 'frames.html')
-				.switchToChildFrame('frame1')
+				.switchToFrame('frame1')
+				.frameName()
+				.close()
+				.should.eventually
+				.equal('frame1');
+		});
+
+		it('should get the frame count', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl + 'frames.html')
+				.frameCount()
+				.close()
+				.should.eventually
+				.equal(2);
+		});
+
+		it('should get frame names', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl + 'frames.html')
+				.frameNames()
+				.close()
+				.should.eventually
+				.deepEqual(['frame1', 'frame2']);
+		});
+
+		it('should let you switch to the focused frame', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl + 'frames.html')
+				.switchToFrame('frame1')
+				.switchToFocusedFrame()
+				.frameName()
+				.close()
+				.should.eventually
+				.equal('');
+		});
+
+		it('should let you switch to a frame', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl + 'frames.html')
+				.switchToFrame('frame1')
 				.waitForSelector('h1')
 				.html('h1')
 				.close()
 				.should.eventually
 				.equal('This is frame 1.');
+		});
+
+		it('should let you switch to the main frame', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl + 'frames.html')
+				.switchToFrame('frame2')
+				.switchToFrame('frame31')
+				.switchToMainFrame()
+				.frameName()
+				.close()
+				.should.eventually
+				.equal('');
+		});
+
+		it('should let you switch to the parent frame', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl + 'frames.html')
+				.switchToFrame('frame2')
+				.switchToFrame('frame31')
+				.switchToParentFrame()
+				.frameName()
+				.close()
+				.should.eventually
+				.equal('frame2');
 		});
 	});
 

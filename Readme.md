@@ -146,10 +146,6 @@ The HTTP status code returned for the page just opened.
 
 Refresh the current page.
 
-#### .switchToChildFrame(selector)
-
-Switches focus to the child frame specified by the `selector`.
-
 #### .cookies(\[object|array of objects|string\])
 
 Without any options,
@@ -617,6 +613,38 @@ e.g., `.waitForSelector('#pay-button')`
 
 Wait until the `fn` evaluated on the page returns `value`.
 `fn` is invoked with args;
+
+### Frames
+
+#### .frameName()
+
+Get the name of the current frame.
+
+#### .frameCount()
+
+Get the number of frames inside the current frame.
+
+#### .frameNames()
+
+Get the names of the frames inside the current frame.
+
+#### .switchToFocused()
+
+Switch to the frame that is in focus.
+
+#### .switchToFrame(nameOrPosition)
+
+Switch to the frame specified by a frame name or a frame position.
+
+#### .switchToMainFrame()
+
+Switch to the main frame of the page.
+
+#### .switchToParentFrame()
+
+Switch to the parent frame of the current frame.
+Resolves to `true` it switched frames
+and `false` if it did not (i.e., the main frame was the current frame).
 
 ### Tabs
 
