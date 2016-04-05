@@ -1798,6 +1798,42 @@ describe('Horseman', function() {
 				.equal(1);
 		});
 
+		it('should close tabs', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl + 'opennewtab.html')
+				.click('a#newtab')
+				.waitForNextPage()
+				.switchToTab(1)
+				.closeTab(1)
+				.tabCount()
+				.close()
+				.should.eventually
+				.equal(1);
+		});
+
+		it('should fire an event when a tab is closed', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			var fired = false;
+			return horseman
+				.on('tabClosed', function() {
+					fired = true;
+				})
+				.open(serverUrl + 'opennewtab.html')
+				.click('a#newtab')
+				.waitForNextPage()
+				.switchToTab(1)
+				.closeTab(1)
+				.then(function() {
+					fired.should.be.true();
+				})
+				.close();
+		});
+
 		describe('swtichToNewTab option', function() {
 			it('should default to not switching tab', function() {
 				var horseman = new Horseman({

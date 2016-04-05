@@ -663,6 +663,10 @@ Returns the number of tabs currently open.
 
 Switch to another tab. Count starts at 0.
 
+#### .closeTab(tabNum)
+
+Close an open tab. Count starts at 0.
+
 ### Events
 
 #### .on(event, callback)
@@ -677,7 +681,8 @@ Supported events are:
   * `initialized` - callback()
   * `loadStarted` - callback()
   * `loadFinished` - callback(status)
-  * `tabCreated` - callback()
+  * `tabCreated` - callback(tabNum)
+  * `tabClosed` - callback(tabNum)
   * `urlChanged` - callback(targetUrl)
   * `navigationRequested` - callback(url, type, willNavigate, main)
   * `resourceRequested` - callback(requestData, networkRequest)
