@@ -628,7 +628,7 @@ Get the number of frames inside the current frame.
 
 Get the names of the frames inside the current frame.
 
-#### .switchToFocused()
+#### .switchToFocusedFrame()
 
 Switch to the frame that is in focus.
 
