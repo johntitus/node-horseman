@@ -1,6 +1,34 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.0.0-beta2 - 2016-04-05
+### Added
+- .closeTab() action removes a tab and closes its page
+- tabClosed event fired when a tab is closed
+  (by .closeTab() or something else)
+- .frameName() action
+- .frameCount() action
+- .frameNames() action
+- .switchToFocusedFrame() action
+- .switchToFrame() action
+- .switchToMainFrame() action
+- .switchToParentFrame() action
+- .download() action allows getting the raw contents of a URL
+  (even works for binary files is using PhantomJS 2 or newer)
+
+### Changed
+- .log() now preserves resolution value of previous action
+- More output added to verbose debugging
+
+### Fixed
+- More readable stack traces from .evaluate() rejections
+  (especially with long stack traces on)
+- Occasional bug with returning undefined in .evaluate() function
+
+### Deprecated
+- .switchToChildFrame() action is deprecated
+  since PhantomJS deprecated it
+
 ## 3.0.0-beta1 - 2016-03-22
 ### Added
 - bluebird 3 functions are now chainable with Horseman actions
