@@ -726,7 +726,37 @@ horseman
   })
 ```
 
-#### Yielding
+### Extending Horseman
+
+You can add your own actions to horseman with `Horseman.registerAction`.
+Be sure to register all actions *before* calling the constructor.
+
+```js
+Horseman.registerAction('size', function(selector) {
+  // The function will be called with the Horseman instance as this
+  var self = this;
+  // Return the horseman chain, or any Promise
+  return this
+    .waitForSelector(selector)
+    .then(function() {
+      return {
+        w: self.width(selector),
+        h: self.height(selector)
+      };
+    })
+    .props();
+});
+
+var horseman = new Horseman();
+horseman
+  .open('http://example.org')
+  .size('body')
+  .log() // { w: 400, h: 240 }
+  .close();
+```
+
+
+### Yielding
 
 [co]: <https://github.com/tj/co>
 You can use yields with Horseman with a library like [co][].
@@ -755,7 +785,7 @@ If you use yields, you may need to use the harmony flag when you run your file:
 node --harmony test.js
 ```
 
-#### Debug
+### Debug
 
 To run the same file with debugging output,
 run it like this `DEBUG=horseman node myfile.js`.
@@ -770,7 +800,7 @@ horseman .open: http://www.google.com +66ms
 horseman .type() horseman into input[name='q'] +51ms
 ```
 
-#### Tests
+### Tests
 
 [Mocha]: <http://visionmedia.github.io/mocha/>
 [Should]: <https://github.com/shouldjs/should.js>
