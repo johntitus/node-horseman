@@ -611,8 +611,18 @@ e.g., `.waitForSelector('#pay-button')`
 
 #### .waitFor(fn, \[arg1, arg2,...\], value)
 
-Wait until the `fn` evaluated on the page returns `value`.
-`fn` is invoked with args;
+Wait until the `fn` evaluated on the page returns the *specified* `value`.
+`fn` is invoked with args.
+
+```js
+// This will call the function in the browser repeatedly
+// until true (or whatever else you specified) is returned
+horseman
+  .waitFor(function waitForSelectorCount(selector, count) {
+    return $(selector).length >= count
+  }, '.some-selector', 2, true)
+  // last argument (true here) is what return value to wait for
+```
 
 ### Frames
 
