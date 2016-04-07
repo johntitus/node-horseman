@@ -46,10 +46,6 @@ Note: Make sure PhantomJS is available in your path,
 you have the phantomjs-prebuilt/phantomjs npm package installed,
 or use the `phantomPath` option.
 
-### To install the current version 3 ***beta*** ###
-
-`npm install node-horseman@^3.0.0-beta`
-
 ## API
 
 ### Setup

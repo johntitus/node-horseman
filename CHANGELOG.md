@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.0.0 - 2016-04-06
+### Added
+- Support for adding custom actions via `Horseman.registerAction`
+
 ## 3.0.0-beta2 - 2016-04-05
 ### Added
 - .closeTab() action removes a tab and closes its page
