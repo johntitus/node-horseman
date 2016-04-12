@@ -705,6 +705,18 @@ function manipulation(bool) {
 				.equal('isbob');
 		});
 
+		it('should reject when inject javascript fails', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			return horseman
+				.open(serverUrl)
+				.injectJs('test/files/not_a_real_file.js')
+				.close()
+				.should.be.rejected();
+		});
+
 		it('should include javascript', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
