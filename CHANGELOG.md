@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.0.1 - 2016-04-12
+### Fixed
+- .injectJs() now properly rejects when it fails
+- #158 - bug with `injectBluebird` option
+
 ## 3.0.0 - 2016-04-06
 ### Added
 - Support for adding custom actions via `Horseman.registerAction`
