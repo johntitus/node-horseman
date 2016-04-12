@@ -6,7 +6,7 @@ node_js:
   - '5'
 sudo: false
 before_install:
-  sh -c 'if [ $PHANTOMJS ]; then npm install phantomjs-prebuilt@$PHANTOMJS; fi'
+  sh -c 'npm install phantomjs-prebuilt@$PHANTOMJS || npm install phantomjs@$PHANTOMJS'
 env:
-  - 
+  - PHANTOMJS=1
   - PHANTOMJS=2
