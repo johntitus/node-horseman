@@ -13,9 +13,9 @@ Horseman has:
   * built in jQuery for easier page manipulation,
   * built in bluebird for easier in-browser async.
 
-## Example
+## Examples
 
-Search on Google:
+### Search on Google
 
 ```js
 var Horseman = require('node-horseman');
@@ -31,12 +31,31 @@ horseman
   .count('div.g')
   .log() // prints out the number of results
   .close();
-
 ```
 
 Save the file as `google.js`. Then, `node google.js`.
 
-For longer examples, check out the Examples folder.
+### Count Twitter Followers Concurrently
+
+```js
+const Horseman = require('node-horseman');
+const users = ['PhantomJS', 'nodejs'];
+
+users.forEach((user) => {
+    const horseman = new Horseman();
+    horseman
+        .open(`http://twitter.com/${user}`)
+        .text('.ProfileNav-item--followers .ProfileNav-value')
+        .then((text) => {
+            console.log(`${user}: ${text}`);
+        })
+        .close();
+});
+```
+
+Save the file as `twitter.js`. Then, `node twitter.js`.
+
+### For longer examples, check out the Examples folder.
 
 ## Installation
 
