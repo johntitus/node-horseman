@@ -23,12 +23,14 @@ const users = ['PhantomJS', 'nodejs'];
 
 users.forEach((user) => {
     const horseman = new Horseman();
-    horseman.open(`http://twitter.com/${user}`)
-    .text('.ProfileNav-item--followers .ProfileNav-value')
-    .then((text) => {
-        console.log(`${user}: ${text}`);
-    })
-    .close();
+    horseman
+        .open(`http://twitter.com/${user}`)
+        .text('.ProfileNav-item--followers .ProfileNav-value')
+        .then((text) => {
+            console.log(`${user}: ${text}`);
+        })
+        .close();
+});
 ```
 
 Save the file as `twitter.js`. Then, `node twitter.js`.
