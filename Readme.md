@@ -27,8 +27,8 @@ users.forEach((user) => {
     .text('.ProfileNav-item--followers .ProfileNav-value')
     .then((text) => {
         console.log(`${user}: ${text}`);
-        horseman.close();
-    });
+    })
+    .close();
 ```
 
 Save the file as `twitter.js`. Then, `node twitter.js`.
