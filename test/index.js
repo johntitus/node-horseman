@@ -463,7 +463,7 @@ function evaluation(bool) {
 				.close()
 				.call('trim')
 				.should.eventually
-				.equal('This is my code.\n\n    Next Page');
+				.match(/This\ is\ my\ code\.\n\n\s+Next\ Page/);
 		});
 
 		it('should get the value of an element', function() {
