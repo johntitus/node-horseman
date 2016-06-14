@@ -463,7 +463,7 @@ function evaluation(bool) {
 				.close()
 				.call('trim')
 				.should.eventually
-				.equal("This is some plain text.\n\n");
+				.equal("This is some plain text.");
 		});
 
 		it('should get the value of an element', function() {
