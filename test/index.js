@@ -458,12 +458,12 @@ function evaluation(bool) {
 				injectJquery: bool
 			});
 			return horseman
-				.open(serverUrl)
+				.open(serverUrl + "/plainText.html")
 				.plainText()
 				.close()
 				.call('trim')
 				.should.eventually
-				.match(/This\ is\ my\ code\.\n\n\s+Next\ Page/);
+				.equal("This is some plain text.\n\n");
 		});
 
 		it('should get the value of an element', function() {
