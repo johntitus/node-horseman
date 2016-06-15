@@ -79,7 +79,6 @@ The available options are:
   * `timeout`: how long to wait for page loads or wait periods,
     default `5000` ms.
   * `interval`: how frequently to poll for page load state, default `50` ms.
-  * `port`: port to mount the PhantomJS instance to, default `12401`.
   * `loadImages`: load all inlined images, default `true`.
   * `switchToNewTab`: switch to new tab when created, default `false`.
   * `cookiesFile`: A file where to store/use cookies.
@@ -828,7 +827,7 @@ run it like this `DEBUG=horseman node myfile.js`.
 This will print out some additional information about what's going on:
 
 ```shell-session
-horseman .setup() creating phantom instance on port 12406 +0ms
+horseman .setup() creating phantom instance 1 +0ms
 horseman load finished, injecting jquery and client scripts +401ms
 horseman injected jQuery +0ms
 horseman .open: http://www.google.com +66ms
