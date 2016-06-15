@@ -338,6 +338,10 @@ If `file` is provided, the HTML will be written to that filename.
 
 Gets the text inside of an element.
 
+#### .plainText()
+
+Gets the plain text of the whole page (using PhantomJS's [`plainText`](http://phantomjs.org/api/webpage/property/plain-text.html) property).
+
 #### .value(selector, \[val\])
 
 Get, or set, the value of an element.

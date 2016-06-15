@@ -452,6 +452,20 @@ function evaluation(bool) {
 				.equal('This is my code.');
 		});
 
+		it('should get the plain text of the page', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			return horseman
+				.open(serverUrl + "/plainText.html")
+				.plainText()
+				.close()
+				.call('trim')
+				.should.eventually
+				.equal("This is some plain text.");
+		});
+
 		it('should get the value of an element', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
