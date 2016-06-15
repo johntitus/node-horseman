@@ -378,6 +378,12 @@ Takes a cropped screenshot of the page.
 `area` can be a string identifying an html element on the screen to crop to,
 or a getBoundingClientRect object.
 
+#### .cropBase64(area, path)
+
+Takes a cropped base64 encoded screenshot of the page.
+`area` can be a string identifying an html element on the screen to crop to,
+or a getBoundingClientRect object.
+
 #### .pdf(path, \[paperSize\])
 
 [US Letter]: <http://en.wikipedia.org/wiki/Letter_%28paper_size%29>
