@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.1.0 - 2016-06-15
+### Added
+- .plainText() action - thanks @mzhangARS
+
+### Changed
+- Removed `port` constructor option (it no longer had any effect)
+
 ## 3.0.1 - 2016-04-12
 ### Fixed
 - .injectJs() now properly rejects when it fails
