@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.1.1 - 2016-06-17
+Republish 3.1.0 without unwanted files which broke Windows installation
+
 ## 3.1.0 - 2016-06-15
 ### Added
 - .plainText() action - thanks @mzhangARS
