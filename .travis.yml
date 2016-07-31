@@ -1,12 +1,16 @@
-language: node_js
-node_js:
-  - '0.10'
-  - '0.12'
-  - '4'
-  - '5'
 sudo: false
+
+language: node_js
+
+node_js:
+  - 0.12
+  - 4
+  - 5
+  - 6
+
 before_install:
   sh -c 'npm install phantomjs-prebuilt@$PHANTOMJS || npm install phantomjs@$PHANTOMJS'
+
 env:
   - PHANTOMJS=1
   - PHANTOMJS=2
