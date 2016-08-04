@@ -375,13 +375,13 @@ Type must be one of 'PNG', 'GIF', or 'JPEG'.
 
 Takes a cropped screenshot of the page.
 `area` can be a string identifying an html element on the screen to crop to,
-or a getBoundingClientRect object.
+or a [getBoundingClientRect] object.
 
 #### .cropBase64(area, path)
 
 Takes a cropped base64 encoded screenshot of the page.
 `area` can be a string identifying an html element on the screen to crop to,
-or a getBoundingClientRect object.
+or a [getBoundingClientRect] object.
 
 #### .pdf(path, \[paperSize\])
 
@@ -885,3 +885,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+[getBoundingClientRect]: https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
