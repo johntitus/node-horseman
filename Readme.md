@@ -90,6 +90,8 @@ The available options are:
   * `injectJquery`: whether jQuery is automatically loaded into each page.
     Default is `true`.
     If jQuery is already present on the page, it is not injected.
+  * `jQueryLocation`: the location of the jQuery file to be loaded into the page.
+    Defaults to the location shipped with node-horseman.
   * `injectBluebird`: whether bluebird is automatically loaded into each page.
     Default is `false`.
     If `true` and `Promise` is already present on the page, it is not injected.
