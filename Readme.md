@@ -81,6 +81,8 @@ The available options are:
   * `interval`: how frequently to poll for page load state, default `50` ms.
   * `loadImages`: load all inlined images, default `true`.
   * `switchToNewTab`: switch to new tab when created, default `false`.
+  * `diskCache`: enable disk cache, default `false`.
+  * `diskCachePath`: location for the disk cache.
   * `cookiesFile`: A file where to store/use cookies.
   * `ignoreSSLErrors`: ignores SSL errors,
     such as expired or self-signed certificate errors.
