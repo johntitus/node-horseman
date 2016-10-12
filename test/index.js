@@ -2033,38 +2033,42 @@ describe('Horseman', function() {
 		});
 	});
 
-    describe('Cache', function() {
+	describe('Cache', function() {
 
-        describe('diskCache and diskCachePath options', function() {
-            var CACHE_PATH = path.join(os.tmpdir(), 'test_horseman_cache');
-            var rmCachePath = function(done) {
-                if (fs.existsSync(CACHE_PATH)) {
-                    rmdir(CACHE_PATH, done);
-                } else {
-                    done();
-                }
-            };
+		describe('diskCache and diskCachePath options', function() {
+			var CACHE_PATH = path.join(os.tmpdir(), 'test_horseman_cache');
+			var rmCachePath = function(done) {
+				if (fs.existsSync(CACHE_PATH)) {
+					rmdir(CACHE_PATH, done);
+				} else {
+					done();
+				}
+			};
 
-            before(rmCachePath);
+			before(rmCachePath);
 
-            after(rmCachePath);
+			after(rmCachePath);
 
-            it('should cache files on disk', function() {
-                var horseman = new Horseman({
-                    diskCache: true,
-                    diskCachePath: CACHE_PATH
-                });
+			it('should cache files on disk', function() {
+				if (phantomVersion.major < 2) {
+					this.skip('diskCachePath requires PhantomJS 2.0 or greater');
+				}
 
-                return horseman
-                    .open(serverUrl)
-                    .then(function() {
-                        fs.existsSync(CACHE_PATH).should.be.true();
-                        fs.readdirSync(CACHE_PATH).some(function (dirName) {
-                            return dirName.match(/data\d+/);
-                        }).should.be.true();
-                    })
-                    .close();
-            })
-        })
-    });
+				var horseman = new Horseman({
+					diskCache: true,
+					diskCachePath: CACHE_PATH
+				});
+
+				return horseman
+					.open(serverUrl)
+					.then(function () {
+						fs.existsSync(CACHE_PATH).should.be.true();
+						fs.readdirSync(CACHE_PATH).some(function (dirName) {
+							return dirName.match(/data\d+/);
+						}).should.be.true();
+					})
+					.close();
+			})
+		})
+	});
 });
