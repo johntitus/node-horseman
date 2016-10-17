@@ -377,11 +377,12 @@ Takes a cropped screenshot of the page.
 `area` can be a string identifying an html element on the screen to crop to,
 or a getBoundingClientRect object.
 
-#### .cropBase64(area, path)
+#### .cropBase64(area, type)
 
-Takes a cropped base64 encoded screenshot of the page.
+Returns a string representing a cropped, base64 encoded screenshot of the page.
 `area` can be a string identifying an html element on the screen to crop to,
 or a getBoundingClientRect object.
+Type must be one of 'PNG', 'GIF', or 'JPEG'.
 
 #### .pdf(path, \[paperSize\])
 
