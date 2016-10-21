@@ -1,0 +1,21 @@
+{
+	"node": true,
+	"browser": true,
+	"mocha": true,
+	"globals" : {
+		"prompt": false,
+		"alert": false,
+		"jQuery": false,
+		"$": false,
+		"Promise": true,
+		"__horseman": true,
+		"___obj": true
+	},
+	"sub": true,
+	"boss": true,
+	"quotmark": "single",
+	"evil": true,
+	"maxlen": 80,
+	"validthis": true,
+	"strict": true
+}

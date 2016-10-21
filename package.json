@@ -30,6 +30,7 @@
     "should": "^8.2.2"
   },
   "scripts": {
+    "lint": "jshint .",
     "test": "mocha -R spec"
   },
   "keywords": [

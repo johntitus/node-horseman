@@ -1,0 +1,11 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*.js]
+indent_style = tab
+
+[{package.json,.travis.yml,*.md}]
+indent_style = space
+indent_size = 2
