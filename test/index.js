@@ -3,6 +3,7 @@
 var Horseman = require('../lib');
 var actions = require('../lib/actions');
 var fs = require('fs');
+var os = require('os');
 var path = require('path');
 var Promise = require('bluebird');
 var express = require('express');
@@ -11,6 +12,7 @@ var hoxy = require('hoxy');
 var request = require('request');
 var should = require('should');
 var parallel = require('mocha.parallel');
+var rmdir = require('rmdir');
 
 var app;
 var server;
@@ -2029,5 +2031,44 @@ describe('Horseman', function() {
 				})
 				.close();
 		});
+	});
+
+	describe('Cache', function() {
+
+		describe('diskCache and diskCachePath options', function() {
+			var CACHE_PATH = path.join(os.tmpdir(), 'test_horseman_cache');
+			var rmCachePath = function(done) {
+				if (fs.existsSync(CACHE_PATH)) {
+					rmdir(CACHE_PATH, done);
+				} else {
+					done();
+				}
+			};
+
+			before(rmCachePath);
+
+			after(rmCachePath);
+
+			it('should cache files on disk', function() {
+				if (phantomVersion.major < 2) {
+					this.skip('diskCachePath requires PhantomJS 2.0 or greater');
+				}
+
+				var horseman = new Horseman({
+					diskCache: true,
+					diskCachePath: CACHE_PATH
+				});
+
+				return horseman
+					.open(serverUrl)
+					.then(function () {
+						fs.existsSync(CACHE_PATH).should.be.true();
+						fs.readdirSync(CACHE_PATH).some(function (dirName) {
+							return dirName.match(/data\d+/);
+						}).should.be.true();
+					})
+					.close();
+			})
+		})
 	});
 });
