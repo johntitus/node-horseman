@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.2.0 - 2016-10-21
+### Added
+- `diskCache` and `diskCachePath` options - thanks @efernandesng
+
 ## 3.1.1 - 2016-06-17
 Republish 3.1.0 without unwanted files which broke Windows installation
 
