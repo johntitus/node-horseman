@@ -75,7 +75,6 @@ Create a new instance that can navigate around the web.
 
 The available options are:
 
-  * `clientScripts` an array of local JavaScript files to load onto each page.
   * `timeout`: how long to wait for page loads or wait periods,
     default `5000` ms.
   * `interval`: how frequently to poll for page load state, default `50` ms.
