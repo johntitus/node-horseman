@@ -163,6 +163,22 @@ function navigation(bool) {
 				.be.above(0);
 		});
 
+		it('should pass custom options to Phantom', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool,
+				ignoreSSLErrors: true,
+				phantomOptions: {
+					'ignore-ssl-errors': false
+				}
+			});
+			return horseman
+				.open('https://expired.badssl.com')
+				.close()
+				.should
+				.be.rejected();
+		});
+
 		it('should set the viewport', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
