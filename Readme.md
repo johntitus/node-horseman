@@ -107,6 +107,11 @@ The available options are:
     default not set.
   * `phantomPath`: If PhantomJS is not installed in your path,
     you can use this option to specify the executable's location.
+  * `phantomOptions`: Explicit PhantomJS options, e.g.
+    `{'ssl-certificates-path': 'ca.pem'}`.
+    For a complete list refer to the [PhantomJS command line interface](
+    http://phantomjs.org/api/command-line.html).
+    **These options have precedence over options implicitly set by Horseman.**
   * `debugPort`: Enable web inspector on specified port, default not set.
   * `debugAutorun`: Autorun on launch when in debug mode, default is true.
 
