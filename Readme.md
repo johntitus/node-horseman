@@ -636,10 +636,12 @@ Wait for `ms` milliseconds e.g. `.wait(5000)`
 
 Wait until a page finishes loading, typically after a `.click()`.
 
-#### .waitForSelector(selector)
+#### .waitForSelector(selector, [options])
 
 Wait until the element `selector` is present,
 e.g., `.waitForSelector('#pay-button')`
+
+`options` can have be `{timeout: 5000}` to define an action-specific timeout.
 
 #### .waitFor(fn, \[arg1, arg2,...\], value)
 
@@ -655,6 +657,8 @@ horseman
   }, '.some-selector', 2, true)
   // last argument (true here) is what return value to wait for
 ```
+
+`fn.timeout` can be defined to be used as an action-specific timeout.
 
 ### Frames
 
