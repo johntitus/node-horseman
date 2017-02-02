@@ -1341,6 +1341,23 @@ describe('Horseman', function() {
 				});
 		});
 
+		it('should timeout after a specific time', function() {
+			var start = new Date();
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl)
+				.waitForSelector("#not-existing-id", { timeout : defaultTimeout/5})
+				.close()
+				.catch(function(err){
+					var end = new Date();
+					var diff = end - start;
+					diff.should.be.below(defaultTimeout/2); //may be a ms or so off.
+					return Promise.resolve();
+				});
+		});
+
 		it('should wait until a selector is seen', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
