@@ -2010,13 +2010,13 @@ describe('Horseman', function() {
 				proxy: 'localhost:' + PROXY_PORT,
 				proxyType: 'http',
 			});
-			var hadHeader = 'truthy';
+			var hadHeader = false;
 			return horseman
 				.on('resourceReceived', function(resp) {
 					var hasHeader = resp.headers.some(function(header) {
 						return header.name === PROXY_HEADER;
 					});
-					hadHeader = hadHeader && hasHeader;
+					hadHeader = hadHeader || hasHeader;
 				})
 				.open('http://www.google.com')
 				.close()
@@ -2032,14 +2032,14 @@ describe('Horseman', function() {
 			if (phantomVersion.major < 2) {
 				this.skip('setProxy requires PhantomJS 2.0 or greater');
 			}
-			var hadHeader = 'truthy';
+			var hadHeader = false;
 			return horseman
 				.setProxy('localhost', PROXY_PORT)
 				.on('resourceReceived', function(resp) {
 					var hasHeader = resp.headers.some(function(header) {
 						return header.name === PROXY_HEADER;
 					});
-					hadHeader = hadHeader && hasHeader;
+					hadHeader = hadHeader || hasHeader;
 				})
 				.open('http://www.google.com')
 				.then(function() {
