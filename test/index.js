@@ -411,6 +411,38 @@ function evaluation(bool) {
 				.be.false();
 		});
 
+		it('should verify an element exists and execute callback', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var str = 'yo';
+			return horseman
+				.open(serverUrl)
+				.ifExists('a', function(){
+				    return str;
+				})
+				.close()
+				.should.eventually
+				.equal(str);
+		});
+
+		it('should verify an element does not exists and not execute callback', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var str = 'yo';
+			return horseman
+				.open(serverUrl)
+				.ifExists('yeti', function(){
+				    return str;
+				})
+				.close()
+				.should.eventually
+				.be.undefined();
+		});
+
 		it('should count the number of selectors', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
@@ -573,6 +605,38 @@ function evaluation(bool) {
 				.close()
 				.should.eventually
 				.be.false();
+		});
+
+		it('should determine that an element is visible and execute callback', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var str = 'yo';
+			return horseman
+				.open(serverUrl)
+				.ifVisible('a', function(){
+				    return str;
+				})
+				.close()
+				.should.eventually
+				.equal(str);
+		});
+
+		it('should determine that an element is not visible and not execute callback', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			var str = 'yo';
+			return horseman
+				.open(serverUrl)
+				.ifVisible('.login-popup', function(){
+				    return str;
+				})
+				.close()
+				.should.eventually
+				.be.undefined();
 		});
 
 		it('should evaluate javascript', function() {

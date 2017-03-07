@@ -325,9 +325,17 @@ Get the URL of the current page.
 
 Determines if a selector is visible, or not, on the page. Returns a boolean.
 
+#### .ifVisible(selector, fn)
+
+Determines if a selector is visible, or not, on the page. Runs a function if it is.
+
 #### .exists(selector)
 
 Determines if the selector exists, or not, on the page. Returns a boolean.
+
+#### .ifExists(selector, fn)
+
+Determines if the selector exists, or not, on the page. Runs a function if it does.
 
 #### .count(selector)
 
