@@ -658,7 +658,30 @@ horseman
   // last argument (true here) is what return value to wait for
 ```
 
-`fn.timeout` can be defined to be used as an action-specific timeout.
+#### .waitFor(options)
+
+Alternative signature for .waitFor, with extra options.
+
+```js
+// This will call the function in the browser repeatedly
+// until true (or whatever else you specified) is returned
+horseman
+  .waitFor({
+    fn : function (selector, count) {
+      return $(selector).length >= count
+    },
+    fname : 'waitForSelectorCount',
+    args : ['.some-selector', 2],
+    value : true
+  })
+  // last argument (true here) is what return value to wait for
+```
+
+`fn` : function to execute, mandatory
+`args` : `fn` arguments
+`fname` : function name
+`value` : Wait until the `fn` evaluated on the page returns the *specified* `value`.
+`timeout` : specific timeout
 
 ### Frames
 
