@@ -632,9 +632,10 @@ a timeout event will be fired and the Promise for the action will reject.
 
 Wait for `ms` milliseconds e.g. `.wait(5000)`
 
-#### .waitForNextPage()
+#### .waitForNextPage([options])
 
 Wait until a page finishes loading, typically after a `.click()`.
+`options` can have be `{timeout: 5000}` to define an action-specific timeout.
 
 #### .waitForSelector(selector, [options])
 
@@ -678,7 +679,6 @@ horseman
 
 `fn` : function to execute, mandatory
 `args` : `fn` arguments
-`fname` : function name
 `value` : Wait until the `fn` evaluated on the page returns the *specified* `value`.
 `timeout` : specific timeout
 

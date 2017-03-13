@@ -1387,6 +1387,26 @@ describe('Horseman', function() {
 				});
 		});
 
+		it('should call onTimeout if timeout in waitForNextPage with custom timeout', function() {
+			var start = new Date();
+			var timeoutHorseman = new Horseman({
+				timeout: 10
+			});
+			var timeoutFiredTime = 0;
+			return timeoutHorseman
+				.on('timeout', function() {
+					var end = new Date();
+					var diff = end - start;
+					timeoutFiredTime = diff;
+				})
+				.waitForNextPage({timeout: 1000})
+				.catch(Horseman.TimeoutError, function() {})
+				.close()
+				.then(function() {
+					timeoutFiredTime.should.be.above(900);
+				});
+		});
+
 		it('should reject Promise if timeout in  waitForNextPage', function() {
 			var timeoutHorseman = new Horseman({
 				timeout: 10
