@@ -1354,7 +1354,6 @@ describe('Horseman', function() {
 					var end = new Date();
 					var diff = end - start;
 					diff.should.be.below(defaultTimeout/2); //may be a ms or so off.
-					return Promise.resolve();
 				});
 		});
 
