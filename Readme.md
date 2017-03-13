@@ -667,10 +667,9 @@ Alternative signature for .waitFor, with extra options.
 // until true (or whatever else you specified) is returned
 horseman
   .waitFor({
-    fn : function (selector, count) {
+    fn : function waitForSelectorCount(selector, count) {
       return $(selector).length >= count
     },
-    fname : 'waitForSelectorCount',
     args : ['.some-selector', 2],
     value : true
   })
