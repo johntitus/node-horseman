@@ -632,14 +632,17 @@ a timeout event will be fired and the Promise for the action will reject.
 
 Wait for `ms` milliseconds e.g. `.wait(5000)`
 
-#### .waitForNextPage()
+#### .waitForNextPage([options])
 
 Wait until a page finishes loading, typically after a `.click()`.
+`options` can have be `{timeout: 5000}` to define an action-specific timeout.
 
-#### .waitForSelector(selector)
+#### .waitForSelector(selector, [options])
 
 Wait until the element `selector` is present,
 e.g., `.waitForSelector('#pay-button')`
+
+`options` can have be `{timeout: 5000}` to define an action-specific timeout.
 
 #### .waitFor(fn, \[arg1, arg2,...\], value)
 
@@ -655,6 +658,29 @@ horseman
   }, '.some-selector', 2, true)
   // last argument (true here) is what return value to wait for
 ```
+
+#### .waitFor(options)
+
+Alternative signature for .waitFor, with extra options.
+
+```js
+// This will call the function in the browser repeatedly
+// until true (or whatever else you specified) is returned
+horseman
+  .waitFor({
+    fn : function waitForSelectorCount(selector, count) {
+      return $(selector).length >= count
+    },
+    args : ['.some-selector', 2],
+    value : true
+  })
+  // last argument (true here) is what return value to wait for
+```
+
+`fn` : function to execute, mandatory
+`args` : `fn` arguments
+`value` : Wait until the `fn` evaluated on the page returns the *specified* `value`.
+`timeout` : specific timeout
 
 ### Frames
 
