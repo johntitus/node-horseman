@@ -1552,6 +1552,22 @@ describe('Horseman', function() {
 				.equal('This is frame 1.');
 		});
 
+		it('should let you evaluate after frame switch', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			return horseman
+				.open(serverUrl + 'frames.html')
+				.switchToFrame('frame1')
+				.waitForSelector('h1')
+				.evaluate(function() {
+					return document.querySelector('body').id;
+				})
+				.close()
+				.should.eventually
+				.equal('f1');
+		});
+
 		it('should let you switch to the main frame', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
