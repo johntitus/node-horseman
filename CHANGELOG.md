@@ -1,6 +1,21 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.3.0 - 2017-04-06
+### Added
+- `phantomOptions` option for passing arbitrary PhantomJS CLI options -
+  thanks @fabiocorneti
+- Support for per-action timeouts on `.waitFor` type actions - thanks @piercus
+
+### Fixed
+- `.boundingRectangle()` sometimes not using jQuery when it could -
+  thanks @robsgreen
+- `.evaluate()` sometimes failing due to an utilized internal variable -
+  thanks @robertpallas
+
+### Changed
+- Removed `clientScripts` option (it had no effect anyways)
+
 ## 3.2.0 - 2016-10-21
 ### Added
 - `diskCache` and `diskCachePath` options - thanks @efernandesng
