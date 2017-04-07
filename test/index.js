@@ -827,6 +827,22 @@ function manipulation(bool) {
 				.should.eventually
 				.be.true();
 		});
+		
+		it('should take a cropBase64', function(done) {
+			var horseman = new Horseman({
+				injectJquery: bool
+			});
+			horseman
+				.open(serverUrl)
+				.cropBase64({top: 100, left: 100, width: 100, height: 100},"PNG")
+				.then(function(asPng) {
+					horseman.close();
+					var type = typeof asPng;
+					type.should.equal('string');
+				})
+				.nodeify(done);
+			
+		});
 
 		it('should take a screenshotBase64', function() {
 			var horseman = new Horseman({
