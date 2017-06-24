@@ -1193,6 +1193,29 @@ describe('Horseman', function() {
 				.should.eventually
 				.equal(1);
 		});
+
+		it('should do a function with the correct lastVal', function() {
+			var doComplete = false;
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+			});
+			var value;
+			return horseman
+				.open(serverUrl)
+				.count('a')
+				.do(function(complete, lastVal) {
+					setTimeout(function() {
+						value = lastVal;
+						doComplete = true;
+						complete();
+					}, 500);
+				})
+				.close()
+				.then(function() {
+					doComplete.should.be.true();
+					value.should.equal(1);
+				});
+		});
 	});
 
 	parallel('Inject jQuery', function() {
