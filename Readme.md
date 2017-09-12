@@ -870,7 +870,7 @@ horseman .type() horseman into input[name='q'] +51ms
 
 ### Tests
 
-[Mocha]: <http://visionmedia.github.io/mocha/>
+[Mocha]: <http://mochajs.org/>
 [Should]: <https://github.com/shouldjs/should.js>
 Automated tests for Horseman itself are run using [Mocha][] and [Should][],
 both of which will be installed via `npm install`.
