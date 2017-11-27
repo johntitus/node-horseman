@@ -1,6 +1,10 @@
 Horseman
 =========
 
+**Horseman is no longer supported**
+
+Sorry, but the maintainers just don't have the time anymore. You may want to check out [puppeteer](https://github.com/GoogleChrome/puppeteer) or [nightmare](https://github.com/segmentio/nightmare).
+
 [![Build Status](https://travis-ci.org/johntitus/node-horseman.svg?branch=master)](https://travis-ci.org/johntitus/node-horseman)
 
 Horseman lets you run [PhantomJS](http://phantomjs.org/) from Node.
