@@ -197,6 +197,31 @@ function navigation(bool) {
 				.have.properties(size);
 		});
 
+		it('should set content and url', function() {
+			var horseman = new Horseman({
+				timeout: defaultTimeout,
+				injectJquery: bool
+			});
+			
+			var fakeHtml = fs.readFileSync(__dirname + '/files/set-content-test.html').toString();
+			var fakeDomain = 'http://fakedomain.com/';
+			
+			return horseman
+				.setContent(fakeHtml, fakeDomain)
+				.evaluate(function() {
+					return {
+						href: location.href,
+						title: document.title
+					};
+				})
+				.close()
+				.should.eventually
+				.have.properties({
+					href: fakeDomain,
+					title: 'Testing Page'
+				});
+		});
+
 		it('should let you scroll', function() {
 			var horseman = new Horseman({
 				timeout: defaultTimeout,
